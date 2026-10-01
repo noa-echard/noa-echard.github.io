@@ -552,5 +552,13 @@ const VEILLE = [
       "Documentation Microsoft Learn"
     ],
     retiens: "TODO: une nouveauté de Windows Server 2025 que tu as remarquée en TP."
+  },
+  {
+    sujet: "Intelligence artificielle",
+    sources: [
+      "Estherium (@estherium__ sur TikTok) — astuces et actualités sur l'IA",
+      "Guide ANSSI « Recommandations de sécurité pour un système d'IA générative »"
+    ],
+    retiens: "TODO: une info vue chez Estherium, vérifiée sur une source officielle, et ce qu'elle change pour un administrateur."
   }
 ];
