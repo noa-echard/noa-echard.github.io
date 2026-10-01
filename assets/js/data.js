@@ -124,13 +124,34 @@ const CHIFFRES = [
    4. À PROPOS — 4 à 6 lignes, à la première personne, sans « passionné »
    ========================================================================== */
 
-const A_PROPOS = [
-  "Je suis en deuxième année de BTS SIO option SISR au lycée Baimbridge, aux Abymes.",
-  "Avant le BTS, j'ai fait un Bac Pro Systèmes numériques option RISC, avec un stage de technicien informatique à la CGSS Guadeloupe : j'ai commencé par le câble et le matériel avant de passer aux serveurs.",
-  "En TP, je monte des infrastructures complètes en machines virtuelles sous VMware : contrôleur de domaine Windows Server 2025, DNS, DHCP, stratégies de groupe, serveur web Apache sous Debian, réseau d'entreprise avec VLAN sous Packet Tracer.",
-  "En stage à la mairie de Morne-à-l'Eau, j'ai mis en place un bastion Apache Guacamole pour l'accès distant sécurisé, écrit un script de déploiement de la sauvegarde Bareos poussé sur le parc par GPO, et configuré des ACL entre switchs et une borne Wi-Fi UniFi.",
-  "À côté des cours, j'héberge mes propres outils (tableau de bord Dashy, serveurs de conversion de fichiers) : c'est là que j'apprends le plus vite, en cassant puis en réparant."
-];
+const A_PROPOS = {
+  // Une ou deux phrases pour se présenter.
+  intro: "Je suis Noa, en deuxième année de BTS SIO option SISR au lycée Baimbridge, aux Abymes. Je me forme pour devenir administrateur systèmes et réseaux.",
+
+  // Les blocs affichés en dessous. Chaque bloc : un titre, une phrase courte, des mots-clés.
+  blocs: [
+    {
+      titre: "Mon parcours",
+      texte: "J'ai commencé par le matériel et le câblage avec un Bac Pro Systèmes numériques, avant de passer aux serveurs en BTS.",
+      tags: ["Bac Pro SN option RISC", "Stage à la CGSS Guadeloupe", "BTS SIO SISR"]
+    },
+    {
+      titre: "En TP",
+      texte: "Je monte des infrastructures complètes en machines virtuelles, puis je les documente.",
+      tags: ["Windows Server", "Active Directory", "GPO", "Debian", "Apache", "Packet Tracer"]
+    },
+    {
+      titre: "En stage",
+      texte: "Six semaines au service informatique de la mairie de Morne-à-l'Eau, sur une infrastructure en production.",
+      tags: ["Bastion Guacamole", "Sauvegarde Bareos", "ACL", "Wi-Fi UniFi", "Docker"]
+    },
+    {
+      titre: "Ce qui m'intéresse",
+      texte: "La sécurité des accès et l'automatisation : faire en sorte que tout tourne sans intervenir poste par poste.",
+      tags: ["Cybersécurité", "Scripts", "Haute disponibilité"]
+    }
+  ]
+};
 
 
 /* ==========================================================================

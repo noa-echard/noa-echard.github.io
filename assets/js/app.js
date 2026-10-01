@@ -182,11 +182,16 @@
 
   function aPropos() {
     var info = pageInfo("a-propos");
-    var paras = liste(A_PROPOS).map(function (p) { return "<p>" + txt(p) + "</p>"; }).join("");
+    var blocs = (A_PROPOS.blocs || []).filter(function (b) { return visible(b, ["titre"]); }).map(function (b) {
+      return '<section class="bloc apropos-bloc"><h2 class="h-domaine"><span aria-hidden="true">## </span>' + txt(b.titre) + "</h2>" +
+        (txt(b.texte) ? "<p>" + txt(b.texte) + "</p>" : "") + tags(b.tags) + "</section>";
+    }).join("");
     return titrePage(info, "cat a-propos.md") +
-      '<section class="prose bloc">' + paras + "</section>" +
+      (txt(A_PROPOS.intro) ? '<p class="apropos-intro">' + txt(A_PROPOS.intro) + "</p>" : "") +
+      '<div class="grille-apropos">' + blocs + "</div>" +
       '<div class="boutons">' +
-      '<a class="btn btn-plein" href="competences.html">Mes compétences</a>' +
+      '<a class="btn btn-plein" href="realisations.html">Mes réalisations</a>' +
+      '<a class="btn" href="competences.html">Mes compétences</a>' +
       '<a class="btn" href="parcours.html">Mon parcours</a></div>';
   }
 

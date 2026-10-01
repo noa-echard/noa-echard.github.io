@@ -198,6 +198,13 @@ p { margin: 0 0 1em; }
 .carte-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0; }
 .carte-lire { margin-top: auto; padding-top: 14px; font-family: var(--mono); font-size: .85rem; color: var(--vert); }
 
+/* 05 bis. À PROPOS ------------------------------------------------------- */
+.apropos-intro { font-size: 1.2rem; max-width: 65ch; margin-bottom: 24px; }
+.grille-apropos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 14px; }
+.apropos-bloc p { margin-bottom: 0; }
+.apropos-bloc .h-domaine { margin-bottom: 8px; }
+.apropos-bloc .h-domaine span { color: var(--discret); }
+
 /* 06. COMPÉTENCES et VEILLE ----------------------------------------------- */
 .grille-domaines { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 460px), 1fr)); gap: 16px; }
 .h-domaine { font-size: 1.05rem; color: var(--vert); margin-bottom: 14px; }
