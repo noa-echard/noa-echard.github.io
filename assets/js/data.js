@@ -132,8 +132,8 @@ const A_PROPOS = {
   blocs: [
     {
       titre: "Fan de jeux vidéo",
-      texte: "Je joue beaucoup, des jeux d'action exigeants aux jeux de survie, souvent en duo.",
-      tags: ["Elden Ring", "Wakfu", "Subnautica", "Valorant", "Roblox"]
+      texte: "Je joue beaucoup, avec un gros faible pour les jeux de rôle : j'aime construire un personnage et optimiser son build. Je joue aussi à des jeux de survie et de tir, souvent en duo.",
+      tags: ["Jeux de rôle", "Elden Ring", "Wakfu", "Subnautica", "Valorant", "Roblox"]
     },
     {
       titre: "Zun Tycoon",
