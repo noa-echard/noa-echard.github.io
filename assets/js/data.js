@@ -186,6 +186,8 @@ const COMPETENCES = [
     items: [
       { nom: "VirtualBox 7.2", ou: "Tous les TP de 1re année — création, clonage, modes pont et réseau interne" },
       { nom: "VMware Workstation", ou: "TP n°1 Bloc 2 — segment LAN isolé et carte NAT pour Internet" },
+      { nom: "VMware vSphere", ou: "Stage — machines virtuelles de production de la mairie, diagnostic d'une carte réseau déconnectée" },
+      { nom: "Docker", ou: "Stage — convertisseurs VERT et Transmute déployés en conteneurs sur Debian 13" },
       { nom: "Clonage de machines virtuelles", ou: "TP n°3 Bloc 3 — deux nœuds web clonés depuis un serveur existant" }
     ]
   },
@@ -195,6 +197,8 @@ const COMPETENCES = [
       { nom: "Bastion Apache Guacamole", ou: "Stage — accès distant sécurisé, installation native sur Debian 12" },
       { nom: "Sauvegarde Bareos", ou: "Stage — script de déploiement de l'agent sur les postes" },
       { nom: "Cloisonnement par groupes et droits de partage", ou: "TP n°1 Bloc 2 — chaque service ne voit que son lecteur" },
+      { nom: "Double authentification (TOTP)", ou: "Stage — connexion au bastion Guacamole avec un code à usage unique" },
+      { nom: "Durcissement SSH (recommandations ANSSI)", ou: "TP de cybersécurité BTS SIO 2 — 10 directives OpenSSH, test face à une machine Kali Linux" },
       { nom: "Restrictions du poste utilisateur", ou: "1re année, TP n°2 Bloc 1 — empêcher les manipulations dangereuses pour le parc" }
     ]
   },
@@ -208,10 +212,10 @@ const COMPETENCES = [
   {
     domaine: "Scripts et documentation",
     items: [
-      { nom: "Scripts Bash", ou: "Stage — déploiement Bareos, serveurs de conversion de fichiers (VERT, Transmute)" },
+      { nom: "Scripts d'installation silencieuse", ou: "Stage — client Bareos installé sur tout le parc via une GPO" },
       { nom: "PowerShell", ou: "TP n°1 Bloc 2 — configuration et vérification du serveur" },
       { nom: "Documentation technique", ou: "TP n°6 et n°7 Bloc 1, TP n°1 Bloc 2 — documentations avec page de garde, sommaire, recette et sitographie" },
-      { nom: "Tableau de bord Dashy", ou: "TODO: précise où (stage ou projet perso) puis enlève TODO:" }
+      { nom: "Portail Dashy", ou: "Stage, en binôme — page unique regroupant les outils de la mairie, sous Docker sur Ubuntu Server 24.04" }
     ]
   }
 ];
@@ -237,40 +241,63 @@ const REALISATIONS = [
     id: "bastion-guacamole",
     titre: "Bastion d'accès distant Apache Guacamole",
     sousTitre: "Stage de 1re année — mairie de Morne-à-l'Eau",
-    periode: "2026",
+    periode: "Mai — juin 2026",
     statut: "termine",
     cadre: "stage",
-    tags: ["Apache Guacamole", "Debian 12", "Accès distant", "Sécurité"],
+    tags: ["Apache Guacamole", "Debian 12", "TOTP", "RDP", "SSH"],
 
-    contexte: "La mairie de Morne-à-l'Eau gère son parc et ses serveurs avec un service informatique réduit, sur une infrastructure en production dont les agents dépendent tous les jours.",
-    probleme: "Les administrateurs avaient besoin d'accéder à distance aux machines du réseau de façon sécurisée, depuis un point d'entrée unique, sans exposer directement chaque machine.",
-    solution: "J'ai installé et configuré un bastion Apache Guacamole : une passerelle web qui centralise les connexions de bureau à distance (RDP, SSH, VNC) derrière une seule authentification. Après avoir envisagé une installation sous Docker, j'ai choisi une installation native sur Debian 12, plus simple à maintenir sur ce serveur.",
-    outils: ["Apache Guacamole", "Debian 12", "Tomcat", "RDP", "SSH"],
+    contexte: "La mairie de Morne-à-l'Eau fait tourner ses serveurs sur une infrastructure virtualisée sous vSphere, en production : les agents s'en servent tous les jours. Une partie des dépannages est faite à distance, y compris par des prestataires extérieurs.",
+    probleme: "Les connexions à distance vers les postes et les serveurs devaient passer par un point d'entrée unique et contrôlé, au lieu d'ouvrir l'accès à chaque machine séparément.",
+    solution: "J'ai installé un bastion Apache Guacamole sur un serveur Debian 12. Un bastion est le point d'entrée unique de toutes les connexions à distance : il fonctionne dans le navigateur, donc rien n'est à installer sur le poste de l'administrateur, et il donne accès aux machines en RDP pour Windows, en SSH pour Linux et en VNC. J'ai ajouté une double authentification par code TOTP à six chiffres, lu sur le téléphone. Mon binôme a ensuite configuré sur le pare-feu Stormshield un VPN qui donne aux prestataires un accès limité à ce seul bastion.",
+    outils: ["Apache Guacamole", "Debian 12", "TOTP", "RDP", "SSH", "VNC", "VMware vSphere"],
     resultats: [
-      "Un point d'accès unique, depuis un navigateur, pour l'administration à distance des machines de la mairie.",
+      "Un point d'accès unique, depuis un simple navigateur, vers les postes Windows et les serveurs Linux de la mairie.",
+      "Chaque connexion demande un mot de passe et un code à usage unique : un mot de passe volé ne suffit pas.",
+      "Les prestataires passent par ce bastion et n'ont pas accès au reste du réseau des serveurs.",
       "TODO: un chiffre — combien de machines ou de connexions configurées dans le bastion ?"
     ],
-    appris: "TODO: ce que tu retiens — un problème rencontré pendant l'installation et comment tu l'as résolu."
+    appris: "Un jour, le serveur du bastion ne répondait plus ni au ping ni en SSH, avec l'erreur « Failed to start networking.service » au démarrage. Plutôt que de réinstaller, nous avons lu l'erreur, vérifié la configuration réseau, puis contrôlé la machine virtuelle dans vSphere : sa carte réseau n'était simplement plus connectée. J'en retiens qu'il faut toujours lire l'erreur et vérifier les couches dans l'ordre avant de tout refaire."
   },
 
   {
     id: "deploiement-bareos",
     titre: "Déploiement de la sauvegarde Bareos par GPO",
     sousTitre: "Stage de 1re année — mairie de Morne-à-l'Eau",
-    periode: "2026",
+    periode: "Mai — juin 2026",
     statut: "termine",
     cadre: "stage",
     tags: ["Bareos", "GPO", "Script", "Sauvegarde"],
 
-    contexte: "Les postes de la mairie sont rattachés à un domaine Active Directory. La solution de sauvegarde retenue, Bareos, demande d'installer un agent sur chaque machine.",
-    probleme: "Installer l'agent poste par poste aurait pris du temps et laissé des machines oubliées, donc non sauvegardées.",
-    solution: "J'ai écrit un script de déploiement de l'agent Bareos, puis je l'ai distribué sur les ordinateurs du parc grâce aux stratégies de groupe du domaine, pour que l'installation se fasse automatiquement au démarrage des postes.",
-    outils: ["Bareos", "Active Directory", "Stratégies de groupe (GPO)", "Script"],
+    contexte: "Les postes de la mairie sont rattachés à un domaine Active Directory. Les sauvegardes sont assurées par Bareos, un logiciel open source : pour qu'un PC soit sauvegardé, le client Bareos doit être installé dessus.",
+    probleme: "Installer le client poste par poste aurait pris beaucoup de temps et laissé des machines oubliées, donc non sauvegardées.",
+    solution: "J'ai écrit un script qui installe le client Bareos en mode silencieux, sans aucune fenêtre ni action de l'utilisateur. Le script contient déjà les paramètres nécessaires : le nom du poste et l'adresse du Director, le serveur qui pilote les sauvegardes. Une stratégie de groupe (GPO) du domaine lance ensuite ce script sur chaque PC.",
+    outils: ["Bareos", "Active Directory", "Stratégies de groupe (GPO)", "Script d'installation silencieuse"],
     resultats: [
-      "Installation de l'agent de sauvegarde sans intervention manuelle sur chaque poste.",
+      "Le client de sauvegarde est installé sur tout le parc, sans passer poste par poste.",
+      "Un nouveau poste ajouté au domaine reçoit le client automatiquement.",
       "TODO: un chiffre — sur combien de postes le script a-t-il été déployé ?"
     ],
     appris: "TODO: ce que tu retiens — par exemple la différence entre tester un script sur un poste et le déployer sur tout un parc."
+  },
+
+  {
+    id: "serveurs-conversion",
+    titre: "Serveurs de conversion de fichiers VERT et Transmute",
+    sousTitre: "Stage de 1re année — mairie de Morne-à-l'Eau",
+    periode: "Mai — juin 2026",
+    statut: "termine",
+    cadre: "stage",
+    tags: ["Docker", "Debian 13", "Auto-hébergement", "Confidentialité"],
+
+    contexte: "Les agents de la mairie ont régulièrement besoin de convertir des fichiers : documents, images, vidéos.",
+    probleme: "Ils passaient par des sites de conversion en ligne, ce qui envoie des documents de la mairie sur des serveurs inconnus.",
+    solution: "J'ai installé deux convertisseurs auto-hébergés avec Docker sur un serveur Debian 13, pour que les fichiers restent à la mairie. D'abord VERT, qui gère plus de 250 formats et convertit directement dans le navigateur, mais demande un serveur supplémentaire pour les vidéos. Puis Transmute, qui fait tout le travail côté serveur, avec plus de 3 000 conversions possibles et la compression de fichiers.",
+    outils: ["VERT", "Transmute", "Docker", "Debian 13"],
+    resultats: [
+      "Les conversions de fichiers se font sur un serveur de la mairie : plus aucun document ne part sur un site extérieur.",
+      "Deux outils complémentaires : VERT pour les conversions rapides dans le navigateur, Transmute pour les gros fichiers et la compression."
+    ],
+    appris: "Comparer deux solutions avant d'en garder une seule m'a montré qu'il n'existe pas d'outil parfait : VERT est léger mais limité pour la vidéo, Transmute est plus complet mais demande plus de ressources au serveur. Le bon choix dépend de l'usage réel des agents."
   },
 
   {
@@ -302,6 +329,32 @@ const REALISATIONS = [
     ]
     // Quand tu as exporté ta doc en PDF, dépose-la dans assets/docs/ et ajoute :
     // , document: { fichier: "assets/docs/doc-tp1-mairie-abymes.pdf", pages: 28, poids: "2 Mo" }
+  },
+
+  {
+    id: "durcissement-ssh",
+    titre: "Attaque de l'homme du milieu et durcissement SSH",
+    sousTitre: "TP de cybersécurité — BTS SIO 2",
+    periode: "Septembre 2026",
+    statut: "termine",
+    cadre: "tp",
+    tags: ["OpenSSH", "ANSSI", "Kali Linux", "Cybersécurité"],
+
+    contexte: "Maquette de quatre machines virtuelles : un serveur SSH, un client, un routeur OpenBSD et une machine d'attaque sous Kali Linux, sur le même réseau.",
+    probleme: "Une configuration SSH par défaut laisse des portes ouvertes : connexion directe en root, tentatives de mot de passe illimitées, algorithmes de chiffrement anciens.",
+    solution: "J'ai vérifié les droits de la clé privée du serveur (600, propriétaire root), puis j'ai ajouté dix directives recommandées par l'ANSSI dans la configuration d'OpenSSH : changement de port, interdiction de la connexion root et des mots de passe vides, trois tentatives maximum, liste d'utilisateurs autorisés, affichage de la dernière connexion, et restriction des algorithmes d'échange de clés, de chiffrement et d'intégrité. J'ai validé le résultat depuis le client et depuis la machine d'attaque.",
+    outils: ["OpenSSH", "Debian", "Kali Linux", "OpenBSD", "VirtualBox"],
+    resultats: [
+      "10 recommandations de l'ANSSI appliquées et vérifiées une par une.",
+      "Les connexions non autorisées sont refusées depuis la machine d'attaque, alors que l'utilisateur légitime se connecte normalement.",
+      "Un rapport technique de 6 pages avec 7 captures commentées et un tableau de conformité."
+    ],
+    appris: "Avant de redémarrer le service, j'ai testé la configuration avec la commande sshd -t. Elle a détecté une ligne coupée lors d'un copier-coller : sans ce test, le service ne serait pas reparti et j'aurais perdu l'accès au serveur. Depuis, je teste toujours une configuration avant de l'appliquer.",
+    referentiel: [
+      "Sécuriser les accès à un serveur",
+      "Appliquer les recommandations de l'ANSSI",
+      "Tester et documenter une configuration de sécurité"
+    ]
   },
 
   {
