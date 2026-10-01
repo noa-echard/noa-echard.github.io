@@ -60,8 +60,8 @@ const IDENTITE = {
   microsoftLearn: "",    // ton profil public Microsoft Learn, quand tu en auras
 
   // Ton CV en PDF dans assets/cv/. Laisse "" tant que tu ne l'as pas.
-  cvFichier: "",
-  cvPoids: ""
+  cvFichier: "assets/cv/CV-Noa-Echard.pdf",
+  cvPoids: "70 Ko"
 };
 
 
@@ -145,30 +145,35 @@ const COMPETENCES = [
   {
     domaine: "Systèmes Windows",
     items: [
-      { nom: "Windows Server 2025 Datacenter", ou: "TP n°1 Bloc 2 — serveur srvad, contrôleur du domaine ville-abymes.fr" },
+      { nom: "Windows Server 2025 Datacenter", ou: "TP n°1 Bloc 2 (2026) — serveur srvad, contrôleur du domaine ville-abymes.fr" },
+      { nom: "Windows Server 2022 Datacenter", ou: "1re année — TP n°5 Bloc 1 (service DHCP) et TP n°1 Bloc 2 (planification des rôles d'une infrastructure Windows)" },
       { nom: "Active Directory (AD DS)", ou: "TP n°1 Bloc 2 — nouvelle forêt, 4 unités d'organisation et leurs groupes de sécurité" },
       { nom: "Stratégies de groupe (GPO)", ou: "TP n°1 Bloc 2 — lecteurs réseau par service, pare-feu, fonds d'écran ; stage — déploiement de la sauvegarde Bareos sur le parc" },
       { nom: "Déploiement de logiciels MSI par GPO", ou: "TP n°1 Bloc 2 — Notepad++ et Firefox installés sans toucher aux postes" },
       { nom: "Profils itinérants et quotas", ou: "TP n°1 Bloc 2 — profils limités à 5 Go" },
       { nom: "Intégration de postes au domaine", ou: "TP n°1 Bloc 2 — un poste virtuel et un poste physique ; stage — ordinateur portable de la mairie" },
       { nom: "Gestion des disques et partages", ou: "TP n°1 Bloc 2 — partages par service sur un disque dédié, diagnostic d'un disque repassant hors ligne" },
-      { nom: "Windows 10 / 11 Professionnel", ou: "TODO: TP n°2 Bloc 1 — confirme puis remplace par ta source" }
+      { nom: "Windows 10 Professionnel", ou: "1re année, TP n°2 Bloc 1 — installation, logiciels (Adobe Reader, OpenOffice, Avast, WinRAR, Firefox) et restrictions de sécurité pour Caribbean Project" }
     ]
   },
   {
     domaine: "Systèmes Linux",
     items: [
-      { nom: "Debian 12", ou: "TP n°6 Bloc 1 — serveur web ; stage — serveur du bastion Guacamole" },
-      { nom: "Serveur web Apache2", ou: "TP n°6 Bloc 1 — site des Jardins de Saint-Éloi" },
-      { nom: "Haute disponibilité avec Heartbeat", ou: "TP n°3 Bloc 3 — cluster SRVWEB1 / SRVWEB2 (en cours)" },
-      { nom: "DNS Bind9", ou: "TODO: TP n°7 Bloc 1 — confirme puis remplace par ta source" }
+      { nom: "Debian 12", ou: "1re année, TP n°3 Bloc 1 — installation ; TP n°6, n°7 Bloc 1 et TP n°2 Bloc 2 — serveurs ; stage — bastion Guacamole" },
+      { nom: "Commandes et shell Linux", ou: "1re année, TP n°3 bis Bloc 1 — fichiers, répertoires, paquets apt" },
+      { nom: "Configuration réseau Linux", ou: "1re année, TP n°2 Bloc 2 — serveur à deux interfaces (dynamique et statique) dans /etc/network/interfaces" },
+      { nom: "Serveur web Apache2", ou: "TP n°6 Bloc 1 — hébergement du site des Jardins de Saint-Éloi" },
+      { nom: "DNS Bind9", ou: "1re année, TP n°7 Bloc 1 — résolution de noms pour les Jardins de Saint-Éloi" },
+      { nom: "Haute disponibilité avec Heartbeat", ou: "TP n°3 Bloc 3 — cluster SRVWEB1 / SRVWEB2 (en cours)" }
     ]
   },
   {
     domaine: "Réseau",
     items: [
-      { nom: "DHCP (Windows Server)", ou: "TP n°1 Bloc 2 — étendue, bail de 8 jours, options DNS et passerelle" },
+      { nom: "DHCP (Windows Server)", ou: "1re année, TP n°5 Bloc 1 ; TP n°1 Bloc 2 — étendue, bail de 8 jours, options DNS et passerelle" },
       { nom: "DNS (Windows Server)", ou: "TP n°1 Bloc 2 — zones directe et inversée, redirecteur vers Internet" },
+      { nom: "Adressage IPv4", ou: "1re année, TP n°5 Bloc 1 — plan d'adressage et configuration des interfaces" },
+      { nom: "Switch Cisco SG 300-10 et câblage RJ45", ou: "1re année, TP n°6 et n°7 Bloc 1 — infrastructure physique reliant deux postes" },
       { nom: "VLAN, trunks et routage inter-VLAN", ou: "TP réseau d'entreprise (Packet Tracer) — sous-interfaces sur le routeur R1" },
       { nom: "Listes de contrôle d'accès (ACL)", ou: "Stage — communication entre switchs de la mairie" },
       { nom: "Wi-Fi UniFi (U6 Mesh)", ou: "Stage — configuration d'une borne d'accès à la mairie" },
@@ -179,6 +184,7 @@ const COMPETENCES = [
   {
     domaine: "Virtualisation",
     items: [
+      { nom: "VirtualBox 7.2", ou: "Tous les TP de 1re année — création, clonage, modes pont et réseau interne" },
       { nom: "VMware Workstation", ou: "TP n°1 Bloc 2 — segment LAN isolé et carte NAT pour Internet" },
       { nom: "Clonage de machines virtuelles", ou: "TP n°3 Bloc 3 — deux nœuds web clonés depuis un serveur existant" }
     ]
@@ -188,7 +194,15 @@ const COMPETENCES = [
     items: [
       { nom: "Bastion Apache Guacamole", ou: "Stage — accès distant sécurisé, installation native sur Debian 12" },
       { nom: "Sauvegarde Bareos", ou: "Stage — script de déploiement de l'agent sur les postes" },
-      { nom: "Cloisonnement par groupes et droits de partage", ou: "TP n°1 Bloc 2 — chaque service ne voit que son lecteur" }
+      { nom: "Cloisonnement par groupes et droits de partage", ou: "TP n°1 Bloc 2 — chaque service ne voit que son lecteur" },
+      { nom: "Restrictions du poste utilisateur", ou: "1re année, TP n°2 Bloc 1 — empêcher les manipulations dangereuses pour le parc" }
+    ]
+  },
+  {
+    domaine: "Support et gestion de parc",
+    items: [
+      { nom: "GLPI 10.0.17", ou: "1re année, TP n°2 Bloc 2 — helpdesk du CHU de Pointe-à-Pitre : comptes, profils, suivi des incidents" },
+      { nom: "Installation et maintenance de postes", ou: "Stage à la CGSS Guadeloupe — déploiement, inventaire du parc, installation d'OS" }
     ]
   },
   {
@@ -196,15 +210,8 @@ const COMPETENCES = [
     items: [
       { nom: "Scripts Bash", ou: "Stage — déploiement Bareos, serveurs de conversion de fichiers (VERT, Transmute)" },
       { nom: "PowerShell", ou: "TP n°1 Bloc 2 — configuration et vérification du serveur" },
-      { nom: "Documentation technique", ou: "TP n°1 Bloc 2 — documentation d'environ 28 pages, procédures en interface graphique" },
+      { nom: "Documentation technique", ou: "TP n°6 et n°7 Bloc 1, TP n°1 Bloc 2 — documentations avec page de garde, sommaire, recette et sitographie" },
       { nom: "Tableau de bord Dashy", ou: "TODO: précise où (stage ou projet perso) puis enlève TODO:" }
-    ]
-  },
-  {
-    domaine: "Support",
-    items: [
-      { nom: "GLPI", ou: "TODO: TP n°2 Bloc 2 — confirme puis remplace par ta source" },
-      { nom: "OCS Inventory NG", ou: "TODO: TP n°3 Bloc 2 — confirme puis remplace par ta source" }
     ]
   }
 ];
@@ -298,6 +305,27 @@ const REALISATIONS = [
   },
 
   {
+    id: "glpi-chu",
+    titre: "Helpdesk GLPI pour le CHU de Pointe-à-Pitre",
+    sousTitre: "TP n°2 — Bloc 2, 1re année",
+    periode: "2025 — 2026",
+    statut: "termine",
+    cadre: "tp",
+    tags: ["GLPI 10", "Debian 12", "Helpdesk", "Gestion des incidents"],
+
+    contexte: "Cas d'entreprise : le service micro-informatique du CHU de Pointe-à-Pitre veut un outil pour enregistrer, classer et suivre les incidents signalés par le personnel jusqu'à leur clôture.",
+    probleme: "Sans outil de ticketing, les demandes d'assistance se perdent et il est impossible de savoir qui traite quoi, ni depuis quand.",
+    solution: "Installation d'un serveur Debian 12 sans interface graphique (srvglpi) avec deux interfaces réseau : une pour Internet, une en adresse statique pour le réseau interne. Installation et configuration de GLPI 10.0.17, création des comptes du service avec leurs profils (administrateur-technicien et utilisateurs), puis test du cycle de vie d'un ticket depuis un poste client Windows.",
+    outils: ["GLPI 10.0.17", "Debian 12", "Apache", "MariaDB", "PHP", "VirtualBox", "Windows 10"],
+    resultats: [
+      "Un helpdesk opérationnel, accessible depuis le navigateur d'un poste client.",
+      "4 comptes créés avec des profils différents : un administrateur-technicien et trois utilisateurs.",
+      "TODO: un résultat de test — par exemple un ticket déclaré par un utilisateur, pris en charge puis clôturé par le technicien."
+    ],
+    appris: "TODO: ce que tu retiens de ce TP."
+  },
+
+  {
     id: "reseau-entreprise",
     titre: "Mise en œuvre d'un réseau d'entreprise",
     sousTitre: "TP Packet Tracer — BTS SIO 2",
@@ -320,18 +348,18 @@ const REALISATIONS = [
   {
     id: "cluster-saint-eloi",
     titre: "Serveur web haute disponibilité — Les Jardins de Saint-Éloi",
-    sousTitre: "TP n°6 Bloc 1 et TP n°3 Bloc 3",
-    periode: "Septembre 2026",
+    sousTitre: "TP n°6 et n°7 Bloc 1 (1re année), TP n°3 Bloc 3 (2e année)",
+    periode: "2025 — 2026",
     statut: "en-cours",
     cadre: "tp",
-    tags: ["Debian", "Apache2", "Heartbeat", "Haute disponibilité"],
+    tags: ["Debian", "Apache2", "Bind9", "Switch Cisco", "Heartbeat"],
 
     contexte: "Les Jardins de Saint-Éloi, entreprise de vente de fleurs et de produits locaux, veulent un site web qui reste disponible même si un serveur tombe.",
     probleme: "Avec un seul serveur web, la moindre panne rend le site inaccessible aux clients.",
-    solution: "Mise en place d'un serveur web Apache2 sous Debian, puis clonage pour obtenir deux nœuds, SRVWEB1 et SRVWEB2, reliés par Heartbeat : si le nœud principal tombe, le second reprend l'adresse du site automatiquement.",
-    outils: ["Debian", "Apache2", "Heartbeat", "VMware Workstation"],
+    solution: "En 1re année : serveur web Apache2 sur une Debian sans interface graphique, puis serveur DNS Bind9 pour que le site réponde à un nom plutôt qu'à une adresse IP, le tout sur une infrastructure physique reliée par un switch Cisco SG 300-10. En 2e année : clonage du serveur pour obtenir deux nœuds, SRVWEB1 et SRVWEB2, reliés par Heartbeat — si le nœud principal tombe, le second reprend l'adresse du site automatiquement.",
+    outils: ["Debian 12", "Apache2", "Bind9", "Switch Cisco SG 300-10", "Heartbeat", "VirtualBox", "VMware Workstation"],
     resultats: [
-      "Serveur web Apache2 opérationnel.",
+      "Site accessible par son nom de domaine depuis les postes clients, grâce à Apache2 et Bind9.",
       "TODO: résultat du test de bascule (coupure de SRVWEB1, temps de reprise par SRVWEB2)."
     ],
     appris: "TODO: à compléter à la fin du TP."
