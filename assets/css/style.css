@@ -202,6 +202,7 @@ p { margin: 0 0 1em; }
 .apropos-intro { font-size: 1.2rem; max-width: 65ch; margin-bottom: 24px; }
 .grille-apropos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 14px; }
 .apropos-bloc p { margin-bottom: 0; }
+.grille-apropos > .apropos-bloc:first-child:nth-last-child(odd) { grid-column: 1 / -1; }
 .apropos-bloc .h-domaine { margin-bottom: 8px; }
 .apropos-bloc .h-domaine span { color: var(--discret); }
 

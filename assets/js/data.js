@@ -126,29 +126,24 @@ const CHIFFRES = [
 
 const A_PROPOS = {
   // Une ou deux phrases pour se présenter.
-  intro: "Je suis Noa, en deuxième année de BTS SIO option SISR au lycée Baimbridge, aux Abymes. Je me forme pour devenir administrateur systèmes et réseaux.",
+  intro: "Je m'appelle Noa, je suis en deuxième année de BTS SIO option SISR au lycée Baimbridge, aux Abymes. En dehors des cours, je suis surtout fan de jeux vidéo, au point de créer les miens.",
 
   // Les blocs affichés en dessous. Chaque bloc : un titre, une phrase courte, des mots-clés.
   blocs: [
     {
-      titre: "Mon parcours",
-      texte: "J'ai commencé par le matériel et le câblage avec un Bac Pro Systèmes numériques, avant de passer aux serveurs en BTS.",
-      tags: ["Bac Pro SN option RISC", "Stage à la CGSS Guadeloupe", "BTS SIO SISR"]
+      titre: "Fan de jeux vidéo",
+      texte: "Je joue beaucoup, des jeux d'action exigeants aux jeux de survie, souvent en duo.",
+      tags: ["Elden Ring", "Wakfu", "Subnautica", "Valorant", "Roblox"]
     },
     {
-      titre: "En TP",
-      texte: "Je monte des infrastructures complètes en machines virtuelles, puis je les documente.",
-      tags: ["Windows Server", "Active Directory", "GPO", "Debian", "Apache", "Packet Tracer"]
+      titre: "Zun Tycoon",
+      texte: "Mon premier jeu sur Roblox, un tycoon publié avec mon groupe Studios DreamForge. Je l'ai construit de A à Z, sans utiliser de modèles gratuits, et il a déjà sa petite communauté de joueurs.",
+      tags: ["Roblox Studio", "Luau", "Blender", "Publié"]
     },
     {
-      titre: "En stage",
-      texte: "Six semaines au service informatique de la mairie de Morne-à-l'Eau, sur une infrastructure en production.",
-      tags: ["Bastion Guacamole", "Sauvegarde Bareos", "ACL", "Wi-Fi UniFi", "Docker"]
-    },
-    {
-      titre: "Ce qui m'intéresse",
-      texte: "La sécurité des accès et l'automatisation : faire en sorte que tout tourne sans intervenir poste par poste.",
-      tags: ["Cybersécurité", "Scripts", "Haute disponibilité"]
+      titre: "Super Speed Go",
+      texte: "Mon prochain jeu, en cours de développement : un jeu de course de karts fortement inspiré de Mario Kart.",
+      tags: ["Roblox Studio", "Course de karts", "En développement"]
     }
   ]
 };
