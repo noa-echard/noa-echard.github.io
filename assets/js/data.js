@@ -50,7 +50,7 @@ const IDENTITE = {
 
   // E-MAIL découpé en deux pour échapper aux robots spammeurs.
   // Choisis une adresse sérieuse (prenom.nom@...), pas une adresse de jeu.
-  emailAvantArobase: "TODO: début de ton adresse (avant le @)",
+  emailAvantArobase: "noa.cocoyer2",
   emailApresArobase: "gmail.com",
 
   // Laisse "" pour masquer le bouton.
@@ -126,7 +126,7 @@ const CHIFFRES = [
 
 const A_PROPOS = [
   "Je suis en deuxième année de BTS SIO option SISR au lycée Baimbridge, aux Abymes.",
-  "Avant le BTS, j'ai fait un Bac Pro Systèmes numériques : j'ai commencé par le câble et le matériel avant de passer aux serveurs.",
+  "Avant le BTS, j'ai fait un Bac Pro Systèmes numériques option RISC, avec un stage de technicien informatique à la CGSS Guadeloupe : j'ai commencé par le câble et le matériel avant de passer aux serveurs.",
   "En TP, je monte des infrastructures complètes en machines virtuelles sous VMware : contrôleur de domaine Windows Server 2025, DNS, DHCP, stratégies de groupe, serveur web Apache sous Debian, réseau d'entreprise avec VLAN sous Packet Tracer.",
   "En stage à la mairie de Morne-à-l'Eau, j'ai mis en place un bastion Apache Guacamole pour l'accès distant sécurisé, écrit un script de déploiement de la sauvegarde Bareos poussé sur le parc par GPO, et configuré des ACL entre switchs et une borne Wi-Fi UniFi.",
   "À côté des cours, j'héberge mes propres outils (tableau de bord Dashy, serveurs de conversion de fichiers) : c'est là que j'apprends le plus vite, en cassant puis en réparant."
@@ -353,20 +353,14 @@ const PARCOURS = [
     lieu: "Lycée Baimbridge, Les Abymes",
     detail: "Solutions d'infrastructure, systèmes et réseaux : cybersécurité, haute disponibilité, réseau d'entreprise."
   },
+  // Ton stage de 2e année : ajoute un bloc ici une fois le stage confirmé,
+  // sur le modèle de celui de la mairie juste en dessous.
   {
-    periode: "Décembre 2026 — janvier 2027",
+    periode: "Mai — juin 2026",
     type: "stage",
-    titre: "Stage de 2e année",
-    lieu: "TODO: nom de l'entreprise quand c'est confirmé",
-    detail: "TODO: tes missions, à la fin du stage."
-  },
-  {
-    // Vérifie les dates exactes sur ta convention de stage.
-    periode: "Juin — juillet 2026",
-    type: "stage",
-    titre: "Stagiaire administrateur systèmes et réseaux",
-    lieu: "Mairie de Morne-à-l'Eau",
-    detail: "Bastion d'accès distant Apache Guacamole ; script de déploiement de la sauvegarde Bareos poussé par GPO ; ACL entre switchs ; borne Wi-Fi UniFi U6 Mesh ; serveurs de conversion de fichiers (VERT, Transmute) ; intégration d'un portable au domaine."
+    titre: "Stagiaire technicien informatique — 6 semaines",
+    lieu: "Service informatique de la mairie de Morne-à-l'Eau",
+    detail: "Bastion d'accès distant Apache Guacamole ; script de déploiement de la sauvegarde Bareos poussé sur le parc par GPO ; ACL entre switchs ; borne Wi-Fi UniFi U6 Mesh ; serveurs de conversion de fichiers (VERT, Transmute) ; intégration d'un portable au domaine."
   },
   {
     periode: "2025 — 2026",
@@ -376,11 +370,18 @@ const PARCOURS = [
     detail: "Support des utilisateurs, mise à disposition de services, administration des systèmes."
   },
   {
-    periode: "TODO: année d'obtention",
+    periode: "2022 — 2025",
     type: "formation",
-    titre: "Baccalauréat professionnel Systèmes numériques",
-    lieu: "TODO: nom du lycée",
-    detail: "Câblage, matériel et installations électriques et numériques."
+    titre: "Bac Pro Systèmes numériques — option RISC",
+    lieu: "Lycée professionnel Louis Delgrès, Le Moule",
+    detail: "Réseaux informatiques et systèmes communicants : installation et maintenance de postes, câblage et mise en réseau (switchs, routeurs), diagnostic de pannes."
+  },
+  {
+    periode: "Pendant le Bac Pro",
+    type: "stage",
+    titre: "Stagiaire technicien informatique",
+    lieu: "CGSS Guadeloupe, Les Abymes",
+    detail: "Installation et raccordement de postes de travail, inventaire du parc et recensement du matériel en fin de vie, installation de systèmes d'exploitation, maintenance de premier niveau."
   }
 ];
 
