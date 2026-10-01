@@ -36,7 +36,7 @@ const IDENTITE = {
   etablissement: "Lycée Baimbridge, Les Abymes (Guadeloupe)",
 
   // La phrase la plus importante du site : ce que tu SAIS FAIRE.
-  accroche: "Je déploie, sécurise et documente des infrastructures : Active Directory, DNS, DHCP et GPO sous Windows Server 2025, services Linux sous Debian, accès distant sécurisé avec un bastion Guacamole.",
+  accroche: "Étudiant en BTS SIO SISR, je monte et j'administre des serveurs Windows et Linux, et je documente tout ce que je fais.",
 
   // Ce qui te distingue. Ton stage est ton meilleur argument : du vrai matériel, en production.
   angle: "En stage à la mairie de Morne-à-l'Eau, j'ai travaillé sur une infrastructure en production : bastion d'accès distant, déploiement de sauvegardes par GPO, ACL entre switchs, borne Wi-Fi UniFi.",
