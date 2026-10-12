@@ -92,9 +92,9 @@
     return '<a class="evitement" href="#contenu">Aller au contenu</a>' +
       '<header class="entete"><div class="enveloppe entete-ligne">' +
       '<a class="logo" href="index.html" aria-label="Accueil — ' + esc(nomComplet()) + '">' +
-      '<span class="logo-user">' + esc(ID.prenom.toLowerCase()) + "@portfolio</span>" +
-      '<span class="logo-sep">:</span><span class="logo-path">~</span>' +
-      '<span class="logo-dollar">$</span><span class="curseur" aria-hidden="true"></span></a>' +
+      '<span class="logo-led" aria-hidden="true"></span>' +
+      '<span class="logo-nom">' + esc(nomComplet()) + '</span>' +
+      '<span class="logo-role">NetAdmin</span></a>' +
       '<button class="burger" aria-expanded="false" aria-controls="menu">' +
       '<span class="sr">Menu</span><span class="burger-barres" aria-hidden="true"></span></button>' +
       '<nav aria-label="Navigation principale"><ul id="menu" class="menu">' + liens + "</ul></nav>" +
@@ -119,7 +119,8 @@
 
   function titrePage(info, commande) {
     return '<header class="titre-page">' +
-      '<p class="invite" aria-hidden="true"><span class="prompt">$</span> ' + esc(commande) + "</p>" +
+      '<p class="fil-ariane"><a href="index.html">' + esc(ID.prenom.toLowerCase()) + '-' + esc(ID.nom.toLowerCase()) +
+      '</a><span aria-hidden="true"> / </span>' + esc(info.menu || info.titre) + "</p>" +
       "<h1>" + esc(info.titre) + "</h1>" +
       (txt(info.chapo) ? '<p class="chapo">' + txt(info.chapo) + "</p>" : "") +
       "</header>";
@@ -134,48 +135,97 @@
     return c.valeur || 0;
   }
 
+  /* Topologie : chaque équipement est un lien vers une page du site. */
+  function topologie() {
+    var reals = realisationsVisibles();
+    var r1 = reals[0], r2 = reals.length > 2 ? reals[2] : reals[1];
+    var N = [
+      { id: "core", x: 500, y: 250, w: 170, type: "RTR-CORE", nom: nomComplet(), sous: "À propos", href: "a-propos.html", cls: "n-core" },
+      { id: "real", x: 500, y: 95, type: "SW-01", nom: "Réalisations", sous: reals.length + " services", href: "realisations.html", cls: "n-real" },
+      { id: "r1", x: 285, y: 55, w: 170, type: "SRV", nom: r1 ? r1.titre.split(" ").slice(0, 2).join(" ") : "", sous: r1 ? (r1.cadre === "stage" ? "stage" : "TP") : "", href: r1 ? "realisation.html?id=" + r1.id : "#", cls: "n-real n-petit" },
+      { id: "r2", x: 715, y: 55, w: 170, type: "SRV", nom: r2 ? r2.titre.split(" ").slice(0, 2).join(" ") : "", sous: r2 ? (r2.cadre === "stage" ? "stage" : "TP") : "", href: r2 ? "realisation.html?id=" + r2.id : "#", cls: "n-real n-petit" },
+      { id: "comp", x: 200, y: 250, type: "SW-02", nom: "Compétences", sous: competencesVisibles() + " interfaces", href: "competences.html", cls: "n-comp" },
+      { id: "cert", x: 200, y: 415, type: "FW", nom: "Certifications", sous: "objectifs 2026", href: "certifications.html", cls: "n-comp" },
+      { id: "parc", x: 800, y: 250, type: "SRV-LOG", nom: "Parcours", sous: "BTS · Bac Pro", href: "parcours.html", cls: "n-info" },
+      { id: "veil", x: 800, y: 415, type: "IDS", nom: "Veille", sous: VEILLE.length + " sujets suivis", href: "veille.html", cls: "n-info" },
+      { id: "cont", x: 500, y: 415, type: "GW", nom: "Contact", sous: "e-mail · CV", href: "contact.html", cls: "n-info" }
+    ];
+    var L = [["core","real","Gi0/0"],["real","r1",""],["real","r2",""],["core","comp","Gi0/1"],["comp","cert",""],["core","parc","Gi0/2"],["parc","veil",""],["core","cont","Gi0/3"]];
+    var pos = {}; N.forEach(function (n) { pos[n.id] = n; });
+
+    var liens = L.map(function (l, i) {
+      var a = pos[l[0]], b = pos[l[1]];
+      var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+      return '<line class="cable" x1="' + a.x + '" y1="' + a.y + '" x2="' + b.x + '" y2="' + b.y + '"/>' +
+        '<line class="paquet" style="animation-delay:-' + (i * 0.4) + 's" x1="' + a.x + '" y1="' + a.y + '" x2="' + b.x + '" y2="' + b.y + '"/>' +
+        (l[2] ? '<text class="iface" x="' + (mx + 6) + '" y="' + (my - 6) + '">' + l[2] + "</text>" : "");
+    }).join("");
+
+    var noeuds = N.map(function (n) {
+      var w = n.w || 150, h = n.id === "core" ? 74 : 62;
+      return '<a class="noeud ' + n.cls + '" href="' + esc(n.href) + '">' +
+        '<rect x="' + (n.x - w / 2) + '" y="' + (n.y - h / 2) + '" width="' + w + '" height="' + h + '" rx="8"/>' +
+        '<circle class="noeud-led" cx="' + (n.x + w / 2 - 12) + '" cy="' + (n.y - h / 2 + 12) + '" r="4"/>' +
+        '<text class="noeud-type" x="' + (n.x - w / 2 + 12) + '" y="' + (n.y - h / 2 + 16) + '">' + esc(n.type) + "</text>" +
+        '<text class="noeud-nom" x="' + n.x + '" y="' + (n.y + 4) + '" text-anchor="middle">' + esc(n.nom) + "</text>" +
+        '<text class="noeud-sous" x="' + n.x + '" y="' + (n.y + 22) + '" text-anchor="middle">' + esc(n.sous) + "</text></a>";
+    }).join("");
+
+    return '<svg class="topo" viewBox="0 0 1000 470" role="img" aria-label="Plan du site sous forme de schéma réseau">' +
+      liens + noeuds + "</svg>";
+  }
+
   function accueil() {
-    var chiffres = CHIFFRES.map(function (c) {
+    var kpis = CHIFFRES.map(function (c) {
       var v = valeurChiffre(c);
       if (!v) return "";
-      return '<li><span class="chiffre">' + v + '</span><span class="chiffre-lib">' +
-        esc(c.libelle) + "</span></li>";
+      return '<li class="kpi"><span class="kpi-lib">' + esc(c.libelle) + '</span><span class="kpi-val">' + v + "</span></li>";
+    }).join("");
+
+    var services = realisationsVisibles().map(function (r) {
+      return '<li><a href="realisation.html?id=' + encodeURIComponent(r.id) + '">' +
+        '<span class="svc-nom">' + txt(r.titre) + "</span>" +
+        '<span class="svc-cadre">' + (r.cadre === "stage" ? "Stage" : r.cadre === "tp" ? "TP" : "Perso") + "</span>" +
+        badgeStatut(r) + "</a></li>";
     }).join("");
 
     var cartes = PAGES.map(function (p) {
       return '<li><a class="carte-page" href="' + p.fichier + '">' +
-        '<span class="carte-cmd" aria-hidden="true">./' + esc(p.cle) + "</span>" +
         '<span class="carte-titre">' + esc(p.menu) + "</span>" +
         '<span class="carte-resume">' + txt(p.resume) + "</span></a></li>";
     }).join("");
 
-    var photo = ID.photo ? '<img class="portrait" src="' + esc(ID.photo) + '" alt="' + esc(ID.photoAlt) + '" width="160" height="160">' : "";
+    var photo = ID.photo ? '<img class="portrait" src="' + esc(ID.photo) + '" alt="' + esc(ID.photoAlt) + '" width="96" height="96">' : "";
 
     var boutons =
       '<a class="btn btn-plein" href="realisations.html">Voir mes réalisations</a>' +
       (ID.cvFichier ? lien(ID.cvFichier, "Télécharger mon CV" + (ID.cvPoids ? " (" + esc(ID.cvPoids) + ")" : ""), false) : "") +
       '<a class="btn" href="contact.html">Me contacter</a>';
 
+    var fiche = [
+      ["Hostname", ID.prenom.toLowerCase() + "-" + ID.nom.toLowerCase()],
+      ["Rôle", ID.posteVise],
+      ["Formation", ID.statut],
+      ["Site", ID.etablissement]
+    ].map(function (l) { return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("");
+
     return '<section class="hero">' +
-      '<div class="terminal" role="presentation">' +
-      '<div class="terminal-barre" aria-hidden="true"><span></span><span></span><span></span>' +
-      '<p>' + esc(ID.prenom.toLowerCase()) + "@portfolio: ~</p></div>" +
-      '<div class="terminal-corps">' +
-      '<p class="invite" aria-hidden="true"><span class="prompt">$</span> whoami</p>' +
-      '<div class="hero-identite">' + photo + "<div>" +
-      "<h1>" + esc(nomComplet()) + "</h1>" +
-      '<p class="hero-poste">' + esc(ID.posteVise) + "</p>" +
-      '<p class="hero-statut">' + esc(ID.statut) + " · " + esc(ID.etablissement) + "</p>" +
-      "</div></div>" +
-      '<p class="invite" aria-hidden="true"><span class="prompt">$</span> cat competences.txt</p>' +
+      '<div class="panneau hero-fiche">' +
+      '<div class="panneau-tete"><span>Fiche équipement</span><span class="etat etat-ok"><span class="led" aria-hidden="true"></span>En ligne</span></div>' +
+      '<div class="hero-identite">' + photo + "<div><h1>" + esc(nomComplet()) + "</h1>" +
+      '<p class="hero-poste">' + esc(ID.posteVise) + "</p></div></div>" +
       '<p class="hero-accroche">' + txt(ID.accroche) + "</p>" +
-      (txt(ID.angle) ? '<p class="hero-angle">' + txt(ID.angle) + "</p>" : "") +
-      '<div class="boutons">' + boutons + "</div>" +
-      "</div></div>" +
-      (chiffres ? '<ul class="chiffres">' + chiffres + "</ul>" : "") +
+      '<dl class="fiche">' + fiche + "</dl>" +
+      '<div class="boutons">' + boutons + "</div></div>" +
+      (kpis ? '<ul class="kpis">' + kpis + "</ul>" : "") +
       "</section>" +
-      '<section class="section"><h2 class="h-section"><span aria-hidden="true">## </span>Explorer</h2>' +
-      '<ul class="grille-pages">' + cartes + "</ul></section>";
+      '<section class="section panneau">' +
+      '<div class="panneau-tete"><span>Topologie du site</span><span class="discret">cliquez sur un équipement</span></div>' +
+      topologie() +
+      '<ul class="grille-pages topo-repli">' + cartes + "</ul></section>" +
+      '<section class="section panneau">' +
+      '<div class="panneau-tete"><span>Services déployés</span><span class="discret">' + realisationsVisibles().length + " supervisés</span></div>" +
+      '<ul class="services">' + services + "</ul></section>";
   }
 
   /* ---------- À propos ---------- */
@@ -217,8 +267,8 @@
 
   function badgeStatut(r) {
     return r.statut === "en-cours"
-      ? '<span class="pastille pastille-cours">en cours</span>'
-      : '<span class="pastille pastille-ok">terminé</span>';
+      ? '<span class="etat etat-cours"><span class="led" aria-hidden="true"></span>En cours</span>'
+      : '<span class="etat etat-ok"><span class="led" aria-hidden="true"></span>Opérationnel</span>';
   }
 
   function badgeCadre(r) {
