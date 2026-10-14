@@ -318,7 +318,10 @@ p { margin: 0 0 1em; }
 
 /* 12. TABLETTE ET TÉLÉPHONE ----------------------------------------------- */
 @media (max-width: 920px) {
-  .burger { display: block; }
+  .burger { display: block; margin-left: auto; }
+  /* Le <nav> sort du flux : sinon il reste un 3e élément invisible à droite
+     et le bouton menu se retrouve décalé vers le centre. */
+  .entete-ligne > nav { position: absolute; top: 0; left: 0; right: 0; height: 0; }
   .menu {
     display: none; position: absolute; left: 0; right: 0; top: 60px;
     flex-direction: column; gap: 0; padding: 8px 16px 16px;

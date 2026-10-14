@@ -180,7 +180,9 @@ const COMPETENCES = [
       { nom: "Configuration réseau Linux", ou: "1re année, TP n°2 Bloc 2 — serveur à deux interfaces (dynamique et statique) dans /etc/network/interfaces" },
       { nom: "Serveur web Apache2", ou: "TP n°6 Bloc 1 — hébergement du site des Jardins de Saint-Éloi" },
       { nom: "DNS Bind9", ou: "1re année, TP n°7 Bloc 1 — résolution de noms pour les Jardins de Saint-Éloi" },
-      { nom: "Haute disponibilité avec Heartbeat", ou: "TP n°3 Bloc 3 — cluster SRVWEB1 / SRVWEB2 (en cours)" }
+      { nom: "Debian 13 Trixie", ou: "TP n°3 et n°4 Bloc 3 — serveurs web SRVWEB1, SRVWEB2 et répartiteur SRVHAPROXY" },
+      { nom: "Haute disponibilité avec Heartbeat", ou: "TP n°3 Bloc 3 — cluster actif/passif SRVWEB1 / SRVWEB2, IP virtuelle 192.168.30.4, bascule et retour automatiques testés" },
+      { nom: "Répartition de charge avec HAProxy", ou: "TP n°4 Bloc 3 — cluster actif/actif derrière SRVHAPROXY, algorithme roundrobin et page de statistiques" }
     ]
   },
   {
@@ -194,6 +196,7 @@ const COMPETENCES = [
       { nom: "Listes de contrôle d'accès (ACL)", ou: "Stage — communication entre switchs de la mairie" },
       { nom: "Wi-Fi UniFi (U6 Mesh)", ou: "Stage — configuration d'une borne d'accès à la mairie" },
       { nom: "Cisco Packet Tracer 9", ou: "TP réseau d'entreprise — adressage, VLAN, trunks, routage" },
+      { nom: "Proxy inverse et réseau privé de serveurs", ou: "TP n°4 Bloc 3 — serveurs web isolés sur le réseau HA 10.0.0.0/24, joignables uniquement par le répartiteur" },
       { nom: "OSPF, NAT/PAT, SSH", ou: "TODO: TP réseau d'entreprise partie 2 — à ajouter quand elle est faite" }
     ]
   },
@@ -201,10 +204,10 @@ const COMPETENCES = [
     domaine: "Virtualisation",
     items: [
       { nom: "VirtualBox 7.2", ou: "Tous les TP de 1re année — création, clonage, modes pont et réseau interne" },
-      { nom: "VMware Workstation", ou: "TP n°1 Bloc 2 — segment LAN isolé et carte NAT pour Internet" },
+      { nom: "VMware Workstation", ou: "TP n°1 Bloc 2 — segment LAN isolé et carte NAT pour Internet ; TP n°4 Bloc 3 — serveur à trois cartes sur trois réseaux" },
       { nom: "VMware vSphere", ou: "Stage — machines virtuelles de production de la mairie, diagnostic d'une carte réseau déconnectée" },
       { nom: "Docker", ou: "Stage — convertisseurs VERT et Transmute déployés en conteneurs sur Debian 13" },
-      { nom: "Clonage de machines virtuelles", ou: "TP n°3 Bloc 3 — deux nœuds web clonés depuis un serveur existant" }
+      { nom: "Clonage de machines virtuelles", ou: "TP n°3 Bloc 3 — deux nœuds web clonés en clones complets, avec régénération des adresses MAC ; TP n°4 Bloc 3 — répartiteur cloné depuis une Debian vierge" }
     ]
   },
   {
@@ -230,7 +233,7 @@ const COMPETENCES = [
     items: [
       { nom: "Scripts d'installation silencieuse", ou: "Stage — client Bareos installé sur tout le parc via une GPO" },
       { nom: "PowerShell", ou: "TP n°1 Bloc 2 — configuration et vérification du serveur" },
-      { nom: "Documentation technique", ou: "TP n°6 et n°7 Bloc 1, TP n°1 Bloc 2 — documentations avec page de garde, sommaire, recette et sitographie" },
+      { nom: "Documentation technique", ou: "TP n°6 et n°7 Bloc 1, TP n°1 Bloc 2, TP n°3 et n°4 Bloc 3 — documentations avec page de garde, sommaire, recette et sitographie" },
       { nom: "Portail Dashy", ou: "Stage, en binôme — page unique regroupant les outils de la mairie, sous Docker sur Ubuntu Server 24.04" }
     ]
   }
@@ -416,22 +419,59 @@ const REALISATIONS = [
 
   {
     id: "cluster-saint-eloi",
-    titre: "Serveur web haute disponibilité — Les Jardins de Saint-Éloi",
-    sousTitre: "TP n°6 et n°7 Bloc 1 (1re année), TP n°3 Bloc 3 (2e année)",
-    periode: "2025 — 2026",
-    statut: "en-cours",
+    titre: "Serveur web haute disponibilité avec Heartbeat — Les Jardins de Saint-Éloi",
+    sousTitre: "TP n°3 — Bloc 3, Sécurisation des serveurs (suite des TP n°6 et n°7 Bloc 1)",
+    periode: "Septembre 2026",
+    statut: "termine",
     cadre: "tp",
-    tags: ["Debian", "Apache2", "Bind9", "Switch Cisco", "Heartbeat"],
+    tags: ["Debian 13", "Apache2", "Heartbeat", "Cluster actif/passif", "IP virtuelle"],
 
-    contexte: "Les Jardins de Saint-Éloi, entreprise de vente de fleurs et de produits locaux, veulent un site web qui reste disponible même si un serveur tombe.",
-    probleme: "Avec un seul serveur web, la moindre panne rend le site inaccessible aux clients.",
-    solution: "En 1re année : serveur web Apache2 sur une Debian sans interface graphique, puis serveur DNS Bind9 pour que le site réponde à un nom plutôt qu'à une adresse IP, le tout sur une infrastructure physique reliée par un switch Cisco SG 300-10. En 2e année : clonage du serveur pour obtenir deux nœuds, SRVWEB1 et SRVWEB2, reliés par Heartbeat — si le nœud principal tombe, le second reprend l'adresse du site automatiquement.",
-    outils: ["Debian 12", "Apache2", "Bind9", "Switch Cisco SG 300-10", "Heartbeat", "VirtualBox", "VMware Workstation"],
+    contexte: "Les Jardins de Saint-Éloi, entreprise de vente de fleurs et de produits locaux, hébergent leur site sur un serveur Apache2 sous Debian, monté en 1re année avec un DNS Bind9. Ce serveur unique est un point unique de défaillance.",
+    probleme: "Si le serveur web tombe en panne, le site n'est plus accessible aux clients. Mme Bourgeois veut un serveur de secours qui prenne le relais automatiquement.",
+    solution: "J'ai cloné le serveur web existant en deux clones complets, SRVWEB1 (192.168.30.14) et SRVWEB2 (192.168.30.15), en régénérant les adresses MAC et en gardant une copie de sauvegarde. Après avoir remis Apache sur le port 80, j'ai installé Heartbeat sur les deux nœuds et rédigé ses trois fichiers : ha.cf (battements toutes les 2 secondes, nœud déclaré mort après 5 secondes), authkeys et haresources. Les clients utilisent une adresse IP virtuelle, 192.168.30.4, portée par le serveur actif : Heartbeat la déplace et démarre Apache sur le serveur de secours en cas de panne.",
+    outils: ["Debian 13 Trixie", "Apache 2.4", "Heartbeat 3.0.6", "VMware Workstation", "Windows Server 2025 (DHCP)", "Firefox"],
     resultats: [
-      "Site accessible par son nom de domaine depuis les postes clients, grâce à Apache2 et Bind9.",
-      "TODO: résultat du test de bascule (coupure de SRVWEB1, temps de reprise par SRVWEB2)."
+      "16 tests de recette, tous conformes.",
+      "Panne simulée de SRVWEB1 : SRVWEB2 reprend l'IP virtuelle et le site en quelques secondes, à la même adresse.",
+      "Retour automatique : dès que SRVWEB1 revient, il reprend l'IP virtuelle et la page « site n°1 » s'affiche de nouveau.",
+      "Une documentation technique avec 27 captures commentées, rédigée comme un guide pas à pas pour un technicien débutant."
     ],
-    appris: "TODO: à compléter à la fin du TP."
+    appris: "Heartbeat refusait de s'installer : le serveur n'avait plus accès à Internet. La cause était la passerelle 192.168.30.1 demandée par l'énoncé, qui n'existe pas dans mon réseau virtuel et créait une route par défaut inutilisable. En la retirant, la sortie s'est faite par la carte NAT. J'ai aussi compris une limite de Heartbeat : il surveille les serveurs, pas Apache lui-même. Si seul Apache plante, aucune bascule n'a lieu.",
+    referentiel: [
+      "Assurer la disponibilité d'un service",
+      "Installer et configurer un cluster de serveurs",
+      "Tester une solution de tolérance aux pannes",
+      "Documenter la solution livrée"
+    ]
+  },
+
+  {
+    id: "haproxy-saint-eloi",
+    titre: "Répartition de charge avec HAProxy — Les Jardins de Saint-Éloi",
+    sousTitre: "TP n°4 — Bloc 3, Sécurisation des serveurs",
+    periode: "Octobre 2026",
+    statut: "termine",
+    cadre: "tp",
+    tags: ["HAProxy", "Debian 13", "Apache2", "Cluster actif/actif", "Roundrobin"],
+
+    contexte: "Suite du TP Heartbeat : le cluster actif/passif fonctionne, mais SRVWEB2 ne sert qu'en cas de panne et reste inutilisé le reste du temps.",
+    probleme: "Mme Bourgeois veut que les deux serveurs web travaillent en même temps, sans que l'un soit surchargé pendant que l'autre ne fait rien, tout en gardant le site accessible si l'un tombe.",
+    solution: "J'ai créé un répartiteur de charge, SRVHAPROXY, à partir d'une Debian 13 vierge, avec trois cartes : une côté clients (192.168.30.4), une sur un réseau privé dédié aux serveurs web (10.0.0.1) et une NAT pour Internet. Les deux serveurs web ont été déplacés sur ce réseau privé (10.0.0.2 et 10.0.0.3) et Heartbeat y a été désactivé. Dans la configuration de HAProxy, j'ai défini un frontend qui reçoit les requêtes sur le port 80, un backend qui les envoie à tour de rôle aux deux serveurs (roundrobin) en vérifiant leur état, et une page de statistiques protégée par un compte.",
+    outils: ["HAProxy 3.0", "Debian 13 Trixie", "Apache 2.4", "curl", "VMware Workstation", "Windows 10 (poste client)"],
+    resultats: [
+      "18 tests de recette réalisés, 17 conformes avec capture à l'appui.",
+      "Les requêtes alternent entre SRVWEB1 et SRVWEB2, ce que confirment les compteurs de la page de statistiques.",
+      "Panne simulée d'Apache sur SRVWEB1 : il passe DOWN en quelques secondes et SRVWEB2 répond seul, sans coupure du site.",
+      "Le serveur réparé est réintégré automatiquement : le backend repasse à 2 serveurs sur 2.",
+      "Une documentation technique avec 37 captures commentées."
+    ],
+    appris: "Dans Firefox, la page semblait toujours venir du même serveur. En lisant les compteurs de HAProxy, j'ai compris que chaque chargement envoie deux requêtes, la page et l'icône favicon.ico : le roundrobin les répartit bien, mais la page tombe toujours sur le même serveur. Les tests avec curl l'ont confirmé. J'en retiens qu'il faut vérifier un résultat avec un outil qui montre ce qui se passe vraiment. J'ai aussi noté que le répartiteur devient à son tour un point unique de défaillance : il faudrait en ajouter un second avec Keepalived.",
+    referentiel: [
+      "Assurer la disponibilité d'un service",
+      "Répartir la charge entre plusieurs serveurs",
+      "Segmenter le réseau des serveurs",
+      "Tester et documenter la solution"
+    ]
   }
 
 ];
