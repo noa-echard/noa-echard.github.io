@@ -58,7 +58,7 @@ const IDENTITE = {
 
   // Laisse "" pour masquer le bouton.
   linkedin: "",
-  github: "https://github.com/noa-echard",
+  github: "",            // laissé vide : pas de lien vers GitHub sur le site
   credly: "",            // ton profil de badges Cisco, quand tu en auras
   microsoftLearn: "",    // ton profil public Microsoft Learn, quand tu en auras
 
