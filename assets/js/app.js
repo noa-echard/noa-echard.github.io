@@ -176,17 +176,10 @@
   }
 
   function accueil() {
-    var kpis = CHIFFRES.map(function (c) {
+    var chiffres = CHIFFRES.map(function (c) {
       var v = valeurChiffre(c);
       if (!v) return "";
-      return '<li class="kpi"><span class="kpi-lib">' + esc(c.libelle) + '</span><span class="kpi-val">' + v + "</span></li>";
-    }).join("");
-
-    var services = realisationsVisibles().map(function (r) {
-      return '<li><a href="realisation.html?id=' + encodeURIComponent(r.id) + '">' +
-        '<span class="svc-nom">' + txt(r.titre) + "</span>" +
-        '<span class="svc-cadre">' + (r.cadre === "stage" ? "Stage" : r.cadre === "tp" ? "TP" : "Perso") + "</span>" +
-        badgeStatut(r) + "</a></li>";
+      return '<li class="chiffre"><span class="chiffre-val">' + v + '</span><span class="chiffre-lib">' + esc(c.libelle) + "</span></li>";
     }).join("");
 
     var cartes = PAGES.map(function (p) {
@@ -195,37 +188,37 @@
         '<span class="carte-resume">' + txt(p.resume) + "</span></a></li>";
     }).join("");
 
-    var photo = ID.photo ? '<img class="portrait" src="' + esc(ID.photo) + '" alt="' + esc(ID.photoAlt) + '" width="96" height="96">' : "";
+    // Les 3 réalisations les plus récentes (les dernières ajoutées dans data.js).
+    var recentes = realisationsVisibles().slice(-3).reverse().map(function (r) {
+      return '<li><a class="carte-real" href="realisation.html?id=' + encodeURIComponent(r.id) + '">' +
+        '<span class="carte-meta">' + badgeStatut(r) + '<span class="discret">' + esc(r.periode) + "</span></span>" +
+        '<span class="carte-titre">' + txt(r.titre) + "</span>" +
+        '<span class="carte-resume">' + txt(r.sousTitre) + "</span>" +
+        '<span class="carte-lire" aria-hidden="true">lire la suite →</span></a></li>';
+    }).join("");
+
+    var photo = ID.photo ? '<img class="portrait" src="' + esc(ID.photo) + '" alt="' + esc(ID.photoAlt) + '" width="220" height="220">' : "";
 
     var boutons =
       '<a class="btn btn-plein" href="realisations.html">Voir mes réalisations</a>' +
-      (ID.cvFichier ? lien(ID.cvFichier, "Télécharger mon CV" + (ID.cvPoids ? " (" + esc(ID.cvPoids) + ")" : ""), false) : "") +
-      '<a class="btn" href="contact.html">Me contacter</a>';
+      (ID.cvFichier ? lien(ID.cvFichier, "Télécharger mon CV" + (ID.cvPoids ? " (" + esc(ID.cvPoids) + ")" : ""), false) : "");
 
-    var fiche = [
-      ["Hostname", ID.prenom.toLowerCase() + "-" + ID.nom.toLowerCase()],
-      ["Rôle", ID.posteVise],
-      ["Formation", ID.statut],
-      ["Site", ID.etablissement]
-    ].map(function (l) { return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("");
-
-    return '<section class="hero">' +
-      '<div class="panneau hero-fiche">' +
-      '<div class="panneau-tete"><span>Fiche équipement</span><span class="etat etat-ok"><span class="led" aria-hidden="true"></span>En ligne</span></div>' +
-      '<div class="hero-identite">' + photo + "<div><h1>" + esc(nomComplet()) + "</h1>" +
-      '<p class="hero-poste">' + esc(ID.posteVise) + "</p></div></div>" +
-      '<p class="hero-accroche">' + txt(ID.accroche) + "</p>" +
-      '<dl class="fiche">' + fiche + "</dl>" +
-      '<div class="boutons">' + boutons + "</div></div>" +
-      (kpis ? '<ul class="kpis">' + kpis + "</ul>" : "") +
-      "</section>" +
+    return '<section class="accueil-hero' + (photo ? " avec-photo" : "") + '"><div>' +
+      '<p class="accueil-surtitre">' + esc(ID.statut) + " · " + esc(ID.etablissement) + "</p>" +
+      "<h1>" + esc(nomComplet()) + "</h1>" +
+      '<p class="hero-poste">' + esc(ID.posteVise) + "</p>" +
+      (txt(ID.presentation) ? '<p class="hero-accroche">' + txt(ID.presentation) + "</p>" : "") +
+      '<div class="boutons">' + boutons + "</div>" +
+      (txt(ID.angle) ? '<p class="accueil-note">' + txt(ID.angle) + "</p>" : "") +
+      "</div>" + photo + "</section>" +
+      (chiffres ? '<ul class="chiffres">' + chiffres + "</ul>" : "") +
       '<section class="section panneau">' +
-      '<div class="panneau-tete"><span>Topologie du site</span><span class="discret">cliquez sur un équipement</span></div>' +
+      '<div class="panneau-tete"><span>Découvrir le site</span><span class="discret">chaque équipement du schéma mène à une page</span></div>' +
       topologie() +
       '<ul class="grille-pages topo-repli">' + cartes + "</ul></section>" +
-      '<section class="section panneau">' +
-      '<div class="panneau-tete"><span>Services déployés</span><span class="discret">' + realisationsVisibles().length + " supervisés</span></div>" +
-      '<ul class="services">' + services + "</ul></section>";
+      (recentes ? '<section class="section"><h2 class="h-section">Mes dernières réalisations</h2>' +
+        '<ul class="grille-real">' + recentes + "</ul>" +
+        '<p class="voir-tout"><a href="realisations.html">Voir toutes les réalisations →</a></p></section>' : "");
   }
 
   /* ---------- À propos ---------- */

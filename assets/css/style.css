@@ -336,6 +336,21 @@ p { margin: 0 0 1em; }
 .apres-envoi p { margin: 0; }
 .note-contact { margin-top: 40px; max-width: 70ch; }
 
+/* Accueil : présentation */
+.accueil-hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; align-items: center; padding: 28px 0 8px; }
+.accueil-hero.avec-photo { grid-template-columns: minmax(0, 1fr) 220px; }
+.accueil-hero .portrait { width: 220px; height: 220px; border-radius: 50%; object-fit: cover; border: 3px solid var(--bleu); }
+.accueil-surtitre { font-family: var(--mono); font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--discret); margin-bottom: .8em; }
+.accueil-hero h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); margin-bottom: .1em; }
+.accueil-hero .hero-accroche { margin-top: 1em; }
+.accueil-note { margin: 24px 0 0; padding-left: 16px; border-left: 2px solid var(--vert); color: var(--discret); max-width: 62ch; font-size: .95rem; }
+.chiffres { list-style: none; margin: 36px 0 0; padding: 24px 0 0; border-top: 1px solid var(--bordure); display: flex; flex-wrap: wrap; gap: 20px 48px; }
+.chiffre { display: flex; flex-direction: column; max-width: 170px; }
+.chiffre-val { font-family: var(--mono); font-size: 2rem; font-weight: 700; line-height: 1.1; color: var(--texte); }
+.chiffre-val::before { content: ""; display: block; width: 28px; height: 2px; background: var(--bleu); margin-bottom: 10px; }
+.chiffre-lib { color: var(--discret); font-size: .9rem; }
+.voir-tout { margin-top: 14px; }
+
 /* À propos : le récit */
 .apropos-recit { max-width: 70ch; font-size: 1.08rem; margin-bottom: 8px; }
 .apropos-perso { margin-top: 36px; }
@@ -365,6 +380,8 @@ p { margin: 0 0 1em; }
   .menu a { padding: 12px 10px; font-size: 1rem; }
   .menu a[aria-current="page"] { box-shadow: inset 3px 0 0 var(--bleu); }
   .hero { grid-template-columns: 1fr; }
+  .accueil-hero.avec-photo { grid-template-columns: 1fr; }
+  .accueil-hero .portrait { order: -1; width: 140px; height: 140px; }
   .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; }
 }
 @media (max-width: 700px) {

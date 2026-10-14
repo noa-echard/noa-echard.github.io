@@ -38,6 +38,9 @@ const IDENTITE = {
   // La phrase la plus importante du site : ce que tu SAIS FAIRE.
   accroche: "Étudiant en BTS SIO SISR, je monte et j'administre des serveurs Windows et Linux, et je documente tout ce que je fais.",
 
+  // Le texte de bienvenue de l'accueil : tu te présentes et tu présentes le site.
+  presentation: "Bienvenue sur mon portfolio. Je m'appelle Noa, je suis étudiant en deuxième année de BTS SIO option SISR. Sur ce site, je présente les infrastructures que j'ai montées en TP et en stage, avec pour chacune le contexte, la solution mise en place et ce que j'en ai retenu.",
+
   // Ce qui te distingue. Ton stage est ton meilleur argument : du vrai matériel, en production.
   angle: "En stage à la mairie de Morne-à-l'Eau, j'ai travaillé sur une infrastructure en production : bastion d'accès distant, déploiement de sauvegardes par GPO, ACL entre switchs, borne Wi-Fi UniFi.",
 
@@ -201,12 +204,9 @@ const COMPETENCES = [
       { nom: "DNS (Windows Server)", ou: "TP n°1 Bloc 2 — zones directe et inversée, redirecteur vers Internet" },
       { nom: "Adressage IPv4", ou: "1re année, TP n°5 Bloc 1 — plan d'adressage et configuration des interfaces" },
       { nom: "Switch Cisco SG 300-10 et câblage RJ45", ou: "1re année, TP n°6 et n°7 Bloc 1 — infrastructure physique reliant deux postes" },
-      { nom: "VLAN, trunks et routage inter-VLAN", ou: "TP réseau d'entreprise (Packet Tracer) — sous-interfaces sur le routeur R1" },
       { nom: "Listes de contrôle d'accès (ACL)", ou: "Stage — communication entre switchs de la mairie" },
       { nom: "Wi-Fi UniFi (U6 Mesh)", ou: "Stage — configuration d'une borne d'accès à la mairie" },
-      { nom: "Cisco Packet Tracer 9", ou: "TP réseau d'entreprise — adressage, VLAN, trunks, routage" },
-      { nom: "Proxy inverse et réseau privé de serveurs", ou: "TP n°4 Bloc 3 — serveurs web isolés sur le réseau HA 10.0.0.0/24, joignables uniquement par le répartiteur" },
-      { nom: "OSPF, NAT/PAT, SSH", ou: "TODO: TP réseau d'entreprise partie 2 — à ajouter quand elle est faite" }
+      { nom: "Proxy inverse et réseau privé de serveurs", ou: "TP n°4 Bloc 3 — serveurs web isolés sur le réseau HA 10.0.0.0/24, joignables uniquement par le répartiteur" }
     ]
   },
   {
@@ -407,26 +407,6 @@ const REALISATIONS = [
   },
 
   {
-    id: "reseau-entreprise",
-    titre: "Mise en œuvre d'un réseau d'entreprise",
-    sousTitre: "TP Packet Tracer — BTS SIO 2",
-    periode: "Septembre 2026",
-    statut: "en-cours",
-    cadre: "tp",
-    tags: ["Cisco", "VLAN", "Routage inter-VLAN", "Packet Tracer"],
-
-    contexte: "Maquette d'un réseau d'entreprise sous Cisco Packet Tracer 9, avec plusieurs services séparés et un routeur central.",
-    probleme: "Les services doivent être isolés les uns des autres tout en pouvant communiquer de façon contrôlée et accéder à Internet.",
-    solution: "Partie 1 : plan d'adressage, création des VLAN, liens trunk entre switchs, et routage inter-VLAN par sous-interfaces sur le routeur R1 (quatre sous-interfaces sur G0/0/0). Partie 2 à venir : OSPFv2, DHCPv4, NAT/PAT, SSH et ACL.",
-    outils: ["Cisco Packet Tracer 9", "Switchs Cisco", "Routeur Cisco", "IOS"],
-    resultats: [
-      "Partie 1 terminée et validée par l'enseignant.",
-      "TODO: résultats de la partie 2 (OSPF, NAT, ACL) quand elle sera faite."
-    ],
-    appris: "TODO: à compléter à la fin du TP."
-  },
-
-  {
     id: "cluster-saint-eloi",
     titre: "Serveur web haute disponibilité avec Heartbeat — Les Jardins de Saint-Éloi",
     sousTitre: "TP n°3 — Bloc 3, Sécurisation des serveurs (suite des TP n°6 et n°7 Bloc 1)",
@@ -497,7 +477,7 @@ const PARCOURS = [
     type: "formation",
     titre: "BTS SIO option SISR — 2e année",
     lieu: "Lycée Baimbridge, Les Abymes",
-    detail: "Solutions d'infrastructure, systèmes et réseaux : cybersécurité, haute disponibilité, réseau d'entreprise."
+    detail: "Solutions d'infrastructure, systèmes et réseaux : cybersécurité, haute disponibilité et répartition de charge des serveurs."
   },
   // Ton stage de 2e année : ajoute un bloc ici une fois le stage confirmé,
   // sur le modèle de celui de la mairie juste en dessous.
