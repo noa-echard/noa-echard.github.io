@@ -32,7 +32,7 @@ const IDENTITE = {
   // Le poste que tu VISES.
   posteVise: "Administrateur systèmes et réseaux",
 
-  statut: "BTS SIO option SISR — 2e année",
+  statut: "BTS SIO option SISR, 2e année",
   etablissement: "Lycée Baimbridge, Les Abymes (Guadeloupe)",
 
   // La phrase la plus importante du site : ce que tu SAIS FAIRE.
@@ -42,7 +42,7 @@ const IDENTITE = {
   presentation: "Bienvenue sur mon portfolio. Je m'appelle Noa, je suis étudiant en deuxième année de BTS SIO option SISR. Sur ce site, je présente les infrastructures que j'ai montées en TP et en stage, avec pour chacune le contexte, la solution mise en place et ce que j'en ai retenu.",
 
   // Ce qui te distingue. Ton stage est ton meilleur argument : du vrai matériel, en production.
-  angle: "En stage à la mairie de Morne-à-l'Eau, j'ai travaillé sur une infrastructure en production : bastion d'accès distant, déploiement de sauvegardes par GPO, ACL entre switchs, borne Wi-Fi UniFi.",
+  angle: "Pendant mon stage à la mairie de Morne-à-l'Eau, j'ai travaillé sur le vrai réseau de la mairie : j'ai notamment installé un bastion d'accès distant et déployé la sauvegarde sur les postes.",
 
   // Description pour Google et les aperçus de lien (150-160 caractères).
   metaDescription: "Noa Echard, étudiant en BTS SIO SISR à Baimbridge. Windows Server, Active Directory, Debian, bastion Guacamole : infrastructures montées et documentées.",
@@ -75,35 +75,35 @@ const IDENTITE = {
 const PAGES = [
   { cle: "a-propos",      fichier: "a-propos.html",      menu: "À propos",
     titre: "À propos", chapo: "",
-    resume: "Qui je suis, ce que je fais, ce qui m'intéresse." },
+    resume: "Mon parcours et ce que je fais en dehors des cours." },
 
   { cle: "competences",   fichier: "competences.html",   menu: "Compétences",
     titre: "Compétences",
-    chapo: "Pas de pourcentages : pour chaque compétence, l'endroit exact où je l'ai mise en œuvre.",
-    resume: "Chaque compétence avec sa source : un TP ou une mission de stage." },
+    chapo: "Pour chaque compétence, j'indique le TP ou la mission de stage où je l'ai utilisée.",
+    resume: "Ce que je sais faire, et dans quel TP ou quel stage je l'ai appris." },
 
   { cle: "realisations",  fichier: "realisations.html",  menu: "Réalisations",
     titre: "Réalisations",
-    chapo: "Chaque réalisation suit la même trame : contexte, besoin, solution technique, outils, résultats et ce que j'en retiens.",
-    resume: "Les infrastructures que j'ai montées, en TP et en stage." },
+    chapo: "Les TP et les missions de stage que j'ai menés, avec pour chacun le contexte, ce que j'ai mis en place et ce que j'en ai retenu.",
+    resume: "Mes TP et mes missions de stage, en détail." },
 
   { cle: "certifications", fichier: "certifications.html", menu: "Certifications",
     titre: "Certifications",
-    chapo: "Ce que j'ai obtenu, et ce que je prépare. Rien n'est affiché ici sans preuve.",
-    resume: "Certifications obtenues et objectifs de l'année." },
+    chapo: "Les certifications que j'ai obtenues et celles que je prépare cette année.",
+    resume: "Ce que j'ai obtenu et ce que je prépare." },
 
   { cle: "parcours",      fichier: "parcours.html",      menu: "Parcours",
-    titre: "Parcours", chapo: "Formation et stages, du plus récent au plus ancien.",
-    resume: "Formation et stages, en frise chronologique." },
+    titre: "Parcours", chapo: "Mes formations et mes stages, du plus récent au plus ancien.",
+    resume: "Mes formations et mes stages." },
 
   { cle: "veille",        fichier: "veille.html",        menu: "Veille",
     titre: "Veille technologique",
-    chapo: "Les sujets que je suis, mes sources, et ce que j'en retire.",
-    resume: "Les sujets que je suis, et pourquoi." },
+    chapo: "Les sujets que je suis cette année et les sources que j'utilise.",
+    resume: "Les sujets que je suis et mes sources." },
 
   { cle: "contact",       fichier: "contact.html",       menu: "Contact",
     titre: "Contact", chapo: "Par e-mail ou par le formulaire : deux façons de me joindre.",
-    resume: "E-mail et profils en ligne." }
+    resume: "Mon e-mail et un formulaire pour m'écrire." }
 ];
 
 
@@ -116,9 +116,9 @@ const PAGES = [
    ========================================================================== */
 
 const CHIFFRES = [
-  { depuis: "realisations",   libelle: "réalisations documentées" },
-  { depuis: "competences",    libelle: "compétences, chacune sourcée" },
-  { valeur: 6,                libelle: "missions en stage, en production" },
+  { depuis: "realisations",   libelle: "réalisations" },
+  { depuis: "competences",    libelle: "compétences" },
+  { valeur: 6,                libelle: "missions en stage" },
   { depuis: "certifications", libelle: "certifications obtenues" }
 ];
 
@@ -134,7 +134,7 @@ const A_PROPOS = {
     "En première année, j'ai appris à monter une infrastructure de A à Z en machines virtuelles : serveur web Apache, DNS Bind9, DHCP, helpdesk GLPI, puis un domaine Active Directory complet avec ses stratégies de groupe. J'ai aussi câblé du vrai matériel autour d'un switch Cisco SG 300-10.",
     "Au printemps 2026, j'ai passé six semaines au service informatique de la mairie de Morne-à-l'Eau. Là, ce n'était plus une maquette : j'ai installé un bastion d'accès distant et déployé la sauvegarde sur tout le parc, sur une infrastructure dont les agents dépendent tous les jours.",
     "Cette année, je travaille sur la sécurité et la disponibilité des serveurs : durcissement SSH, cluster Heartbeat, puis répartition de charge avec HAProxy.",
-    "Ce qui me plaît le plus, c'est de couper volontairement un serveur pendant un test et de voir le site continuer à répondre comme si de rien n'était."
+    "Mon TP préféré pour l'instant, c'est celui sur Heartbeat : j'ai coupé un serveur exprès et le site a continué à marcher."
   ],
 
   // Une phrase pour introduire la partie perso, sous le titre « En dehors des cours ».
@@ -173,77 +173,77 @@ const COMPETENCES = [
   {
     domaine: "Systèmes Windows",
     items: [
-      { nom: "Windows Server 2025 Datacenter", ou: "TP n°1 Bloc 2 (2026) — serveur srvad, contrôleur du domaine ville-abymes.fr" },
-      { nom: "Windows Server 2022 Datacenter", ou: "1re année — TP n°5 Bloc 1 (service DHCP) et TP n°1 Bloc 2 (planification des rôles d'une infrastructure Windows)" },
-      { nom: "Active Directory (AD DS)", ou: "TP n°1 Bloc 2 — nouvelle forêt, 4 unités d'organisation et leurs groupes de sécurité" },
-      { nom: "Stratégies de groupe (GPO)", ou: "TP n°1 Bloc 2 — lecteurs réseau par service, pare-feu, fonds d'écran ; stage — déploiement de la sauvegarde Bareos sur le parc" },
-      { nom: "Déploiement de logiciels MSI par GPO", ou: "TP n°1 Bloc 2 — Notepad++ et Firefox installés sans toucher aux postes" },
-      { nom: "Profils itinérants et quotas", ou: "TP n°1 Bloc 2 — profils limités à 5 Go" },
-      { nom: "Intégration de postes au domaine", ou: "TP n°1 Bloc 2 — un poste virtuel et un poste physique ; stage — ordinateur portable de la mairie" },
-      { nom: "Gestion des disques et partages", ou: "TP n°1 Bloc 2 — partages par service sur un disque dédié, diagnostic d'un disque repassant hors ligne" },
-      { nom: "Windows 10 Professionnel", ou: "1re année, TP n°2 Bloc 1 — installation, logiciels (Adobe Reader, OpenOffice, Avast, WinRAR, Firefox) et restrictions de sécurité pour Caribbean Project" }
+      { nom: "Windows Server 2025 Datacenter", ou: "TP n°1 Bloc 2 (2026) : serveur srvad, contrôleur du domaine ville-abymes.fr" },
+      { nom: "Windows Server 2022 Datacenter", ou: "1re année : TP n°5 Bloc 1 (service DHCP) et TP n°1 Bloc 2 (planification des rôles d'une infrastructure Windows)" },
+      { nom: "Active Directory (AD DS)", ou: "TP n°1 Bloc 2 : nouvelle forêt, 4 unités d'organisation et leurs groupes de sécurité" },
+      { nom: "Stratégies de groupe (GPO)", ou: "TP n°1 Bloc 2 : lecteurs réseau par service, pare-feu, fonds d'écran ; stage : déploiement de la sauvegarde Bareos sur le parc" },
+      { nom: "Déploiement de logiciels MSI par GPO", ou: "TP n°1 Bloc 2 : Notepad++ et Firefox installés sans toucher aux postes" },
+      { nom: "Profils itinérants et quotas", ou: "TP n°1 Bloc 2 : profils limités à 5 Go" },
+      { nom: "Intégration de postes au domaine", ou: "TP n°1 Bloc 2 : un poste virtuel et un poste physique ; stage : ordinateur portable de la mairie" },
+      { nom: "Gestion des disques et partages", ou: "TP n°1 Bloc 2 : partages par service sur un disque dédié, diagnostic d'un disque repassant hors ligne" },
+      { nom: "Windows 10 Professionnel", ou: "1re année, TP n°2 Bloc 1 : installation, logiciels (Adobe Reader, OpenOffice, Avast, WinRAR, Firefox) et restrictions de sécurité pour Caribbean Project" }
     ]
   },
   {
     domaine: "Systèmes Linux",
     items: [
-      { nom: "Debian 12", ou: "1re année, TP n°3 Bloc 1 — installation ; TP n°6, n°7 Bloc 1 et TP n°2 Bloc 2 — serveurs ; stage — bastion Guacamole" },
-      { nom: "Commandes et shell Linux", ou: "1re année, TP n°3 bis Bloc 1 — fichiers, répertoires, paquets apt" },
-      { nom: "Configuration réseau Linux", ou: "1re année, TP n°2 Bloc 2 — serveur à deux interfaces (dynamique et statique) dans /etc/network/interfaces" },
-      { nom: "Serveur web Apache2", ou: "TP n°6 Bloc 1 — hébergement du site des Jardins de Saint-Éloi" },
-      { nom: "DNS Bind9", ou: "1re année, TP n°7 Bloc 1 — résolution de noms pour les Jardins de Saint-Éloi" },
-      { nom: "Debian 13 Trixie", ou: "TP n°3 et n°4 Bloc 3 — serveurs web SRVWEB1, SRVWEB2 et répartiteur SRVHAPROXY" },
-      { nom: "Haute disponibilité avec Heartbeat", ou: "TP n°3 Bloc 3 — cluster actif/passif SRVWEB1 / SRVWEB2, IP virtuelle 192.168.30.4, bascule et retour automatiques testés" },
-      { nom: "Répartition de charge avec HAProxy", ou: "TP n°4 Bloc 3 — cluster actif/actif derrière SRVHAPROXY, algorithme roundrobin et page de statistiques" }
+      { nom: "Debian 12", ou: "1re année, TP n°3 Bloc 1 : installation ; TP n°6, n°7 Bloc 1 et TP n°2 Bloc 2 : serveurs ; stage : bastion Guacamole" },
+      { nom: "Commandes et shell Linux", ou: "1re année, TP n°3 bis Bloc 1 : fichiers, répertoires, paquets apt" },
+      { nom: "Configuration réseau Linux", ou: "1re année, TP n°2 Bloc 2 : serveur à deux interfaces (dynamique et statique) dans /etc/network/interfaces" },
+      { nom: "Serveur web Apache2", ou: "TP n°6 Bloc 1 : hébergement du site des Jardins de Saint-Éloi" },
+      { nom: "DNS Bind9", ou: "1re année, TP n°7 Bloc 1 : résolution de noms pour les Jardins de Saint-Éloi" },
+      { nom: "Debian 13 Trixie", ou: "TP n°3 et n°4 Bloc 3 : serveurs web SRVWEB1, SRVWEB2 et répartiteur SRVHAPROXY" },
+      { nom: "Haute disponibilité avec Heartbeat", ou: "TP n°3 Bloc 3 : cluster actif/passif SRVWEB1 / SRVWEB2, IP virtuelle 192.168.30.4, bascule et retour automatiques testés" },
+      { nom: "Répartition de charge avec HAProxy", ou: "TP n°4 Bloc 3 : cluster actif/actif derrière SRVHAPROXY, algorithme roundrobin et page de statistiques" }
     ]
   },
   {
     domaine: "Réseau",
     items: [
-      { nom: "DHCP (Windows Server)", ou: "1re année, TP n°5 Bloc 1 ; TP n°1 Bloc 2 — étendue, bail de 8 jours, options DNS et passerelle" },
-      { nom: "DNS (Windows Server)", ou: "TP n°1 Bloc 2 — zones directe et inversée, redirecteur vers Internet" },
-      { nom: "Adressage IPv4", ou: "1re année, TP n°5 Bloc 1 — plan d'adressage et configuration des interfaces" },
-      { nom: "Switch Cisco SG 300-10 et câblage RJ45", ou: "1re année, TP n°6 et n°7 Bloc 1 — infrastructure physique reliant deux postes" },
-      { nom: "Listes de contrôle d'accès (ACL)", ou: "Stage — communication entre switchs de la mairie" },
-      { nom: "Wi-Fi UniFi (U6 Mesh)", ou: "Stage — configuration d'une borne d'accès à la mairie" },
-      { nom: "Proxy inverse et réseau privé de serveurs", ou: "TP n°4 Bloc 3 — serveurs web isolés sur le réseau HA 10.0.0.0/24, joignables uniquement par le répartiteur" }
+      { nom: "DHCP (Windows Server)", ou: "1re année, TP n°5 Bloc 1 ; TP n°1 Bloc 2 : étendue, bail de 8 jours, options DNS et passerelle" },
+      { nom: "DNS (Windows Server)", ou: "TP n°1 Bloc 2 : zones directe et inversée, redirecteur vers Internet" },
+      { nom: "Adressage IPv4", ou: "1re année, TP n°5 Bloc 1 : plan d'adressage et configuration des interfaces" },
+      { nom: "Switch Cisco SG 300-10 et câblage RJ45", ou: "1re année, TP n°6 et n°7 Bloc 1 : infrastructure physique reliant deux postes" },
+      { nom: "Listes de contrôle d'accès (ACL)", ou: "Stage : communication entre switchs de la mairie" },
+      { nom: "Wi-Fi UniFi (U6 Mesh)", ou: "Stage : configuration d'une borne d'accès à la mairie" },
+      { nom: "Proxy inverse et réseau privé de serveurs", ou: "TP n°4 Bloc 3 : serveurs web isolés sur le réseau HA 10.0.0.0/24, joignables uniquement par le répartiteur" }
     ]
   },
   {
     domaine: "Virtualisation",
     items: [
-      { nom: "VirtualBox 7.2", ou: "Tous les TP de 1re année — création, clonage, modes pont et réseau interne" },
-      { nom: "VMware Workstation", ou: "TP n°1 Bloc 2 — segment LAN isolé et carte NAT pour Internet ; TP n°4 Bloc 3 — serveur à trois cartes sur trois réseaux" },
-      { nom: "VMware vSphere", ou: "Stage — machines virtuelles de production de la mairie, diagnostic d'une carte réseau déconnectée" },
-      { nom: "Docker", ou: "Stage — convertisseurs VERT et Transmute déployés en conteneurs sur Debian 13" },
-      { nom: "Clonage de machines virtuelles", ou: "TP n°3 Bloc 3 — deux nœuds web clonés en clones complets, avec régénération des adresses MAC ; TP n°4 Bloc 3 — répartiteur cloné depuis une Debian vierge" }
+      { nom: "VirtualBox 7.2", ou: "Tous les TP de 1re année : création, clonage, modes pont et réseau interne" },
+      { nom: "VMware Workstation", ou: "TP n°1 Bloc 2 : segment LAN isolé et carte NAT pour Internet ; TP n°4 Bloc 3 : serveur à trois cartes sur trois réseaux" },
+      { nom: "VMware vSphere", ou: "Stage : machines virtuelles de production de la mairie, diagnostic d'une carte réseau déconnectée" },
+      { nom: "Docker", ou: "Stage : convertisseurs VERT et Transmute déployés en conteneurs sur Debian 13" },
+      { nom: "Clonage de machines virtuelles", ou: "TP n°3 Bloc 3 : deux nœuds web clonés en clones complets, avec régénération des adresses MAC ; TP n°4 Bloc 3 : répartiteur cloné depuis une Debian vierge" }
     ]
   },
   {
     domaine: "Sécurité et accès distant",
     items: [
-      { nom: "Bastion Apache Guacamole", ou: "Stage — accès distant sécurisé, installation native sur Debian 12" },
-      { nom: "Sauvegarde Bareos", ou: "Stage — script de déploiement de l'agent sur les postes" },
-      { nom: "Cloisonnement par groupes et droits de partage", ou: "TP n°1 Bloc 2 — chaque service ne voit que son lecteur" },
-      { nom: "Double authentification (TOTP)", ou: "Stage — connexion au bastion Guacamole avec un code à usage unique" },
-      { nom: "Durcissement SSH (recommandations ANSSI)", ou: "TP de cybersécurité BTS SIO 2 — 10 directives OpenSSH, test face à une machine Kali Linux" },
-      { nom: "Restrictions du poste utilisateur", ou: "1re année, TP n°2 Bloc 1 — empêcher les manipulations dangereuses pour le parc" }
+      { nom: "Bastion Apache Guacamole", ou: "Stage : accès distant sécurisé, installation native sur Debian 12" },
+      { nom: "Sauvegarde Bareos", ou: "Stage : script de déploiement de l'agent sur les postes" },
+      { nom: "Cloisonnement par groupes et droits de partage", ou: "TP n°1 Bloc 2 : chaque service ne voit que son lecteur" },
+      { nom: "Double authentification (TOTP)", ou: "Stage : connexion au bastion Guacamole avec un code à usage unique" },
+      { nom: "Durcissement SSH (recommandations ANSSI)", ou: "TP de cybersécurité BTS SIO 2 : 10 directives OpenSSH, test face à une machine Kali Linux" },
+      { nom: "Restrictions du poste utilisateur", ou: "1re année, TP n°2 Bloc 1 : empêcher les manipulations dangereuses pour le parc" }
     ]
   },
   {
     domaine: "Support et gestion de parc",
     items: [
-      { nom: "GLPI 10.0.17", ou: "1re année, TP n°2 Bloc 2 — helpdesk du CHU de Pointe-à-Pitre : comptes, profils, suivi des incidents" },
-      { nom: "Installation et maintenance de postes", ou: "Stage à la CGSS Guadeloupe — déploiement, inventaire du parc, installation d'OS" }
+      { nom: "GLPI 10.0.17", ou: "1re année, TP n°2 Bloc 2 : helpdesk du CHU de Pointe-à-Pitre : comptes, profils, suivi des incidents" },
+      { nom: "Installation et maintenance de postes", ou: "Stage à la CGSS Guadeloupe : déploiement, inventaire du parc, installation d'OS" }
     ]
   },
   {
     domaine: "Scripts et documentation",
     items: [
-      { nom: "Scripts d'installation silencieuse", ou: "Stage — client Bareos installé sur tout le parc via une GPO" },
-      { nom: "PowerShell", ou: "TP n°1 Bloc 2 — configuration et vérification du serveur" },
-      { nom: "Documentation technique", ou: "TP n°6 et n°7 Bloc 1, TP n°1 Bloc 2, TP n°3 et n°4 Bloc 3 — documentations avec page de garde, sommaire, recette et sitographie" },
-      { nom: "Portail Dashy", ou: "Stage, en binôme — page unique regroupant les outils de la mairie, sous Docker sur Ubuntu Server 24.04" }
+      { nom: "Scripts d'installation silencieuse", ou: "Stage : client Bareos installé sur tout le parc via une GPO" },
+      { nom: "PowerShell", ou: "TP n°1 Bloc 2 : configuration et vérification du serveur" },
+      { nom: "Documentation technique", ou: "TP n°6 et n°7 Bloc 1, TP n°1 Bloc 2, TP n°3 et n°4 Bloc 3 : documentations avec page de garde, sommaire, recette et sitographie" },
+      { nom: "Portail Dashy", ou: "Stage, en binôme : page unique regroupant les outils de la mairie, sous Docker sur Ubuntu Server 24.04" }
     ]
   }
 ];
@@ -267,9 +267,10 @@ const REALISATIONS = [
 
   {
     id: "bastion-guacamole",
+    court: "Bastion Guacamole",
     titre: "Bastion d'accès distant Apache Guacamole",
-    sousTitre: "Stage de 1re année — mairie de Morne-à-l'Eau",
-    periode: "Mai — juin 2026",
+    sousTitre: "Stage de 1re année à la mairie de Morne-à-l'Eau",
+    periode: "Mai à juin 2026",
     statut: "termine",
     cadre: "stage",
     tags: ["Apache Guacamole", "Debian 12", "TOTP", "RDP", "SSH"],
@@ -289,9 +290,10 @@ const REALISATIONS = [
 
   {
     id: "deploiement-bareos",
+    court: "Sauvegarde Bareos",
     titre: "Déploiement de la sauvegarde Bareos par GPO",
-    sousTitre: "Stage de 1re année — mairie de Morne-à-l'Eau",
-    periode: "Mai — juin 2026",
+    sousTitre: "Stage de 1re année à la mairie de Morne-à-l'Eau",
+    periode: "Mai à juin 2026",
     statut: "termine",
     cadre: "stage",
     tags: ["Bareos", "GPO", "Script", "Sauvegarde"],
@@ -310,9 +312,10 @@ const REALISATIONS = [
 
   {
     id: "serveurs-conversion",
+    court: "VERT et Transmute",
     titre: "Serveurs de conversion de fichiers VERT et Transmute",
-    sousTitre: "Stage de 1re année — mairie de Morne-à-l'Eau",
-    periode: "Mai — juin 2026",
+    sousTitre: "Stage de 1re année à la mairie de Morne-à-l'Eau",
+    periode: "Mai à juin 2026",
     statut: "termine",
     cadre: "stage",
     tags: ["Docker", "Debian 13", "Auto-hébergement", "Confidentialité"],
@@ -330,8 +333,9 @@ const REALISATIONS = [
 
   {
     id: "mairie-abymes",
+    court: "Active Directory",
     titre: "Infrastructure Active Directory pour la mairie des Abymes",
-    sousTitre: "TP n°1 — Bloc 2, Administration des systèmes",
+    sousTitre: "TP n°1 du Bloc 2, administration des systèmes",
     periode: "Septembre 2026",
     statut: "termine",
     cadre: "tp",
@@ -361,8 +365,9 @@ const REALISATIONS = [
 
   {
     id: "durcissement-ssh",
+    court: "Durcissement SSH",
     titre: "Attaque de l'homme du milieu et durcissement SSH",
-    sousTitre: "TP de cybersécurité — BTS SIO 2",
+    sousTitre: "TP de cybersécurité, BTS SIO 2e année",
     periode: "Septembre 2026",
     statut: "termine",
     cadre: "tp",
@@ -387,9 +392,10 @@ const REALISATIONS = [
 
   {
     id: "glpi-chu",
+    court: "Helpdesk GLPI",
     titre: "Helpdesk GLPI pour le CHU de Pointe-à-Pitre",
-    sousTitre: "TP n°2 — Bloc 2, 1re année",
-    periode: "2025 — 2026",
+    sousTitre: "TP n°2 du Bloc 2, 1re année",
+    periode: "2025-2026",
     statut: "termine",
     cadre: "tp",
     tags: ["GLPI 10", "Debian 12", "Helpdesk", "Gestion des incidents"],
@@ -408,8 +414,9 @@ const REALISATIONS = [
 
   {
     id: "cluster-saint-eloi",
-    titre: "Serveur web haute disponibilité avec Heartbeat — Les Jardins de Saint-Éloi",
-    sousTitre: "TP n°3 — Bloc 3, Sécurisation des serveurs (suite des TP n°6 et n°7 Bloc 1)",
+    court: "Cluster Heartbeat",
+    titre: "Serveur web haute disponibilité avec Heartbeat",
+    sousTitre: "TP n°3 du Bloc 3, pour Les Jardins de Saint-Éloi",
     periode: "Septembre 2026",
     statut: "termine",
     cadre: "tp",
@@ -436,8 +443,9 @@ const REALISATIONS = [
 
   {
     id: "haproxy-saint-eloi",
-    titre: "Répartition de charge avec HAProxy — Les Jardins de Saint-Éloi",
-    sousTitre: "TP n°4 — Bloc 3, Sécurisation des serveurs",
+    court: "HAProxy",
+    titre: "Répartition de charge avec HAProxy",
+    sousTitre: "TP n°4 du Bloc 3, pour Les Jardins de Saint-Éloi",
     periode: "Octobre 2026",
     statut: "termine",
     cadre: "tp",
@@ -473,32 +481,32 @@ const REALISATIONS = [
 
 const PARCOURS = [
   {
-    periode: "2026 — 2027",
+    periode: "2026-2027",
     type: "formation",
-    titre: "BTS SIO option SISR — 2e année",
+    titre: "BTS SIO option SISR, 2e année",
     lieu: "Lycée Baimbridge, Les Abymes",
     detail: "Solutions d'infrastructure, systèmes et réseaux : cybersécurité, haute disponibilité et répartition de charge des serveurs."
   },
   // Ton stage de 2e année : ajoute un bloc ici une fois le stage confirmé,
   // sur le modèle de celui de la mairie juste en dessous.
   {
-    periode: "Mai — juin 2026",
+    periode: "Mai à juin 2026",
     type: "stage",
-    titre: "Stagiaire technicien informatique — 6 semaines",
+    titre: "Stagiaire technicien informatique (6 semaines)",
     lieu: "Service informatique de la mairie de Morne-à-l'Eau",
     detail: "Bastion d'accès distant Apache Guacamole ; script de déploiement de la sauvegarde Bareos poussé sur le parc par GPO ; ACL entre switchs ; borne Wi-Fi UniFi U6 Mesh ; serveurs de conversion de fichiers (VERT, Transmute) ; intégration d'un portable au domaine."
   },
   {
-    periode: "2025 — 2026",
+    periode: "2025-2026",
     type: "formation",
-    titre: "BTS SIO option SISR — 1re année",
+    titre: "BTS SIO option SISR, 1re année",
     lieu: "Lycée Baimbridge, Les Abymes",
     detail: "Support des utilisateurs, mise à disposition de services, administration des systèmes."
   },
   {
-    periode: "2022 — 2025",
+    periode: "2022-2025",
     type: "formation",
-    titre: "Bac Pro Systèmes numériques — option RISC",
+    titre: "Bac Pro Systèmes numériques, option RISC",
     lieu: "Lycée professionnel Louis Delgrès, Le Moule",
     detail: "Réseaux informatiques et systèmes communicants : installation et maintenance de postes, câblage et mise en réseau (switchs, routeurs), diagnostic de pannes."
   },
@@ -605,7 +613,7 @@ const VEILLE = [
   {
     sujet: "Intelligence artificielle",
     sources: [
-      "Estherium (@estherium__ sur TikTok) — astuces et actualités sur l'IA",
+      "Estherium (@estherium__ sur TikTok), pour les astuces et l'actualité de l'IA",
       "Guide ANSSI « Recommandations de sécurité pour un système d'IA générative »"
     ],
     retiens: "TODO: une info vue chez Estherium, vérifiée sur une source officielle, et ce qu'elle change pour un administrateur."

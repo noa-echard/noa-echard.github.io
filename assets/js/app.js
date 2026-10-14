@@ -94,7 +94,7 @@
       '<a class="logo" href="index.html" aria-label="Accueil — ' + esc(nomComplet()) + '">' +
       '<span class="logo-led" aria-hidden="true"></span>' +
       '<span class="logo-nom">' + esc(nomComplet()) + '</span>' +
-      '<span class="logo-role">NetAdmin</span></a>' +
+      '<span class="logo-role">BTS SIO SISR</span></a>' +
       '<button class="burger" aria-expanded="false" aria-controls="menu">' +
       '<span class="sr">Menu</span><span class="burger-barres" aria-hidden="true"></span></button>' +
       '<nav aria-label="Navigation principale"><ul id="menu" class="menu">' + liens + "</ul></nav>" +
@@ -113,7 +113,7 @@
       '<ul class="pied-plan">' + plan + "</ul></div>" +
       '<p class="pied-bas discret"><span>© ' + annee + " " + esc(nomComplet()) + "</span>" +
       '<a href="mentions-legales.html">Mentions légales</a>' +
-      '<span>Site statique, sans cookie ni traceur.</span></p>' +
+      '<span>Site hébergé sur GitHub Pages.</span></p>' +
       "</div></footer>";
   }
 
@@ -138,14 +138,16 @@
   /* Topologie : chaque équipement est un lien vers une page du site. */
   function topologie() {
     var reals = realisationsVisibles();
-    var r1 = reals[0], r2 = reals.length > 2 ? reals[2] : reals[1];
+    // À gauche : la première mission de stage. À droite : le TP le plus récent.
+    var r1 = reals[0], r2 = reals[reals.length - 1];
+    function court(r) { return r ? (r.court || r.titre.split(" ").slice(0, 2).join(" ")) : ""; }
     var N = [
       { id: "core", x: 500, y: 250, w: 170, type: "RTR-CORE", nom: nomComplet(), sous: "À propos", href: "a-propos.html", cls: "n-core" },
-      { id: "real", x: 500, y: 95, type: "SW-01", nom: "Réalisations", sous: reals.length + " services", href: "realisations.html", cls: "n-real" },
-      { id: "r1", x: 285, y: 55, w: 170, type: "SRV", nom: r1 ? r1.titre.split(" ").slice(0, 2).join(" ") : "", sous: r1 ? (r1.cadre === "stage" ? "stage" : "TP") : "", href: r1 ? "realisation.html?id=" + r1.id : "#", cls: "n-real n-petit" },
-      { id: "r2", x: 715, y: 55, w: 170, type: "SRV", nom: r2 ? r2.titre.split(" ").slice(0, 2).join(" ") : "", sous: r2 ? (r2.cadre === "stage" ? "stage" : "TP") : "", href: r2 ? "realisation.html?id=" + r2.id : "#", cls: "n-real n-petit" },
-      { id: "comp", x: 200, y: 250, type: "SW-02", nom: "Compétences", sous: competencesVisibles() + " interfaces", href: "competences.html", cls: "n-comp" },
-      { id: "cert", x: 200, y: 415, type: "FW", nom: "Certifications", sous: "objectifs 2026", href: "certifications.html", cls: "n-comp" },
+      { id: "real", x: 500, y: 95, type: "SW-01", nom: "Réalisations", sous: reals.length + " réalisations", href: "realisations.html", cls: "n-real" },
+      { id: "r1", x: 285, y: 55, w: 170, type: "SRV", nom: court(r1), sous: r1 ? (r1.cadre === "stage" ? "stage" : "TP") : "", href: r1 ? "realisation.html?id=" + r1.id : "#", cls: "n-real n-petit" },
+      { id: "r2", x: 715, y: 55, w: 170, type: "SRV", nom: court(r2), sous: r2 ? (r2.cadre === "stage" ? "stage" : "TP") : "", href: r2 ? "realisation.html?id=" + r2.id : "#", cls: "n-real n-petit" },
+      { id: "comp", x: 200, y: 250, type: "SW-02", nom: "Compétences", sous: competencesVisibles() + " compétences", href: "competences.html", cls: "n-comp" },
+      { id: "cert", x: 200, y: 415, type: "FW", nom: "Certifications", sous: "objectifs de l\'année", href: "certifications.html", cls: "n-comp" },
       { id: "parc", x: 800, y: 250, type: "SRV-LOG", nom: "Parcours", sous: "BTS · Bac Pro", href: "parcours.html", cls: "n-info" },
       { id: "veil", x: 800, y: 415, type: "IDS", nom: "Veille", sous: VEILLE.length + " sujets suivis", href: "veille.html", cls: "n-info" },
       { id: "cont", x: 500, y: 415, type: "GW", nom: "Contact", sous: "e-mail · CV", href: "contact.html", cls: "n-info" }
@@ -194,7 +196,7 @@
         '<span class="carte-meta">' + badgeStatut(r) + '<span class="discret">' + esc(r.periode) + "</span></span>" +
         '<span class="carte-titre">' + txt(r.titre) + "</span>" +
         '<span class="carte-resume">' + txt(r.sousTitre) + "</span>" +
-        '<span class="carte-lire" aria-hidden="true">lire la suite →</span></a></li>';
+        '<span class="carte-lire" aria-hidden="true">Lire la suite</span></a></li>';
     }).join("");
 
     var photo = ID.photo ? '<img class="portrait" src="' + esc(ID.photo) + '" alt="' + esc(ID.photoAlt) + '" width="220" height="220">' : "";
@@ -213,12 +215,12 @@
       "</div>" + photo + "</section>" +
       (chiffres ? '<ul class="chiffres">' + chiffres + "</ul>" : "") +
       '<section class="section panneau">' +
-      '<div class="panneau-tete"><span>Découvrir le site</span><span class="discret">chaque équipement du schéma mène à une page</span></div>' +
+      '<div class="panneau-tete"><span>Découvrir le site</span><span class="discret">cliquez sur une case pour ouvrir la page</span></div>' +
       topologie() +
       '<ul class="grille-pages topo-repli">' + cartes + "</ul></section>" +
       (recentes ? '<section class="section"><h2 class="h-section">Mes dernières réalisations</h2>' +
         '<ul class="grille-real">' + recentes + "</ul>" +
-        '<p class="voir-tout"><a href="realisations.html">Voir toutes les réalisations →</a></p></section>' : "");
+        '<p class="voir-tout"><a href="realisations.html">Voir toutes mes réalisations</a></p></section>' : "");
   }
 
   /* ---------- À propos ---------- */
@@ -264,7 +266,7 @@
   function badgeStatut(r) {
     return r.statut === "en-cours"
       ? '<span class="etat etat-cours"><span class="led" aria-hidden="true"></span>En cours</span>'
-      : '<span class="etat etat-ok"><span class="led" aria-hidden="true"></span>Opérationnel</span>';
+      : '<span class="etat etat-ok"><span class="led" aria-hidden="true"></span>Terminé</span>';
   }
 
   function badgeCadre(r) {
@@ -291,7 +293,7 @@
           '<span class="carte-meta">' + badgeStatut(r) + '<span class="discret">' + esc(r.periode) + "</span></span>" +
           '<span class="carte-titre">' + txt(r.titre) + "</span>" +
           '<span class="carte-resume">' + txt(r.sousTitre) + "</span>" +
-          tags(r.tags) + '<span class="carte-lire" aria-hidden="true">lire la suite →</span></a></li>';
+          tags(r.tags) + '<span class="carte-lire" aria-hidden="true">Lire la suite</span></a></li>';
       }).join("");
       return '<section class="section"><h2 class="h-section"><span aria-hidden="true">## </span>' + g.titre + "</h2>" +
         '<ul class="grille-real">' + cartes + "</ul></section>";
@@ -439,7 +441,7 @@
         '<label for="f-nom">Votre nom</label><input id="f-nom" name="nom" type="text" autocomplete="name" required>' +
         '<label for="f-mail">Votre adresse e-mail</label><input id="f-mail" name="mail" type="email" autocomplete="email" required aria-describedby="f-mail-aide">' +
         '<p class="aide" id="f-mail-aide">Pour que je puisse vous répondre.</p>' +
-        '<label for="f-org">Entreprise ou établissement <span class="discret">— facultatif</span></label>' +
+        '<label for="f-org">Entreprise ou établissement <span class="discret">(facultatif)</span></label>' +
         '<input id="f-org" name="org" type="text" autocomplete="organization">' +
         '<label for="f-msg">Votre message</label><textarea id="f-msg" name="msg" rows="7" maxlength="1500" required aria-describedby="f-msg-aide"></textarea>' +
         '<p class="aide" id="f-msg-aide"><span id="f-compte">0</span> / 1500 caractères : au-delà, certains logiciels de courrier coupent le texte.</p>' +
@@ -455,7 +457,7 @@
       '<div class="grille-contact"><div>' +
       '<h2 class="h-contact">Me joindre directement</h2>' + carteMail + cv +
       (profils ? '<h2 class="h-contact">Mes profils</h2><ul class="profils">' + profils + "</ul>" : "") +
-      '<p class="discret">Je réponds en général sous 48 heures. Je suis basé en Guadeloupe (UTC−4).</p>' +
+      '<p class="discret">J\'essaie de répondre sous 48 heures. J\'habite en Guadeloupe (heure UTC−4).</p>' +
       "</div>" +
       (formulaire ? '<div><h2 class="h-contact">Écrivez-moi d\'ici</h2>' + formulaire + "</div>" : "") +
       "</div>" +
@@ -503,7 +505,7 @@
         return;
       }
       erreur.hidden = true;
-      sujet = "Contact depuis votre portfolio — " + nom + (org ? " (" + org + ")" : "");
+      sujet = "Contact depuis votre portfolio : " + nom + (org ? " (" + org + ")" : "");
       corps = texte + "\n\n—\n" + nom + (org ? "\n" + org : "") + "\n" + mailVisiteur;
       var gmail = "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(email()) +
         "&su=" + encodeURIComponent(sujet) + "&body=" + encodeURIComponent(corps);
