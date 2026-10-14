@@ -99,7 +99,7 @@ const PAGES = [
     resume: "Les sujets que je suis, et pourquoi." },
 
   { cle: "contact",       fichier: "contact.html",       menu: "Contact",
-    titre: "Contact", chapo: "Le plus simple pour me joindre.",
+    titre: "Contact", chapo: "Par e-mail ou par le formulaire : deux façons de me joindre.",
     resume: "E-mail et profils en ligne." }
 ];
 
@@ -125,8 +125,17 @@ const CHIFFRES = [
    ========================================================================== */
 
 const A_PROPOS = {
-  // Une ou deux phrases pour se présenter.
-  intro: "Je m'appelle Noa, je suis en deuxième année de BTS SIO option SISR au lycée Baimbridge, aux Abymes. En dehors des cours, je suis surtout fan de jeux vidéo, au point de créer les miens.",
+  // Ton parcours raconté en quelques paragraphes courts, à la première personne.
+  recit: [
+    "Je suis en deuxième année de BTS SIO option SISR au lycée Baimbridge, aux Abymes, après un Bac Pro Systèmes numériques option RISC.",
+    "En première année, j'ai appris à monter une infrastructure de A à Z en machines virtuelles : serveur web Apache, DNS Bind9, DHCP, helpdesk GLPI, puis un domaine Active Directory complet avec ses stratégies de groupe. J'ai aussi câblé du vrai matériel autour d'un switch Cisco SG 300-10.",
+    "Au printemps 2026, j'ai passé six semaines au service informatique de la mairie de Morne-à-l'Eau. Là, ce n'était plus une maquette : j'ai installé un bastion d'accès distant et déployé la sauvegarde sur tout le parc, sur une infrastructure dont les agents dépendent tous les jours.",
+    "Cette année, je travaille sur la sécurité et la disponibilité des serveurs : durcissement SSH, cluster Heartbeat, puis répartition de charge avec HAProxy.",
+    "Ce qui me plaît le plus, c'est de couper volontairement un serveur pendant un test et de voir le site continuer à répondre comme si de rien n'était."
+  ],
+
+  // Une phrase pour introduire la partie perso, sous le titre « En dehors des cours ».
+  intro: "Je suis surtout fan de jeux vidéo, au point de créer les miens.",
 
   // Les blocs affichés en dessous. Chaque bloc : un titre, une phrase courte, des mots-clés.
   blocs: [
@@ -544,7 +553,7 @@ const CERTIFICATIONS = [
     items: []
   },
   {
-    categorie: "Objectifs 2026 — 2027",
+    categorie: "Objectifs Cisco Networking Academy",
     intro: "Des parcours gratuits, passés en dehors des cours, choisis pour compléter le programme du BTS.",
     vide: "",
     items: [
@@ -554,10 +563,30 @@ const CERTIFICATIONS = [
         couvre: "Fondamentaux des réseaux : adressage IP, Ethernet, services réseau." },
       { nom: "Introduction to Packet Tracer", organisme: "Cisco Networking Academy", date: "Objectif : décembre 2026",
         couvre: "Construction et test de réseaux simulés." },
-      { nom: "Parcours « Décrire les concepts cloud » (AZ-900)", organisme: "Microsoft Learn", date: "Objectif : 2027",
-        couvre: "Concepts du cloud et architecture Azure. Un parcours de formation, pas une certification." }
+      { nom: "Exploring Networking with Cisco Packet Tracer", organisme: "Cisco Networking Academy", date: "Objectif : début 2027",
+        couvre: "Conception et test de topologies réseau en environnement simulé." },
+      { nom: "Exploring Internet of Things with Cisco Packet Tracer", organisme: "Cisco Networking Academy", date: "Objectif : début 2027",
+        couvre: "Simulation d'objets connectés et de réseaux domestiques intelligents." }
+    ]
+  },
+  {
+    categorie: "Objectifs cloud et intelligence artificielle",
+    intro: "Des parcours courts et gratuits chez les éditeurs eux-mêmes. Ce sont des badges de formation, pas des certifications.",
+    vide: "",
+    items: [
+      { nom: "Parcours « Présentation de l'infrastructure cloud : décrire les concepts cloud »", organisme: "Microsoft Learn", date: "Objectif : 2027",
+        couvre: "Concepts du cloud, types de services (IaaS, PaaS, SaaS) et composants d'Azure. Prépare à l'AZ-900." },
+      { nom: "AWS Cloud Practitioner Essentials (préparation au CLF-C02)", organisme: "AWS Skill Builder", date: "Objectif : 2027",
+        couvre: "Bases du cloud AWS : services, sécurité, tarification." },
+      { nom: "Introduction to Generative AI et Introduction to Responsible AI", organisme: "Google Skills", date: "Objectif : 2027",
+        couvre: "Fonctionnement de l'IA générative et principes d'un usage responsable." },
+      { nom: "AI Fluency: Framework & Foundations", organisme: "Anthropic Academy", date: "Objectif : 2027",
+        couvre: "Utiliser un assistant IA de façon efficace, critique et sûre." },
+      { nom: "AI Foundations", organisme: "OpenAI Academy", date: "Objectif : 2027",
+        couvre: "Capacités et limites de l'intelligence artificielle." }
     ]
   }
+
 ];
 
 

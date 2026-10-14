@@ -236,7 +236,10 @@
       return '<section class="bloc apropos-bloc"><h2 class="h-domaine"><span aria-hidden="true">## </span>' + txt(b.titre) + "</h2>" +
         (txt(b.texte) ? "<p>" + txt(b.texte) + "</p>" : "") + tags(b.tags) + "</section>";
     }).join("");
+    var recit = liste(A_PROPOS.recit).map(function (para) { return "<p>" + txt(para) + "</p>"; }).join("");
     return titrePage(info, "cat a-propos.md") +
+      (recit ? '<div class="apropos-recit">' + recit + "</div>" : "") +
+      '<h2 class="h-section apropos-perso">En dehors des cours</h2>' +
       (txt(A_PROPOS.intro) ? '<p class="apropos-intro">' + txt(A_PROPOS.intro) + "</p>" : "") +
       '<div class="grille-apropos">' + blocs + "</div>" +
       '<div class="boutons">' +
@@ -417,17 +420,109 @@
   function contact() {
     var info = pageInfo("contact");
     var mail = email();
-    var blocMail = mail
-      ? '<p class="contact-mail"><a href="mailto:' + esc(mail) + '">' + esc(mail) + "</a></p>"
+    var carteMail = mail
+      ? '<div class="carte-mail bloc"><div><p class="etiquette">E-mail</p>' +
+        '<p class="contact-mail"><a href="mailto:' + esc(mail) + '">' + esc(mail) + "</a></p></div>" +
+        '<button type="button" class="btn btn-copier" data-copier="' + esc(mail) + '">Copier</button></div>'
       : (AFFICHER_RAPPELS ? '<p><span class="rappel">À compléter — ton adresse e-mail dans data.js</span></p>' : "");
-    var profils = lien(ID.linkedin, "LinkedIn", true) + lien(ID.github, "GitHub", true) +
-      lien(ID.credly, "Credly", true) + lien(ID.cvFichier, "Mon CV (PDF)", true);
+    var cv = ID.cvFichier
+      ? '<div class="boutons"><a class="btn btn-plein" href="' + esc(ID.cvFichier) + '" target="_blank" rel="noopener">' +
+        "Télécharger mon CV (PDF" + (ID.cvPoids ? ", " + esc(ID.cvPoids) : "") + ")</a></div>"
+      : "";
+    var profils = [
+      [ID.linkedin, "LinkedIn", "Mon profil professionnel"],
+      [ID.github, "GitHub", "Mes dépôts"],
+      [ID.credly, "Credly", "Mes badges Cisco vérifiables"],
+      [ID.microsoftLearn, "Microsoft Learn", "Mes modules vérifiables"]
+    ].filter(function (p) { return p[0]; }).map(function (p) {
+      return '<li><a href="' + esc(p[0]) + '" target="_blank" rel="noopener"><span class="etiquette">' + esc(p[1]) +
+        '</span><span class="profil-titre">' + esc(p[2]) + '</span><span class="profil-fleche" aria-hidden="true">↗</span></a></li>';
+    }).join("");
+
+    var formulaire = mail
+      ? '<form class="bloc formulaire" id="form-contact" novalidate>' +
+        '<p class="discret">Remplissez ces champs : un nouvel onglet Gmail s\'ouvrira avec le message déjà rédigé. ' +
+        "Vous relisez, puis vous envoyez. Vous n'utilisez pas Gmail ? D'autres options s'affichent juste après.</p>" +
+        '<label for="f-nom">Votre nom</label><input id="f-nom" name="nom" type="text" autocomplete="name" required>' +
+        '<label for="f-mail">Votre adresse e-mail</label><input id="f-mail" name="mail" type="email" autocomplete="email" required aria-describedby="f-mail-aide">' +
+        '<p class="aide" id="f-mail-aide">Pour que je puisse vous répondre.</p>' +
+        '<label for="f-org">Entreprise ou établissement <span class="discret">— facultatif</span></label>' +
+        '<input id="f-org" name="org" type="text" autocomplete="organization">' +
+        '<label for="f-msg">Votre message</label><textarea id="f-msg" name="msg" rows="7" maxlength="1500" required aria-describedby="f-msg-aide"></textarea>' +
+        '<p class="aide" id="f-msg-aide"><span id="f-compte">0</span> / 1500 caractères : au-delà, certains logiciels de courrier coupent le texte.</p>' +
+        '<p class="erreur" id="f-erreur" role="alert" hidden></p>' +
+        '<button type="submit" class="btn btn-plein">Ouvrir mon message dans Gmail</button>' +
+        '<div class="apres-envoi" id="f-apres" hidden><p>Gmail ne s\'est pas ouvert, ou vous utilisez une autre messagerie ?</p>' +
+        '<div class="boutons boutons-petits"><a class="btn" id="f-mailto" href="#">Ouvrir ma messagerie habituelle</a>' +
+        '<button type="button" class="btn" id="f-copier-msg">Copier le message</button></div></div>' +
+        "</form>"
+      : "";
+
     return titrePage(info, "ping " + ID.prenom.toLowerCase()) +
-      '<section class="bloc prose">' +
-      (blocMail ? '<p class="etiquette">E-mail</p>' + blocMail : "") +
-      (profils ? '<p class="etiquette">En ligne</p><div class="boutons">' + profils + "</div>" : "") +
+      '<div class="grille-contact"><div>' +
+      '<h2 class="h-contact">Me joindre directement</h2>' + carteMail + cv +
+      (profils ? '<h2 class="h-contact">Mes profils</h2><ul class="profils">' + profils + "</ul>" : "") +
       '<p class="discret">Je réponds en général sous 48 heures. Je suis basé en Guadeloupe (UTC−4).</p>' +
-      "</section>";
+      "</div>" +
+      (formulaire ? '<div><h2 class="h-contact">Écrivez-moi d\'ici</h2>' + formulaire + "</div>" : "") +
+      "</div>" +
+      '<p class="discret note-contact">Ce site ne collecte aucune donnée. Le formulaire n\'envoie rien : il prépare votre message dans Gmail, et c\'est vous qui l\'envoyez.</p>';
+  }
+
+  function brancherContact() {
+    function copier(texte, bouton, libelle) {
+      function ok() { bouton.textContent = "Copié !"; setTimeout(function () { bouton.textContent = libelle; }, 2000); }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(texte).then(ok, function () { bouton.textContent = "Copie impossible"; });
+      } else {
+        var zone = document.createElement("textarea");
+        zone.value = texte; document.body.appendChild(zone); zone.select();
+        try { document.execCommand("copy"); ok(); } catch (e) { bouton.textContent = "Copie impossible"; }
+        document.body.removeChild(zone);
+      }
+    }
+
+    document.querySelectorAll("[data-copier]").forEach(function (b) {
+      b.addEventListener("click", function () { copier(b.getAttribute("data-copier"), b, "Copier"); });
+    });
+
+    var form = document.getElementById("form-contact");
+    if (!form) return;
+    var msg = document.getElementById("f-msg");
+    var compte = document.getElementById("f-compte");
+    var erreur = document.getElementById("f-erreur");
+    var apres = document.getElementById("f-apres");
+    var corps = "", sujet = "";
+
+    msg.addEventListener("input", function () { compte.textContent = msg.value.length; });
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var nom = form.nom.value.trim(), mailVisiteur = form.mail.value.trim();
+      var org = form.org.value.trim(), texte = msg.value.trim();
+      var manque = [];
+      if (!nom) manque.push("votre nom");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mailVisiteur)) manque.push("une adresse e-mail valide");
+      if (!texte) manque.push("votre message");
+      if (manque.length) {
+        erreur.textContent = "Il manque " + manque.join(", ") + ".";
+        erreur.hidden = false;
+        return;
+      }
+      erreur.hidden = true;
+      sujet = "Contact depuis votre portfolio — " + nom + (org ? " (" + org + ")" : "");
+      corps = texte + "\n\n—\n" + nom + (org ? "\n" + org : "") + "\n" + mailVisiteur;
+      var gmail = "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(email()) +
+        "&su=" + encodeURIComponent(sujet) + "&body=" + encodeURIComponent(corps);
+      window.open(gmail, "_blank", "noopener");
+      document.getElementById("f-mailto").href = "mailto:" + email() +
+        "?subject=" + encodeURIComponent(sujet) + "&body=" + encodeURIComponent(corps);
+      apres.hidden = false;
+    });
+
+    document.getElementById("f-copier-msg").addEventListener("click", function () {
+      copier("À : " + email() + "\nObjet : " + sujet + "\n\n" + corps, this, "Copier le message");
+    });
   }
 
   /* ---------- Mentions légales et 404 ---------- */
@@ -470,6 +565,8 @@
   app.innerHTML = entete() +
     '<main id="contenu" class="enveloppe principal' + (page === "accueil" ? " principal-accueil" : "") + '">' +
     contenu + "</main>" + piedDePage();
+
+  if (page === "contact") brancherContact();
 
   /* ---------- Menu burger (téléphone) ---------- */
 
