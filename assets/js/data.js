@@ -39,10 +39,10 @@ const IDENTITE = {
   accroche: "Étudiant en BTS SIO SISR, je monte et j'administre des serveurs Windows et Linux, et je documente tout ce que je fais.",
 
   // Le texte de bienvenue de l'accueil : tu te présentes et tu présentes le site.
-  presentation: "Bienvenue sur mon portfolio. Je m'appelle Noa, je suis étudiant en deuxième année de BTS SIO option SISR. Sur ce site, je présente les infrastructures que j'ai montées en TP et en stage, avec pour chacune le contexte, la solution mise en place et ce que j'en ai retenu.",
+  presentation: "Bienvenue sur mon portfolio. Je m'appelle Noa, je suis étudiant en deuxième année de BTS SIO option SISR. Sur ce site, je présente les infrastructures que j'ai montées en projet, en TP et en stage, avec pour chacune le contexte, la solution mise en place et ce que j'en ai retenu.",
 
   // Ce qui te distingue. Ton stage est ton meilleur argument : du vrai matériel, en production.
-  angle: "Pendant mon stage à la mairie de Morne-à-l'Eau, j'ai travaillé sur le vrai réseau de la mairie : j'ai notamment installé un bastion d'accès distant et déployé la sauvegarde sur les postes.",
+  angle: "",
 
   // Description pour Google et les aperçus de lien (150-160 caractères).
   metaDescription: "Noa Echard, étudiant en BTS SIO SISR à Baimbridge. Windows Server, Active Directory, Debian, bastion Guacamole : infrastructures montées et documentées.",
