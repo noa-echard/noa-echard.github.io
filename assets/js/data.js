@@ -454,6 +454,36 @@ const REALISATIONS = [
   },
 
   {
+    id: "projet-mirbeau",
+    court: "Projet Mirbeau",
+    titre: "Extension et sécurisation du réseau de l'huilerie Mirbeau",
+    sousTitre: "AP2, projet en binôme, BTS SIO 1re année",
+    periode: "Avril 2026",
+    statut: "termine",
+    cadre: "projet",
+    tags: ["Windows Server", "Active Directory", "DHCP", "DNS", "GPO", "NTFS"],
+
+    contexte: "L'huilerie Mirbeau s'agrandit avec un nouveau bâtiment. Son réseau doit relier deux sites : le bâtiment Administratif (192.168.2.0/24), qui regroupe la Comptabilité et la Direction, et le bâtiment Production (192.168.3.0/24), interconnectés par deux routeurs. Nous avons monté le prototype en binôme sur deux ordinateurs portables : je me suis occupé de la partie Administratif, mon binôme de la partie Production.",
+    probleme: "L'entreprise veut une infrastructure centralisée : adressage automatique des postes sur les deux sous-réseaux, résolution de noms, comptes gérés dans un annuaire, et surtout une séparation stricte des données, la Comptabilité ne devant pas accéder aux dossiers confidentiels de la Direction, tout en gardant un espace d'échange commun.",
+    solution: "Sur le serveur MIRPRIM (192.168.2.2), j'ai créé le domaine mirbeau.com avec les rôles AD DS, DNS et DHCP, et configuré l'agent relais DHCP pour que les postes de l'autre sous-réseau reçoivent aussi leur adresse. Dans l'annuaire, j'ai créé l'unité d'organisation ADMINISTRATIF, les utilisateurs de chaque service et les groupes de sécurité G_COMPTA et G_DIRECTION. J'ai mis en place un partage DONNEES, connecté en lecteur Z:, avec trois dossiers : COMPTABILITE, DIRECTION et COMMUN. Sur les dossiers sensibles, j'ai désactivé l'héritage des permissions NTFS, retiré le groupe « Utilisateurs du domaine » et donné le droit de modification au seul groupe concerné. Enfin, j'ai créé des stratégies de groupe : interdiction du Panneau de configuration et fond d'écran propre à chaque service, appliqué grâce au filtrage de sécurité.",
+    outils: ["Windows Server", "Active Directory (AD DS)", "DNS", "DHCP et agent relais", "Stratégies de groupe (GPO)", "Permissions NTFS", "Windows 10 (poste client)", "VMware Workstation"],
+    resultats: [
+      "Un utilisateur de la Comptabilité qui tente d'ouvrir le dossier DIRECTION obtient « Accès refusé », et inversement.",
+      "Le dossier COMMUN reste accessible à tous les utilisateurs du domaine.",
+      "Le lecteur réseau Z: et le fond d'écran du service s'appliquent automatiquement à l'ouverture de session.",
+      "Le Panneau de configuration est bloqué sur les postes, ce qui empêche les utilisateurs de modifier les réglages réseau ou système."
+    ],
+    appris: "Donner des droits à un groupe ne suffit pas à protéger un dossier : tant que l'héritage est actif, le groupe « Utilisateurs du domaine » garde son accès depuis le dossier parent. C'est en désactivant l'héritage puis en retirant ce groupe que l'isolation entre les services est devenue réelle. J'ai aussi retenu l'intérêt de gérer les droits et les GPO par groupe plutôt qu'utilisateur par utilisateur : l'arrivée d'un nouvel employé se résume à l'ajouter au bon groupe.",
+    referentiel: [
+      "Concevoir et étendre un réseau multi-sites",
+      "Installer et configurer les services AD DS, DNS et DHCP",
+      "Gérer les identités et les droits d'accès",
+      "Sécuriser l'accès aux données",
+      "Travailler en binôme et répartir les tâches"
+    ]
+  },
+
+  {
     id: "projet-proxy",
     court: "Projet Proxy",
     titre: "Serveur proxy et sécurisation de l'accès Internet",
