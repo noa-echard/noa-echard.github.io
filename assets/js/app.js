@@ -144,8 +144,8 @@
     var N = [
       { id: "core", x: 500, y: 250, w: 170, type: "RTR-CORE", nom: nomComplet(), sous: "À propos", href: "a-propos.html", cls: "n-core" },
       { id: "real", x: 500, y: 95, type: "SW-01", nom: "Réalisations", sous: reals.length + " réalisations", href: "realisations.html", cls: "n-real" },
-      { id: "r1", x: 285, y: 55, w: 170, type: "SRV", nom: court(r1), sous: r1 ? (r1.cadre === "stage" ? "stage" : "TP") : "", href: r1 ? "realisation.html?id=" + r1.id : "#", cls: "n-real n-petit" },
-      { id: "r2", x: 715, y: 55, w: 170, type: "SRV", nom: court(r2), sous: r2 ? (r2.cadre === "stage" ? "stage" : "TP") : "", href: r2 ? "realisation.html?id=" + r2.id : "#", cls: "n-real n-petit" },
+      { id: "r1", x: 285, y: 55, w: 170, type: "SRV", nom: court(r1), sous: r1 ? ({ stage: "stage", projet: "projet" }[r1.cadre] || "TP") : "", href: r1 ? "realisation.html?id=" + r1.id : "#", cls: "n-real n-petit" },
+      { id: "r2", x: 715, y: 55, w: 170, type: "SRV", nom: court(r2), sous: r2 ? ({ stage: "stage", projet: "projet" }[r2.cadre] || "TP") : "", href: r2 ? "realisation.html?id=" + r2.id : "#", cls: "n-real n-petit" },
       { id: "comp", x: 200, y: 250, type: "SW-02", nom: "Compétences", sous: competencesVisibles() + " compétences", href: "competences.html", cls: "n-comp" },
       { id: "cert", x: 200, y: 415, type: "FW", nom: "Certifications", sous: "objectifs de l\'année", href: "certifications.html", cls: "n-comp" },
       { id: "parc", x: 800, y: 250, type: "SRV-LOG", nom: "Parcours", sous: "BTS · Bac Pro", href: "parcours.html", cls: "n-info" },
@@ -271,7 +271,7 @@
   }
 
   function badgeCadre(r) {
-    var noms = { stage: "Stage", tp: "TP", perso: "Projet perso" };
+    var noms = { projet: "Projet", stage: "Stage", tp: "TP", perso: "Projet perso" };
     return '<span class="pastille pastille-cadre">' + esc(noms[r.cadre] || r.cadre) + "</span>";
   }
 
@@ -282,6 +282,7 @@
   function realisations() {
     var info = pageInfo("realisations");
     var groupes = [
+      { cadre: "projet", titre: "Projets" },
       { cadre: "stage", titre: "En stage" },
       { cadre: "tp", titre: "En TP" },
       { cadre: "perso", titre: "Projets personnels" }
@@ -339,7 +340,7 @@
       '<div class="real-corps">' +
       rubrique("Contexte", txt(r.contexte) ? "<p>" + txt(r.contexte) + "</p>" : "") +
       rubrique("Besoin", txt(r.probleme) ? "<p>" + txt(r.probleme) + "</p>" : "") +
-      rubrique("Solution mise en place", txt(r.solution) ? "<p>" + txt(r.solution) + "</p>" : "") +
+      rubrique(r.statut === "en-cours" ? "Solution prévue" : "Solution mise en place", txt(r.solution) ? "<p>" + txt(r.solution) + "</p>" : "") +
       rubrique("Outils", tags(r.outils)) +
       rubrique("Résultats", resultats.length ? '<ul class="puces">' + resultats.map(function (s) { return "<li>" + txt(s) + "</li>"; }).join("") + "</ul>" : "") +
       rubrique("Ce que j'en retiens", txt(r.appris) ? "<p>" + txt(r.appris) + "</p>" : "") +

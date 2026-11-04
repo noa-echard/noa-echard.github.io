@@ -84,8 +84,8 @@ const PAGES = [
 
   { cle: "realisations",  fichier: "realisations.html",  menu: "Réalisations",
     titre: "Réalisations",
-    chapo: "Les TP et les missions de stage que j'ai menés, avec pour chacun le contexte, ce que j'ai mis en place et ce que j'en ai retenu.",
-    resume: "Mes TP et mes missions de stage, en détail." },
+    chapo: "Les projets, les TP et les missions de stage que j'ai menés, avec pour chacun le contexte, ce que j'ai mis en place et ce que j'en ai retenu.",
+    resume: "Mes projets, mes TP et mes missions de stage, en détail." },
 
   { cle: "certifications", fichier: "certifications.html", menu: "Certifications",
     titre: "Certifications",
@@ -450,6 +450,29 @@ const REALISATIONS = [
       "Répartir la charge entre plusieurs serveurs",
       "Segmenter le réseau des serveurs",
       "Tester et documenter la solution"
+    ]
+  },
+
+  {
+    id: "projet-proxy",
+    court: "Projet Proxy",
+    titre: "Serveur proxy et sécurisation de l'accès Internet",
+    sousTitre: "AP3, projet en équipe pour Caribbean Project",
+    periode: "Novembre 2026",
+    statut: "en-cours",
+    cadre: "projet",
+    tags: ["Serveur proxy", "DMZ", "Routeur/pare-feu", "Filtrage web", "Authentification"],
+
+    contexte: "Caribbean Project est une start-up parisienne de 25 salariés spécialisée dans le commerce international. Elle veut étendre son système d'information : ses services n'ont pas encore de réseau commun, et ses commerciaux, qui se déplacent dans toute la France, doivent accéder à distance et de façon sécurisée aux applications de l'entreprise.",
+    probleme: "L'entreprise veut une DMZ pour ses services exposés (web, messagerie, fichiers, applications métiers), un routeur/pare-feu au cœur du réseau, et un contrôle de la navigation des salariés : bloquer les sites non professionnels (streaming, réservation de voyages), authentifier chaque utilisateur par identifiant et mot de passe, et conserver l'historique des sites visités pendant au moins trois mois, le tout de façon transparente pour les salariés.",
+    solution: "Avec mon équipe, nous réalisons d'abord un prototype de l'infrastructure : un réseau privé en 172.16.0.0/16 avec les serveurs DNS/contrôleur de domaine, DHCP, base de données et sauvegarde, une DMZ en 172.17.1.0/24 pour les serveurs web, messagerie, applications et fichiers, et un routeur/pare-feu à trois interfaces (réseau privé, DMZ, Internet). Nous déployons ensuite un serveur proxy filtrant sur le réseau local, avec authentification des utilisateurs et journalisation des accès, puis nous le testons avant de présenter la solution.",
+    outils: ["Debian 13 Trixie", "Windows Server 2022/2025", "Windows 11", "Routeur/pare-feu", "Commutateurs Cisco", "Virtualisation"],
+    referentiel: [
+      "Analyser les besoins et les contraintes d'un client",
+      "Concevoir et réaliser le prototype d'une infrastructure réseau",
+      "Sécuriser l'accès à Internet et contrôler la navigation",
+      "Travailler en équipe et répartir les tâches",
+      "Tester, documenter et présenter la solution"
     ]
   }
 
