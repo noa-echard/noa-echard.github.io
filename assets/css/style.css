@@ -7,17 +7,29 @@
 
 /* 01. VARIABLES ----------------------------------------------------------- */
 :root {
-  --fond:      #0d1117;   /* fond de page */
-  --panneau:   #151b24;   /* panneaux */
-  --panneau-2: #1b2330;   /* survol */
-  --bordure:   #263241;
-  --texte:     #dfe6ee;   /* texte principal */
-  --discret:   #8d9aab;   /* texte secondaire */
-  --bleu:      #4ea1ff;   /* accent : liens, liaisons réseau */
-  --vert:      #3fb950;   /* état « opérationnel » */
-  --ambre:     #d9a530;   /* état « en cours » */
-  --violet:    #a78bfa;   /* infos */
+  /* Mode sombre (par défaut), éclairci */
+  --fond:      #182029;   /* fond de page */
+  --panneau:   #212b37;   /* panneaux */
+  --panneau-2: #2a3644;   /* survol */
+  --bordure:   #374659;
+  --texte:     #e6ecf2;   /* texte principal */
+  --discret:   #9fadbd;   /* texte secondaire */
+  --bleu:      #5aa9ff;   /* accent : liens, liaisons réseau */
+  --vert:      #46c35a;   /* état « opérationnel » */
+  --ambre:     #e0ae3a;   /* état « en cours » */
+  --violet:    #b39cfb;   /* infos */
   --rappel:    #fb923c;   /* TODO visibles en local */
+
+  --lien-survol: #9ccbff;
+  --btn-texte:   #06121f;
+  --btn-survol:  #8ac0ff;
+  --tag-texte:   #c4cfdb;
+  --entete-fond: rgba(24, 32, 41, 0.9);
+  --pied-fond:   #131a22;
+  --cable:       #42566e;
+  --noeud-survol:#33435a;
+  --core-fond:   #1d3552;
+  --grille:      rgba(90, 169, 255, 0.04);
 
   --mono: ui-monospace, "Cascadia Code", "JetBrains Mono", Consolas, "Liberation Mono", monospace;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, sans-serif;
@@ -26,6 +38,34 @@
   --largeur: 1140px;
 }
 
+
+/* Mode jour : activé par le bouton de l'en-tête */
+:root[data-theme="light"] {
+  --fond:      #f4f6f9;
+  --panneau:   #ffffff;
+  --panneau-2: #e9eef4;
+  --bordure:   #d3dbe5;
+  --texte:     #18202a;
+  --discret:   #556273;
+  --bleu:      #1866c9;
+  --vert:      #1f8a33;
+  --ambre:     #a96e00;
+  --violet:    #6d4fd6;
+
+  --lien-survol: #0f4c99;
+  --btn-texte:   #ffffff;
+  --btn-survol:  #0f4c99;
+  --tag-texte:   #334155;
+  --entete-fond: rgba(244, 246, 249, 0.92);
+  --pied-fond:   #e8edf3;
+  --cable:       #b4c2d3;
+  --noeud-survol:#dde8f6;
+  --core-fond:   #e3eefc;
+  --grille:      rgba(24, 102, 201, 0.05);
+}
+:root { color-scheme: dark; }
+:root[data-theme="light"] { color-scheme: light; }
+
 /* 02. BASE ---------------------------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -33,8 +73,8 @@ body {
   margin: 0;
   background-color: var(--fond);
   background-image:
-    linear-gradient(rgba(78, 161, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(78, 161, 255, 0.035) 1px, transparent 1px);
+    linear-gradient(var(--grille) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grille) 1px, transparent 1px);
   background-size: 40px 40px;
   color: var(--texte);
   font-family: var(--sans);
@@ -43,7 +83,7 @@ body {
 }
 img { max-width: 100%; height: auto; }
 a { color: var(--bleu); text-underline-offset: 3px; }
-a:hover { color: #8cc2ff; }
+a:hover { color: var(--lien-survol); }
 :focus-visible { outline: 2px solid var(--bleu); outline-offset: 3px; border-radius: 4px; }
 h1, h2, h3 { line-height: 1.25; margin: 0 0 .5em; font-weight: 700; letter-spacing: -0.01em; }
 p { margin: 0 0 1em; }
@@ -63,7 +103,7 @@ p { margin: 0 0 1em; }
 /* 03. EN-TÊTE ------------------------------------------------------------- */
 .entete {
   position: sticky; top: 0; z-index: 5;
-  background: rgba(13, 17, 23, 0.9);
+  background: var(--entete-fond);
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--bordure);
 }
@@ -96,6 +136,20 @@ p { margin: 0 0 1em; }
 }
 .burger-barres::before { position: absolute; top: -6px; }
 .burger-barres::after { position: absolute; top: 6px; }
+
+
+.theme-btn {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 40px; height: 40px; border: 1px solid var(--bordure); border-radius: 6px;
+  background: var(--panneau); color: var(--texte); cursor: pointer;
+}
+.theme-btn:hover { border-color: var(--bleu); color: var(--bleu); }
+.theme-btn:focus-visible { outline: 2px solid var(--bleu); outline-offset: 2px; }
+.theme-btn svg { width: 18px; height: 18px; }
+.theme-btn .ico-soleil { display: block; }
+.theme-btn .ico-lune { display: none; }
+:root[data-theme="light"] .theme-btn .ico-soleil { display: none; }
+:root[data-theme="light"] .theme-btn .ico-lune { display: block; }
 
 /* 04. ÉLÉMENTS COMMUNS ---------------------------------------------------- */
 .titre-page { margin-bottom: 28px; }
@@ -134,8 +188,8 @@ p { margin: 0 0 1em; }
   background: var(--panneau-2); transition: border-color .15s, background .15s;
 }
 .btn:hover { border-color: var(--bleu); color: var(--texte); }
-.btn-plein { background: var(--bleu); border-color: var(--bleu); color: #06121f; }
-.btn-plein:hover { background: #79b8ff; border-color: #79b8ff; color: #06121f; }
+.btn-plein { background: var(--bleu); border-color: var(--bleu); color: var(--btn-texte); }
+.btn-plein:hover { background: var(--btn-survol); border-color: var(--btn-survol); color: var(--btn-texte); }
 
 /* États (voyants) */
 .etat {
@@ -156,7 +210,7 @@ p { margin: 0 0 1em; }
 
 .tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 12px 0 0; padding: 0; }
 .tags li {
-  font-family: var(--mono); font-size: .76rem; color: #b9c4d1;
+  font-family: var(--mono); font-size: .76rem; color: var(--tag-texte);
   background: var(--fond); border: 1px solid var(--bordure); border-radius: 4px; padding: 2px 8px;
 }
 
@@ -196,18 +250,18 @@ p { margin: 0 0 1em; }
 
 /* Topologie réseau */
 .topo { display: block; width: 100%; height: auto; }
-.cable { stroke: #2f4157; stroke-width: 2.5; }
+.cable { stroke: var(--cable); stroke-width: 2.5; }
 .paquet { stroke: var(--bleu); stroke-width: 2.5; stroke-dasharray: 6 240; stroke-linecap: round; animation: paquet 3.2s linear infinite; }
 @keyframes paquet { from { stroke-dashoffset: 246; } to { stroke-dashoffset: 0; } }
 .iface { font-family: var(--mono); font-size: 11px; fill: var(--discret); }
 .noeud rect { fill: var(--panneau-2); stroke: var(--bordure); stroke-width: 1.5; transition: stroke .15s, fill .15s; }
-.noeud:hover rect, .noeud:focus-visible rect { stroke: var(--bleu); fill: #1f2a3a; }
+.noeud:hover rect, .noeud:focus-visible rect { stroke: var(--bleu); fill: var(--noeud-survol); }
 .noeud:focus-visible { outline: none; }
 .noeud-type { font-family: var(--mono); font-size: 10.5px; fill: var(--discret); letter-spacing: .04em; }
 .noeud-nom { font-family: var(--sans); font-size: 15px; font-weight: 700; fill: var(--texte); }
 .noeud-sous { font-family: var(--mono); font-size: 11px; fill: var(--discret); }
 .noeud-led { fill: var(--vert); }
-.n-core rect { stroke: var(--bleu); stroke-width: 2; fill: #13253a; }
+.n-core rect { stroke: var(--bleu); stroke-width: 2; fill: var(--core-fond); }
 .n-core .noeud-nom { font-size: 17px; }
 .n-real .noeud-led { fill: var(--vert); }
 .n-comp .noeud-led { fill: var(--ambre); }
@@ -356,7 +410,7 @@ p { margin: 0 0 1em; }
 .apropos-perso { margin-top: 36px; }
 
 /* 11. PIED DE PAGE -------------------------------------------------------- */
-.pied { border-top: 1px solid var(--bordure); padding: 30px 0 22px; background: #0a0d12; }
+.pied { border-top: 1px solid var(--bordure); padding: 30px 0 22px; background: var(--pied-fond); }
 .pied-grille { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; }
 .pied-nom { font-weight: 700; margin-bottom: .3em; }
 .pied-plan { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 4px 16px; max-width: 460px; }

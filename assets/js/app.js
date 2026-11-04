@@ -9,6 +9,17 @@
 (function () {
   "use strict";
 
+  /* Thème jour / nuit : appliqué tout de suite pour éviter un flash */
+  var THEME_CLE = "theme";
+  function themeLu() { try { return localStorage.getItem(THEME_CLE); } catch (e) { return null; } }
+  function appliquerTheme(t) {
+    if (t === "light") document.documentElement.setAttribute("data-theme", "light");
+    else document.documentElement.removeAttribute("data-theme");
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", t === "light" ? "#f4f6f9" : "#182029");
+  }
+  appliquerTheme(themeLu());
+
   var page = document.body.getAttribute("data-page") || "accueil";
   var app = document.getElementById("app");
   var ID = IDENTITE;
@@ -98,6 +109,10 @@
       '<button class="burger" aria-expanded="false" aria-controls="menu">' +
       '<span class="sr">Menu</span><span class="burger-barres" aria-hidden="true"></span></button>' +
       '<nav aria-label="Navigation principale"><ul id="menu" class="menu">' + liens + "</ul></nav>" +
+      '<button class="theme-btn" type="button" aria-label="Passer en mode jour" title="Mode jour / nuit">' +
+      '<svg class="ico-soleil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>' +
+      '<svg class="ico-lune" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>' +
+      "</button>" +
       "</div></header>";
   }
 
@@ -564,6 +579,22 @@
     contenu + "</main>" + piedDePage();
 
   if (page === "contact") brancherContact();
+
+  /* ---------- Bouton mode jour / nuit ---------- */
+
+  var themeBtn = document.querySelector(".theme-btn");
+  function majBoutonTheme() {
+    var jour = document.documentElement.getAttribute("data-theme") === "light";
+    themeBtn.setAttribute("aria-label", jour ? "Passer en mode sombre" : "Passer en mode jour");
+  }
+  majBoutonTheme();
+  themeBtn.addEventListener("click", function () {
+    var jour = document.documentElement.getAttribute("data-theme") === "light";
+    var nouveau = jour ? "dark" : "light";
+    appliquerTheme(nouveau);
+    try { localStorage.setItem(THEME_CLE, nouveau); } catch (e) {}
+    majBoutonTheme();
+  });
 
   /* ---------- Menu burger (téléphone) ---------- */
 
