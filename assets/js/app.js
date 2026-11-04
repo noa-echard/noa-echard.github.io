@@ -234,9 +234,10 @@
     var recit = liste(A_PROPOS.recit).map(function (para) { return "<p>" + txt(para) + "</p>"; }).join("");
     return titrePage(info, "cat a-propos.md") +
       (recit ? '<div class="apropos-recit">' + recit + "</div>" : "") +
-      '<h2 class="h-section apropos-perso">En dehors des cours</h2>' +
-      (txt(A_PROPOS.intro) ? '<p class="apropos-intro">' + txt(A_PROPOS.intro) + "</p>" : "") +
-      '<div class="grille-apropos">' + blocs + "</div>" +
+      ((blocs || txt(A_PROPOS.intro)) ?
+        '<h2 class="h-section apropos-perso">En dehors des cours</h2>' +
+        (txt(A_PROPOS.intro) ? '<p class="apropos-intro">' + txt(A_PROPOS.intro) + "</p>" : "") +
+        '<div class="grille-apropos">' + blocs + "</div>" : "") +
       '<div class="boutons">' +
       '<a class="btn btn-plein" href="realisations.html">Mes réalisations</a>' +
       '<a class="btn" href="competences.html">Mes compétences</a>' +

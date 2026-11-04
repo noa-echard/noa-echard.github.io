@@ -75,7 +75,7 @@ const IDENTITE = {
 const PAGES = [
   { cle: "a-propos",      fichier: "a-propos.html",      menu: "À propos",
     titre: "À propos", chapo: "",
-    resume: "Mon parcours et ce que je fais en dehors des cours." },
+    resume: "Mon parcours et ce sur quoi je travaille cette année." },
 
   { cle: "competences",   fichier: "competences.html",   menu: "Compétences",
     titre: "Compétences",
@@ -134,30 +134,12 @@ const A_PROPOS = {
     "En première année, j'ai appris à monter une infrastructure de A à Z en machines virtuelles : serveur web Apache, DNS Bind9, DHCP, helpdesk GLPI, puis un domaine Active Directory complet avec ses stratégies de groupe. J'ai aussi câblé du vrai matériel autour d'un switch Cisco SG 300-10.",
     "Au printemps 2026, j'ai passé six semaines au service informatique de la mairie de Morne-à-l'Eau. Là, ce n'était plus une maquette : j'ai installé un bastion d'accès distant et déployé la sauvegarde sur tout le parc, sur une infrastructure dont les agents dépendent tous les jours.",
     "Cette année, je travaille sur la sécurité et la disponibilité des serveurs : durcissement SSH, cluster Heartbeat, puis répartition de charge avec HAProxy.",
-    "Mon TP préféré pour l'instant, c'est celui sur Heartbeat : j'ai coupé un serveur exprès et le site a continué à marcher."
+    "Le TP sur Heartbeat m'a particulièrement marqué : en arrêtant volontairement le serveur principal, j'ai pu vérifier que le service web restait disponible grâce à la bascule automatique sur le serveur secondaire."
   ],
 
-  // Une phrase pour introduire la partie perso, sous le titre « En dehors des cours ».
-  intro: "Je suis surtout fan de jeux vidéo, au point de créer les miens.",
-
-  // Les blocs affichés en dessous. Chaque bloc : un titre, une phrase courte, des mots-clés.
-  blocs: [
-    {
-      titre: "Fan de jeux vidéo",
-      texte: "Je joue beaucoup, avec un gros faible pour les jeux de rôle : j'aime construire un personnage et optimiser son build. Je joue aussi à des jeux de survie et de tir, souvent en duo.",
-      tags: ["Jeux de rôle", "Elden Ring", "Wakfu", "Subnautica", "Valorant", "Roblox"]
-    },
-    {
-      titre: "Zun Tycoon",
-      texte: "Mon premier jeu sur Roblox, un tycoon publié avec mon groupe Studios DreamForge. Je l'ai construit de A à Z, sans utiliser de modèles gratuits, et il a déjà sa petite communauté de joueurs.",
-      tags: ["Roblox Studio", "Luau", "Blender", "Publié"]
-    },
-    {
-      titre: "Super Speed Go",
-      texte: "Mon prochain jeu, en cours de développement : un jeu de course de karts fortement inspiré de Mario Kart.",
-      tags: ["Roblox Studio", "Course de karts", "En développement"]
-    }
-  ]
+  // Partie « En dehors des cours » : laissée vide, elle n'est pas affichée.
+  intro: "",
+  blocs: []
 };
 
 
