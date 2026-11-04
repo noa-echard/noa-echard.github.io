@@ -133,7 +133,7 @@ const A_PROPOS = {
     "Je suis en deuxième année de BTS SIO option SISR au lycée Baimbridge, aux Abymes, après un Bac Pro Systèmes numériques option RISC.",
     "En première année, j'ai appris à monter une infrastructure de A à Z en machines virtuelles : serveur web Apache, DNS Bind9, DHCP, helpdesk GLPI, puis un domaine Active Directory complet avec ses stratégies de groupe. J'ai aussi câblé du vrai matériel autour d'un switch Cisco SG 300-10.",
     "Au printemps 2026, j'ai passé six semaines au service informatique de la mairie de Morne-à-l'Eau. Là, ce n'était plus une maquette : j'ai installé un bastion d'accès distant et déployé la sauvegarde sur tout le parc, sur une infrastructure dont les agents dépendent tous les jours.",
-    "Cette année, je travaille sur la sécurité et la disponibilité des serveurs : durcissement SSH, cluster Heartbeat, puis répartition de charge avec HAProxy.",
+    "Cette année, je travaille sur la sécurité et la disponibilité des serveurs : haute disponibilité avec un cluster Heartbeat, répartition de charge avec HAProxy, et sécurisation de l'accès Internet avec un serveur proxy.",
     "Le TP sur Heartbeat m'a particulièrement marqué : en arrêtant volontairement le serveur principal, j'ai pu vérifier que le service web restait disponible grâce à la bascule automatique sur le serveur secondaire."
   ],
 
@@ -208,7 +208,6 @@ const COMPETENCES = [
       { nom: "Sauvegarde Bareos", ou: "Stage : script de déploiement de l'agent sur les postes" },
       { nom: "Cloisonnement par groupes et droits de partage", ou: "TP n°1 Bloc 2 : chaque service ne voit que son lecteur" },
       { nom: "Double authentification (TOTP)", ou: "Stage : connexion au bastion Guacamole avec un code à usage unique" },
-      { nom: "Durcissement SSH (recommandations ANSSI)", ou: "TP de cybersécurité BTS SIO 2 : 10 directives OpenSSH, test face à une machine Kali Linux" },
       { nom: "Restrictions du poste utilisateur", ou: "1re année, TP n°2 Bloc 1 : empêcher les manipulations dangereuses pour le parc" }
     ]
   },
@@ -343,33 +342,6 @@ const REALISATIONS = [
     ]
     // Quand tu as exporté ta doc en PDF, dépose-la dans assets/docs/ et ajoute :
     // , document: { fichier: "assets/docs/doc-tp1-mairie-abymes.pdf", pages: 28, poids: "2 Mo" }
-  },
-
-  {
-    id: "durcissement-ssh",
-    court: "Durcissement SSH",
-    titre: "Attaque de l'homme du milieu et durcissement SSH",
-    sousTitre: "TP de cybersécurité, BTS SIO 2e année",
-    periode: "Septembre 2026",
-    statut: "termine",
-    cadre: "tp",
-    tags: ["OpenSSH", "ANSSI", "Kali Linux", "Cybersécurité"],
-
-    contexte: "Maquette de quatre machines virtuelles : un serveur SSH, un client, un routeur OpenBSD et une machine d'attaque sous Kali Linux, sur le même réseau.",
-    probleme: "Une configuration SSH par défaut laisse des portes ouvertes : connexion directe en root, tentatives de mot de passe illimitées, algorithmes de chiffrement anciens.",
-    solution: "J'ai vérifié les droits de la clé privée du serveur (600, propriétaire root), puis j'ai ajouté dix directives recommandées par l'ANSSI dans la configuration d'OpenSSH : changement de port, interdiction de la connexion root et des mots de passe vides, trois tentatives maximum, liste d'utilisateurs autorisés, affichage de la dernière connexion, et restriction des algorithmes d'échange de clés, de chiffrement et d'intégrité. J'ai validé le résultat depuis le client et depuis la machine d'attaque.",
-    outils: ["OpenSSH", "Debian", "Kali Linux", "OpenBSD", "VirtualBox"],
-    resultats: [
-      "10 recommandations de l'ANSSI appliquées et vérifiées une par une.",
-      "Les connexions non autorisées sont refusées depuis la machine d'attaque, alors que l'utilisateur légitime se connecte normalement.",
-      "Un rapport technique de 6 pages avec 7 captures commentées et un tableau de conformité."
-    ],
-    appris: "Avant de redémarrer le service, j'ai testé la configuration avec la commande sshd -t. Elle a détecté une ligne coupée lors d'un copier-coller : sans ce test, le service ne serait pas reparti et j'aurais perdu l'accès au serveur. Depuis, je teste toujours une configuration avant de l'appliquer.",
-    referentiel: [
-      "Sécuriser les accès à un serveur",
-      "Appliquer les recommandations de l'ANSSI",
-      "Tester et documenter une configuration de sécurité"
-    ]
   },
 
   {
