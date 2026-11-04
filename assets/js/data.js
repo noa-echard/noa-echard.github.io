@@ -313,6 +313,35 @@ const REALISATIONS = [
   },
 
   {
+    id: "web-dns-saint-eloi",
+    court: "Apache et Bind9",
+    titre: "Hébergement web et service DNS pour Les Jardins de Saint-Éloi",
+    sousTitre: "TP n°6 et n°7 du Bloc 1, 1re année",
+    periode: "Février à avril 2026",
+    statut: "termine",
+    cadre: "tp",
+    tags: ["Debian 12", "Apache2", "Bind9", "DNS", "Hôte virtuel"],
+
+    contexte: "Les Jardins de Saint-Éloi vendent des fleurs exotiques et des produits locaux en Guadeloupe. La gérante, Mme Bourgeois, veut développer son activité avec un site de vente en ligne, et l'ESN IPEOS I Solutions est chargée de mettre en place l'infrastructure qui l'hébergera.",
+    probleme: "Il fallait un serveur capable d'héberger le site de l'entreprise, puis un service DNS pour que les postes y accèdent par un nom de domaine, jardinsainteloi.com, plutôt que par une adresse IP.",
+    solution: "Sur un serveur Debian 12 sans interface graphique, srvlinux (192.168.10.4), avec une carte sur le réseau interne en adresse fixe et une seconde pour l'accès Internet, j'ai installé Apache2 et créé un hôte virtuel dédié au site, servi sur le port 8080. Dans le TP suivant, j'ai installé Bind9 sur le même serveur et créé deux zones : une zone directe, avec les enregistrements A de srvlinux et de www et un alias CNAME www2, et une zone inverse en 10.168.192.in-addr.arpa avec les enregistrements PTR. J'ai vérifié la syntaxe avec named-checkzone et named-checkconf avant de démarrer le service, puis configuré le poste Windows pour qu'il utilise ce serveur DNS.",
+    outils: ["Debian 12", "Apache2", "Bind9", "VirtualBox", "Windows (poste client)", "nslookup, dig, host"],
+    resultats: [
+      "Le site s'affiche depuis le poste Windows à l'adresse www.jardinsainteloi.com, et aussi par l'alias www2.",
+      "La résolution directe renvoie 192.168.10.4 pour www et www2, et la résolution inverse renvoie le nom www.jardinsainteloi.com pour cette adresse.",
+      "Les tests sont validés côté serveur avec host, nslookup et dig, et côté client avec nslookup et le navigateur.",
+      "Deux comptes rendus rédigés, avec page de garde, sommaire et sitographie."
+    ],
+    appris: "Dans un fichier de zone, un nom complet doit se terminer par un point : sans lui, Bind9 ajoute le nom de la zone à la fin et l'enregistrement devient faux. J'ai aussi appris à toujours vérifier la configuration avec les outils de contrôle avant de redémarrer un service, et que le fichier /etc/resolv.conf est réécrit au redémarrage du réseau : je l'ai protégé avec l'attribut immuable.",
+    referentiel: [
+      "Installer et configurer un serveur sous Linux",
+      "Mettre à disposition un service web",
+      "Déployer un service de résolution de noms",
+      "Tester et documenter un service"
+    ]
+  },
+
+  {
     id: "mairie-abymes",
     court: "Active Directory",
     titre: "Infrastructure Active Directory pour la mairie des Abymes",
