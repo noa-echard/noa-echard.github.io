@@ -749,6 +749,62 @@
     if (REDUIT) dessin(); else requestAnimationFrame(boucle);
   }
 
+  /* ---------- Fond animé : des paquets circulent sur la grille ---------- */
+  (function () {
+    if (REDUIT) return;
+    var c = document.createElement("canvas");
+    c.className = "fond-anime"; c.setAttribute("aria-hidden", "true");
+    document.body.insertBefore(c, document.body.firstChild);
+    var x = c.getContext("2d"), PAS = 40, W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2), pts = [], actif = true, t0 = 0;
+    function taille() {
+      W = window.innerWidth; H = window.innerHeight;
+      c.width = W * dpr; c.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var n = Math.round(Math.min(46, Math.max(14, W * H / 30000)));
+      while (pts.length < n) pts.push(nouveau(true));
+      pts.length = n;
+    }
+    function nouveau(partout) {
+      var sy = window.scrollY;
+      var hor = Math.random() < .5, sens = Math.random() < .5 ? 1 : -1;
+      var gx = Math.round(Math.random() * W / PAS) * PAS, gy = Math.round((sy + Math.random() * H) / PAS) * PAS;
+      return { x: gx, y: gy, dx: hor ? sens : 0, dy: hor ? 0 : sens, v: 26 + Math.random() * 38,
+        vie: 0, duree: 4 + Math.random() * 6, parcouru: 0 };
+    }
+    function couleur() { return getComputedStyle(document.documentElement).getPropertyValue("--bleu").trim() || "#5aa9ff"; }
+    var coul = couleur();
+    new MutationObserver(function () { coul = couleur(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    function image(t) {
+      var dt = Math.min((t - (t0 || t)) / 1000, .05); t0 = t;
+      if (actif) {
+        var sy = window.scrollY;
+        x.clearRect(0, 0, W, H);
+        for (var i = 0; i < pts.length; i++) {
+          var p = pts[i], d = p.v * dt;
+          p.x += p.dx * d; p.y += p.dy * d; p.parcouru += d; p.vie += dt;
+          if (p.parcouru >= PAS) {
+            p.parcouru -= PAS;
+            p.x = Math.round(p.x / PAS) * PAS; p.y = Math.round(p.y / PAS) * PAS;
+            if (Math.random() < .3) { var h = p.dx !== 0; var s2 = Math.random() < .5 ? 1 : -1; p.dx = h ? 0 : s2; p.dy = h ? s2 : 0; }
+          }
+          var vy = p.y - sy;
+          if (p.vie > p.duree || p.x < -PAS || p.x > W + PAS || vy < -PAS || vy > H + PAS) { pts[i] = nouveau(); continue; }
+          var a = Math.min(1, p.vie / .8, (p.duree - p.vie) / .8) * .75;
+          var queue = 26;
+          var g = x.createLinearGradient(p.x - p.dx * queue, vy - p.dy * queue, p.x, vy);
+          g.addColorStop(0, "transparent"); g.addColorStop(1, coul);
+          x.globalAlpha = a; x.strokeStyle = g; x.lineWidth = 1.5;
+          x.beginPath(); x.moveTo(p.x - p.dx * queue, vy - p.dy * queue); x.lineTo(p.x, vy); x.stroke();
+          x.fillStyle = coul; x.beginPath(); x.arc(p.x, vy, 2.1, 0, 6.283); x.fill();
+        }
+        x.globalAlpha = 1;
+      }
+      requestAnimationFrame(image);
+    }
+    document.addEventListener("visibilitychange", function () { actif = !document.hidden; t0 = 0; });
+    window.addEventListener("resize", taille);
+    taille(); requestAnimationFrame(image);
+  })();
+
   /* ---------- Ancre au chargement (après rendu dynamique) ---------- */
   if (location.hash) {
     var cible = document.getElementById(location.hash.slice(1));
