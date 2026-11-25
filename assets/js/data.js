@@ -542,6 +542,59 @@ const REALISATIONS = [
   },
 
   {
+    id: "truenas-abymes",
+    court: "TrueNAS et RAID",
+    titre: "Sauvegarde, restauration et RAID avec TrueNAS",
+    sousTitre: "TP n°2 du Bloc 3, pour la mairie des Abymes",
+    periode: "Novembre 2026",
+    statut: "en-cours",
+    cadre: "tp",
+    enBref: "Un serveur de stockage TrueNAS en RAID qui récupère chaque nuit les données du contrôleur de domaine, pour pouvoir les restaurer en cas de perte.",
+    equipe: "Seul",
+    role: "Installation, configuration et tests",
+    domaine: "dispo",
+    chiffres: [
+      { val: "2", lib: "niveaux de RAID testés : 1 et 5" },
+      { val: "1", lib: "sauvegarde automatique planifiée par cron" },
+      { val: "2", lib: "serveurs : SRVNAS et srvad" }
+    ],
+    etapes: [
+      { titre: "Serveur de stockage", texte: "Installation de SRVNAS sous TrueNAS Core, avec plusieurs disques virtuels dédiés aux données." },
+      { titre: "Dispositifs RAID", texte: "Création d'un volume en RAID 1 (miroir) puis en RAID 5 (parité), pour comparer la capacité utile et la tolérance aux pannes." },
+      { titre: "Sauvegarde depuis srvad", texte: "Sur le contrôleur de domaine de la mairie, Cygwin apporte rsync et cron pour copier les données vers SRVNAS." },
+      { titre: "Planification", texte: "Une tâche cron lance la sauvegarde automatiquement, sans intervention." },
+      { titre: "Restauration", texte: "Récupération des données depuis SRVNAS pour vérifier que la sauvegarde est réellement exploitable." }
+    ],
+    ameliorations: "",
+    schema: {
+      zones: [ { label: "Réseau mairie 192.168.30.0/24", x: 20, y: 20, w: 860, h: 340 } ],
+      noeuds: [
+        { id: "ad", x: 180, y: 190, type: "WS 2025", nom: "srvad", sous: "Cygwin · rsync · cron" },
+        { id: "nas", x: 520, y: 190, type: "TRUENAS", nom: "SRVNAS", sous: "volumes RAID", actif: true },
+        { id: "r1", x: 780, y: 100, type: "RAID 1", nom: "Miroir", sous: "2 disques" },
+        { id: "r5", x: 780, y: 280, type: "RAID 5", nom: "Parité", sous: "3 disques ou plus" }
+      ],
+      liens: [ ["ad","nas","rsync planifié"], ["nas","r1",""], ["nas","r5",""] ]
+    },
+    captures: [],
+    tags: ["TrueNAS Core", "RAID 1", "RAID 5", "rsync", "cron"],
+
+    contexte: "Suite du TP Active Directory de la mairie des Abymes : les documents des services sont centralisés sur le contrôleur de domaine srvad. S'il tombe en panne ou si un fichier est supprimé, les données sont perdues.",
+    probleme: "La mairie a besoin d'un stockage qui résiste à la panne d'un disque, et d'une sauvegarde automatique des données du serveur qu'on puisse restaurer.",
+    solution: "Un serveur de stockage SRVNAS sous TrueNAS Core, avec des volumes en RAID 1 puis en RAID 5. Sur srvad, Cygwin fournit les outils rsync et cron : rsync copie les données vers SRVNAS, et cron planifie cette copie. Une restauration est ensuite testée pour valider la sauvegarde.",
+    outils: ["TrueNAS Core", "Windows Server 2025", "Cygwin", "rsync", "cron", "VMware Workstation"],
+    resultats: [
+      "TODO: les résultats de tes tests (panne d'un disque en RAID, sauvegarde planifiée, restauration réussie) quand le TP sera terminé."
+    ],
+    appris: "TODO: ce que tu retiens de ce TP, une fois terminé.",
+    referentiel: [
+      "Assurer la disponibilité et l'intégrité des données",
+      "Mettre en place une solution de sauvegarde et de restauration",
+      "Comparer et configurer des niveaux de RAID"
+    ]
+  },
+
+  {
     id: "cluster-saint-eloi",
     court: "Cluster Heartbeat",
     titre: "Serveur web haute disponibilité avec Heartbeat",
@@ -718,55 +771,63 @@ const REALISATIONS = [
   {
     id: "projet-proxy",
     court: "Projet Proxy",
-    titre: "Serveur proxy et sécurisation de l'accès Internet",
-    sousTitre: "AP3, projet en équipe pour Caribbean Project",
+    titre: "DMZ, pare-feu et serveur proxy pour Caribbean Project",
+    sousTitre: "AP3, projet en binôme, BTS SIO 2",
     periode: "Novembre 2026",
     statut: "en-cours",
     cadre: "projet",
-    enBref: "Une DMZ pour les services exposés et un proxy qui filtre, authentifie et journalise la navigation des salariés.",
+    enBref: "Un pare-feu pfSense qui protège le réseau de l'entreprise, une DMZ pour le site web et le FTP, et un proxy qui filtre la navigation des salariés.",
     equipe: "En binôme",
-    role: "Ma partie : la DMZ et l'accès à Internet",
+    role: "Ma partie : le routeur R2, la DMZ et l'accès à Internet",
     domaine: "securite",
     chiffres: [
-      { val: "3", lib: "zones : réseau privé, DMZ, Internet" },
-      { val: "3 mois", lib: "d'historique de navigation à conserver" },
-      { val: "25", lib: "salariés concernés" }
+      { val: "8/8", lib: "tests de ma partie validés (U1 à U8)" },
+      { val: "3", lib: "interfaces sur R2 : WAN, liaison, DMZ" },
+      { val: "2", lib: "services exposés : web et FTP" }
     ],
     etapes: [
-      { titre: "Analyse du cahier des charges", texte: "Besoins de Caribbean Project : DMZ, routeur/pare-feu, filtrage des sites non professionnels, authentification et historique de navigation." },
-      { titre: "Répartition en binôme", texte: "Mon binôme s'occupe du réseau local (contrôleur de domaine, DHCP, poste client et proxy) ; je prends la partie DMZ et accès Internet." },
-      { titre: "Routeur/pare-feu côté Internet", texte: "Un pfSense pour la sortie Internet, la liaison avec le routeur du réseau local et la DMZ." },
-      { titre: "Serveur en DMZ", texte: "Un serveur Linux qui regroupe les services exposés, web et FTP, pour limiter le nombre de machines." },
-      { titre: "Tests et présentation", texte: "Vérification du filtrage et de l'authentification, puis présentation de la solution. En cours." }
+      { titre: "Répartition en binôme", texte: "Chacun monte sa partie sur son ordinateur portable, et les deux sont reliés par un vrai switch, SW1. Mon binôme a le réseau local (pfSense R1, Active Directory, DNS, DHCP, poste client et proxy) ; j'ai la zone Internet et la DMZ." },
+      { titre: "Serveur de la DMZ", texte: "SRVDMZ sous Debian 13 : Apache2 pour le site de l'entreprise sur 192.168.30.2, et vsftpd pour le FTP sur 192.168.30.5, avec chaque utilisateur enfermé dans son dossier (chroot) et une plage de ports passifs." },
+      { titre: "Routeur pare-feu R2", texte: "pfSense 2.9.1 avec trois interfaces : WAN vers Internet, LIAISON en 10.0.0.2/8 vers le routeur de mon binôme, et DMZ en 192.168.30.254/24." },
+      { titre: "Redirections et NAT", texte: "Le port 80 du WAN est redirigé vers le serveur web, les ports 21 et 40000 à 40100 vers le FTP. NAT sortant et route statique vers le réseau local 172.16.0.0/16." },
+      { titre: "Règles de pare-feu", texte: "La DMZ peut sortir sur Internet mais ne peut pas atteindre le réseau local : si un serveur exposé est compromis, l'attaquant reste bloqué dans la DMZ." },
+      { titre: "Tests", texte: "Huit tests de recette : connectivité, site web et FTP depuis l'extérieur, et blocage de la DMZ vers le réseau local. Tous validés." }
     ],
-    ameliorations: "",
+    ameliorations: "Mettre chaque service exposé sur sa propre machine en production : sur le prototype, le web et le FTP partagent SRVDMZ pour limiter le nombre de machines virtuelles.",
     schema: {
-      zones: [ { label: "Réseau privé (binôme)", x: 20, y: 20, w: 280, h: 340 }, { label: "DMZ (ma partie)", x: 600, y: 210, w: 280, h: 150 } ],
+      zones: [ { label: "Réseau local 172.16.0.0/16 (binôme)", x: 14, y: 20, w: 240, h: 340 }, { label: "DMZ 192.168.30.0/24", x: 646, y: 200, w: 240, h: 160 } ],
       noeuds: [
-        { id: "lan", x: 160, y: 110, type: "AD · DNS · DHCP", nom: "Serveur LAN", sous: "binôme" },
-        { id: "prx", x: 160, y: 280, type: "PROXY", nom: "Proxy filtrant", sous: "authentification" },
-        { id: "fw", x: 450, y: 190, type: "PFSENSE", nom: "Routeur/pare-feu", sous: "privé · DMZ · Internet", actif: true },
-        { id: "dmz", x: 740, y: 290, type: "DEBIAN", nom: "Serveur DMZ", sous: "Web + FTP" },
-        { id: "net", x: 740, y: 90, type: "WAN", nom: "Internet", sous: "" }
+        { id: "ad", x: 134, y: 110, type: "AD · DNS · DHCP", nom: "SRVAD", sous: "réseau local" },
+        { id: "prx", x: 134, y: 280, type: "PROXY", nom: "Proxy filtrant", sous: "172.16.0.5" },
+        { id: "r1", x: 340, y: 190, type: "PFSENSE", nom: "R1", sous: "10.0.0.1" },
+        { id: "r2", x: 560, y: 190, type: "PFSENSE", nom: "R2", sous: "10.0.0.2 · .30.254", actif: true },
+        { id: "dmz", x: 766, y: 290, type: "DEBIAN 13", nom: "SRVDMZ", sous: "web .2 · FTP .5" },
+        { id: "net", x: 766, y: 90, type: "WAN", nom: "Internet", sous: "NAT" }
       ],
-      liens: [ ["lan","fw",""], ["prx","fw","navigation filtrée"], ["fw","dmz",""], ["fw","net",""] ]
+      liens: [ ["ad","r1",""], ["prx","r1",""], ["r1","r2","SW1 · 10.0.0.0/8"], ["r2","dmz","80 · 21"], ["r2","net",""] ]
     },
     captures: [],
-    tags: ["Serveur proxy", "DMZ", "pfSense", "Filtrage web", "Authentification"],
+    tags: ["pfSense", "DMZ", "Apache2", "vsftpd", "Serveur proxy"],
 
-    contexte: "Caribbean Project est une start-up parisienne de 25 salariés spécialisée dans le commerce international. Elle veut étendre son système d'information : ses services n'ont pas encore de réseau commun, et ses commerciaux, qui se déplacent dans toute la France, doivent accéder à distance et de façon sécurisée aux applications de l'entreprise.",
-    probleme: "L'entreprise veut une DMZ pour ses services exposés (web, messagerie, fichiers, applications métiers), un routeur/pare-feu au cœur du réseau, et un contrôle de la navigation des salariés : bloquer les sites non professionnels (streaming, réservation de voyages), authentifier chaque utilisateur par identifiant et mot de passe, et conserver l'historique des sites visités pendant au moins trois mois, le tout de façon transparente pour les salariés.",
-    solution: "Avec mon équipe, nous réalisons d'abord un prototype de l'infrastructure : un réseau privé en 172.16.0.0/16 avec les serveurs DNS/contrôleur de domaine, DHCP, base de données et sauvegarde, une DMZ en 172.17.1.0/24 pour les serveurs web, messagerie, applications et fichiers, et un routeur/pare-feu à trois interfaces (réseau privé, DMZ, Internet). Nous déployons ensuite un serveur proxy filtrant sur le réseau local, avec authentification des utilisateurs et journalisation des accès, puis nous le testons avant de présenter la solution.",
-    outils: ["Debian 13 Trixie", "Windows Server 2022/2025", "Windows 11", "Routeur/pare-feu", "Commutateurs Cisco", "Virtualisation"],
+    contexte: "Caribbean Project est une start-up parisienne de 25 salariés spécialisée dans le commerce international. Elle veut étendre son système d'information : ses services n'ont pas encore de réseau commun et certains doivent être accessibles depuis Internet.",
+    probleme: "L'entreprise veut une DMZ pour ses services exposés, un routeur pare-feu au cœur du réseau, et un contrôle de la navigation des salariés : bloquer les sites non professionnels, authentifier chaque utilisateur et conserver l'historique des sites visités.",
+    solution: "Le prototype tient sur deux ordinateurs portables reliés par le switch SW1 sur le réseau de liaison 10.0.0.0/8. Côté réseau local, mon binôme a installé le routeur R1, le contrôleur de domaine et le proxy filtrant. De mon côté, R2 (pfSense 2.9.1) relie Internet, le réseau de liaison et la DMZ 192.168.30.0/24. Dans la DMZ, SRVDMZ (Debian 13) héberge le site web avec Apache2 et le serveur FTP vsftpd sur deux adresses distinctes. Les redirections de ports rendent ces deux services accessibles depuis Internet, et les règles du pare-feu empêchent la DMZ d'atteindre le réseau local.",
+    outils: ["pfSense 2.9.1", "Debian 13", "Apache2", "vsftpd", "VMware Workstation", "Switch physique"],
+    resultats: [
+      "Le site de Caribbean Project s'affiche depuis l'extérieur, grâce à la redirection du port 80 vers la DMZ.",
+      "Le serveur FTP est joignable depuis l'extérieur, transferts compris, grâce à la plage de ports passifs redirigée.",
+      "Un serveur de la DMZ ne peut pas joindre le réseau local : le cloisonnement fonctionne.",
+      "Les huit tests de ma partie (U1 à U8) sont validés."
+    ],
+    appris: "Sans la plage de ports passifs, la connexion FTP s'ouvre mais aucun fichier ne passe : il faut rediriger ces ports en plus du port 21. J'ai aussi dû décocher le blocage des réseaux privés sur le WAN de pfSense, car dans la maquette le WAN est lui-même sur un réseau privé.",
     referentiel: [
-      "Analyser les besoins et les contraintes d'un client",
-      "Concevoir et réaliser le prototype d'une infrastructure réseau",
-      "Sécuriser l'accès à Internet et contrôler la navigation",
-      "Travailler en équipe et répartir les tâches",
-      "Tester, documenter et présenter la solution"
+      "Concevoir une architecture réseau segmentée",
+      "Installer et configurer un pare-feu",
+      "Mettre à disposition des services exposés en DMZ",
+      "Travailler en binôme et répartir les tâches",
+      "Tester et documenter la solution"
     ]
   }
-
 ];
 
 
