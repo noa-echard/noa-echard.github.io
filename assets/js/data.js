@@ -976,6 +976,7 @@ const VEILLE = {
     "ANSSI (cyber.gouv.fr) et Cybermalveillance.gouv.fr",
     "Sites spécialisés : Cyberattaque.org, IT-Connect",
     "Presse régionale et communiqués officiels des collectivités",
+    "Dovacre (@dovacre sur TikTok), pour la cybersécurité, le DNS et l'actualité d'Internet",
     "Estherium (@estherium__ sur TikTok), pour l'actualité de l'IA"
   ]
 };
