@@ -219,3 +219,27 @@ recollée à l'affichage : un robot qui lit le code source ne la trouve pas en e
 **Et l'accessibilité ?** HTML sémantique, navigation complète au clavier, lien
 d'évitement, contrastes élevés, animations coupées si le système le demande
 (`prefers-reduced-motion`).
+
+---
+
+## Nouveautés (novembre 2026) : le site version « une page »
+
+- **L'accueil est une seule page** à sections numérotées : 00 Topologie, 01 À propos et compétences, 02 Certifications, 03 Parcours, 04 Projets, 05 Veille, 06 Contact. Les anciennes adresses (a-propos.html, veille.html…) redirigent vers la bonne section.
+- **Le schéma réseau** de l'accueil sert de plan du site : chaque équipement mène à une section.
+- **Chaque projet** a une page complète : schéma de l'infrastructure, chiffres clés, étapes, stack technique et bilan. Tout se règle dans `data.js` (champs `enBref`, `equipe`, `role`, `chiffres`, `etapes`, `schema`, `ameliorations`).
+- **La veille** est un suivi daté, période par période, dans `VEILLE.periodes`.
+
+### Ajouter des captures d'écran à un projet
+
+1. Dépose l'image dans `assets/img/projets/` (par exemple `haproxy-stats.png`).
+2. Dans `data.js`, dans le projet, remplace `captures: [],` par :
+
+```
+captures: [
+  { src: "assets/img/projets/haproxy-stats.png", legende: "Page de statistiques : les deux serveurs sont UP" },
+  { src: "assets/img/projets/haproxy-panne.png", legende: "SRVWEB1 passe DOWN pendant la panne simulée" }
+],
+```
+
+La section « Captures d'écran » apparaît alors toute seule, avec un agrandissement au clic.
+⚠️ Vérifie qu'aucun mot de passe n'est visible sur une capture avant de la publier.

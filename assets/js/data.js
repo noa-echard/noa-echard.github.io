@@ -73,37 +73,12 @@ const IDENTITE = {
    ========================================================================== */
 
 const PAGES = [
-  { cle: "a-propos",      fichier: "a-propos.html",      menu: "À propos",
-    titre: "À propos", chapo: "",
-    resume: "Mon parcours et ce sur quoi je travaille cette année." },
-
-  { cle: "competences",   fichier: "competences.html",   menu: "Compétences",
-    titre: "Compétences",
-    chapo: "Pour chaque compétence, j'indique le TP ou la mission de stage où je l'ai utilisée.",
-    resume: "Ce que je sais faire, et dans quel TP ou quel stage je l'ai appris." },
-
-  { cle: "realisations",  fichier: "realisations.html",  menu: "Réalisations",
-    titre: "Réalisations",
-    chapo: "Les projets, les TP et les missions de stage que j'ai menés, avec pour chacun le contexte, ce que j'ai mis en place et ce que j'en ai retenu.",
-    resume: "Mes projets, mes TP et mes missions de stage, en détail." },
-
-  { cle: "certifications", fichier: "certifications.html", menu: "Certifications",
-    titre: "Certifications",
-    chapo: "Les certifications que j'ai obtenues et celles que je prépare cette année.",
-    resume: "Ce que j'ai obtenu et ce que je prépare." },
-
-  { cle: "parcours",      fichier: "parcours.html",      menu: "Parcours",
-    titre: "Parcours", chapo: "Mes formations et mes stages, du plus récent au plus ancien.",
-    resume: "Mes formations et mes stages." },
-
-  { cle: "veille",        fichier: "veille.html",        menu: "Veille",
-    titre: "Veille technologique",
-    chapo: "Les sujets que je suis cette année et les sources que j'utilise.",
-    resume: "Les sujets que je suis et mes sources." },
-
-  { cle: "contact",       fichier: "contact.html",       menu: "Contact",
-    titre: "Contact", chapo: "Par e-mail ou par le formulaire : deux façons de me joindre.",
-    resume: "Mon e-mail et un formulaire pour m'écrire." }
+  { cle: "about",          menu: "À propos" },
+  { cle: "certifications", menu: "Certifications" },
+  { cle: "parcours",       menu: "Parcours" },
+  { cle: "projets",        menu: "Projets" },
+  { cle: "veille",         menu: "Veille" },
+  { cle: "contact",        menu: "Contact" }
 ];
 
 
@@ -116,10 +91,10 @@ const PAGES = [
    ========================================================================== */
 
 const CHIFFRES = [
-  { depuis: "realisations",   libelle: "réalisations" },
-  { depuis: "competences",    libelle: "compétences" },
-  { valeur: 6,                libelle: "missions en stage" },
-  { depuis: "certifications", libelle: "certifications obtenues" }
+  { depuis: "realisations", libelle: "Réalisations",      desc: "Projets, TP et missions de stage documentés" },
+  { depuis: "competences",  libelle: "Compétences",       desc: "Chacune liée à un TP ou à un stage" },
+  { valeur: "2",            libelle: "Stages en mairie",  desc: "Service informatique de Morne-à-l'Eau" },
+  { valeur: "Bac +2",       libelle: "BTS SIO SISR",      desc: "Lycée Baimbridge, 2025-2027" }
 ];
 
 
@@ -254,6 +229,36 @@ const REALISATIONS = [
     periode: "Mai à juin 2026",
     statut: "termine",
     cadre: "stage",
+    enBref: "Un point d'entrée unique et sécurisé, dans le navigateur, pour administrer à distance les postes et les serveurs de la mairie.",
+    equipe: "En binôme (stage)",
+    role: "Installation et configuration du bastion, double authentification",
+    domaine: "securite",
+    chiffres: [
+      { val: "1", lib: "point d'entrée pour tout l'accès distant" },
+      { val: "3", lib: "protocoles : RDP, SSH et VNC" },
+      { val: "2", lib: "facteurs : mot de passe et code TOTP" }
+    ],
+    etapes: [
+      { titre: "Choix de l'installation", texte: "J'ai d'abord envisagé Docker, puis retenu une installation native sur Debian 12, plus simple à maintenir pour le service informatique." },
+      { titre: "Installation du bastion", texte: "Installation de Guacamole et de son serveur d'applications sur une machine virtuelle de l'infrastructure vSphere de la mairie." },
+      { titre: "Déclaration des connexions", texte: "Ajout des machines à administrer : RDP pour les postes Windows, SSH pour les serveurs Linux, VNC en complément." },
+      { titre: "Double authentification", texte: "Activation d'un code TOTP à six chiffres, lu sur le téléphone, en plus du mot de passe." },
+      { titre: "Accès des prestataires", texte: "Mon binôme a limité l'accès VPN des prestataires, sur le pare-feu Stormshield, à ce seul bastion." }
+    ],
+    ameliorations: "Enregistrer les sessions d'administration pour garder une trace de chaque intervention, comme le recommande l'ANSSI pour les accès à privilèges.",
+    schema: {
+      zones: [ { label: "Infrastructure vSphere de la mairie", x: 330, y: 20, w: 550, h: 340 } ],
+      noeuds: [
+        { id: "adm", x: 120, y: 110, type: "CLIENT", nom: "Administrateur", sous: "navigateur web" },
+        { id: "pres", x: 120, y: 280, type: "EXTERNE", nom: "Prestataire", sous: "VPN Stormshield" },
+        { id: "bas", x: 470, y: 190, type: "BASTION", nom: "Guacamole", sous: "Debian 12 · TOTP", actif: true },
+        { id: "win", x: 740, y: 80, type: "RDP", nom: "Postes Windows", sous: "port 3389" },
+        { id: "lin", x: 740, y: 190, type: "SSH", nom: "Serveurs Linux", sous: "port 22" },
+        { id: "vnc", x: 740, y: 300, type: "VNC", nom: "Autres machines", sous: "port 5900" }
+      ],
+      liens: [ ["adm","bas","HTTPS + TOTP"], ["pres","bas","VPN limité"], ["bas","win",""], ["bas","lin",""], ["bas","vnc",""] ]
+    },
+    captures: [],
     tags: ["Apache Guacamole", "Debian 12", "TOTP", "RDP", "SSH"],
 
     contexte: "La mairie de Morne-à-l'Eau fait tourner ses serveurs sur une infrastructure virtualisée sous vSphere, en production : les agents s'en servent tous les jours. Une partie des dépannages est faite à distance, y compris par des prestataires extérieurs.",
@@ -277,6 +282,34 @@ const REALISATIONS = [
     periode: "Mai à juin 2026",
     statut: "termine",
     cadre: "stage",
+    enBref: "Le client de sauvegarde installé sur tout le parc par une stratégie de groupe, sans passer poste par poste.",
+    equipe: "En binôme (stage)",
+    role: "Écriture du script et déploiement par GPO",
+    domaine: "systemes",
+    chiffres: [
+      { val: "1", lib: "script d'installation silencieuse" },
+      { val: "1", lib: "GPO pour tout le domaine" },
+      { val: "0", lib: "intervention manuelle par poste" }
+    ],
+    etapes: [
+      { titre: "Analyse du besoin", texte: "Chaque PC doit avoir le client Bareos pour être sauvegardé ; l'installer à la main aurait laissé des postes oubliés." },
+      { titre: "Écriture du script", texte: "Le script installe le client en mode silencieux, avec les paramètres déjà renseignés : nom du poste et adresse du Director, le serveur qui pilote les sauvegardes." },
+      { titre: "Test sur un poste", texte: "Vérification de l'installation et de la connexion au Director sur une seule machine avant le déploiement." },
+      { titre: "Déploiement par GPO", texte: "Une stratégie de groupe du domaine lance le script sur chaque PC, y compris sur les postes ajoutés plus tard." }
+    ],
+    ameliorations: "Ajouter un contrôle automatique qui signale les postes où le client n'a pas répondu au Director depuis plusieurs jours.",
+    schema: {
+      zones: [ { label: "Domaine Active Directory de la mairie", x: 20, y: 20, w: 860, h: 340 } ],
+      noeuds: [
+        { id: "dc", x: 160, y: 190, type: "AD DS", nom: "Contrôleur de domaine", sous: "GPO de déploiement", actif: true },
+        { id: "p1", x: 470, y: 90, type: "POSTE", nom: "Poste 1", sous: "client Bareos" },
+        { id: "p2", x: 470, y: 190, type: "POSTE", nom: "Poste 2", sous: "client Bareos" },
+        { id: "p3", x: 470, y: 290, type: "POSTE", nom: "Poste n", sous: "client Bareos" },
+        { id: "dir", x: 760, y: 190, type: "BAREOS", nom: "Director", sous: "pilote les sauvegardes" }
+      ],
+      liens: [ ["dc","p1","script"], ["dc","p2",""], ["dc","p3",""], ["p1","dir",""], ["p2","dir","sauvegarde"], ["p3","dir",""] ]
+    },
+    captures: [],
     tags: ["Bareos", "GPO", "Script", "Sauvegarde"],
 
     contexte: "Les postes de la mairie sont rattachés à un domaine Active Directory. Les sauvegardes sont assurées par Bareos, un logiciel open source : pour qu'un PC soit sauvegardé, le client Bareos doit être installé dessus.",
@@ -299,6 +332,35 @@ const REALISATIONS = [
     periode: "Mai à juin 2026",
     statut: "termine",
     cadre: "stage",
+    enBref: "Deux convertisseurs de fichiers hébergés à la mairie, pour que les documents des agents ne partent plus sur des sites inconnus.",
+    equipe: "En binôme (stage)",
+    role: "Installation et comparaison des deux outils",
+    domaine: "systemes",
+    chiffres: [
+      { val: "250+", lib: "formats pris en charge par VERT" },
+      { val: "3 000+", lib: "conversions possibles avec Transmute" },
+      { val: "0", lib: "fichier envoyé à un site extérieur" }
+    ],
+    etapes: [
+      { titre: "Constat", texte: "Les agents passaient par des sites de conversion en ligne, qui reçoivent donc des documents de la mairie." },
+      { titre: "Serveur Docker", texte: "Préparation d'un serveur Debian 13 avec Docker pour héberger les outils dans des conteneurs." },
+      { titre: "Mise en place de VERT", texte: "Plus de 250 formats, conversion directement dans le navigateur ; les vidéos demandent un serveur en plus." },
+      { titre: "Mise en place de Transmute", texte: "Tout le travail se fait côté serveur, avec plus de 3 000 conversions et la compression de fichiers." },
+      { titre: "Suivi en 2e année", texte: "En octobre 2026, mon tuteur m'a confié la vérification du serveur VERT dont la page ne répondait plus, puis son passage en HTTPS." }
+    ],
+    ameliorations: "Passer tous les serveurs Linux de la mairie en HTTPS avec un certificat, comme prévu pour SVR-VERT.",
+    schema: {
+      zones: [ { label: "Réseau de la mairie", x: 20, y: 20, w: 600, h: 340 } ],
+      noeuds: [
+        { id: "ag", x: 140, y: 190, type: "CLIENT", nom: "Agents", sous: "navigateur web" },
+        { id: "srv", x: 460, y: 190, type: "DOCKER", nom: "Debian 13", sous: "conteneurs", actif: true },
+        { id: "vert", x: 460, y: 70, type: "APP", nom: "VERT", sous: "250+ formats" },
+        { id: "tra", x: 460, y: 310, type: "APP", nom: "Transmute", sous: "3 000+ conversions" },
+        { id: "web", x: 770, y: 190, type: "INTERNET", nom: "Sites en ligne", sous: "plus utilisés", eteint: true }
+      ],
+      liens: [ ["ag","srv","HTTP"], ["srv","vert",""], ["srv","tra",""], ["ag","web","abandonné", true] ]
+    },
+    captures: [],
     tags: ["Docker", "Debian 13", "Auto-hébergement", "Confidentialité"],
 
     contexte: "Les agents de la mairie ont régulièrement besoin de convertir des fichiers : documents, images, vidéos.",
@@ -320,6 +382,34 @@ const REALISATIONS = [
     periode: "Février à avril 2026",
     statut: "termine",
     cadre: "tp",
+    enBref: "Un serveur Linux qui héberge le site des Jardins de Saint-Éloi et le rend accessible par son nom de domaine.",
+    equipe: "Seul",
+    role: "Installation et configuration complètes",
+    domaine: "systemes",
+    chiffres: [
+      { val: "2", lib: "services : web et DNS" },
+      { val: "2", lib: "zones DNS : directe et inverse" },
+      { val: "2", lib: "comptes rendus rédigés" }
+    ],
+    etapes: [
+      { titre: "Serveur Debian", texte: "srvlinux (192.168.10.4), sans interface graphique, avec une carte sur le réseau interne et une pour Internet." },
+      { titre: "Serveur web Apache2", texte: "Création d'un hôte virtuel dédié au site, servi sur le port 8080." },
+      { titre: "Serveur DNS Bind9", texte: "Zone directe jardinsainteloi.com (A pour srvlinux et www, alias CNAME www2) et zone inverse avec les PTR." },
+      { titre: "Vérifications", texte: "Contrôle de la syntaxe avec named-checkzone et named-checkconf avant de démarrer le service." },
+      { titre: "Tests côté client", texte: "Poste Windows configuré sur ce DNS : nslookup et navigateur sur www et www2." }
+    ],
+    ameliorations: "Ajouter un second serveur DNS secondaire pour que la résolution de noms ne dépende plus d'une seule machine.",
+    schema: {
+      zones: [ { label: "Réseau interne 192.168.10.0/24", x: 20, y: 20, w: 860, h: 340 } ],
+      noeuds: [
+        { id: "cli", x: 160, y: 190, type: "CLIENT", nom: "Poste Windows", sous: "DNS → 192.168.10.4" },
+        { id: "srv", x: 520, y: 190, type: "DEBIAN 12", nom: "srvlinux", sous: "192.168.10.4", actif: true },
+        { id: "dns", x: 780, y: 100, type: "BIND9", nom: "DNS", sous: "jardinsainteloi.com" },
+        { id: "web", x: 780, y: 280, type: "APACHE2", nom: "Site web", sous: "port 8080" }
+      ],
+      liens: [ ["cli","srv","www.jardinsainteloi.com"], ["srv","dns",""], ["srv","web",""] ]
+    },
+    captures: [],
     tags: ["Debian 12", "Apache2", "Bind9", "DNS", "Hôte virtuel"],
 
     contexte: "Les Jardins de Saint-Éloi vendent des fleurs exotiques et des produits locaux en Guadeloupe. La gérante, Mme Bourgeois, veut développer son activité avec un site de vente en ligne, et l'ESN IPEOS I Solutions est chargée de mettre en place l'infrastructure qui l'hébergera.",
@@ -349,6 +439,34 @@ const REALISATIONS = [
     periode: "Septembre 2026",
     statut: "termine",
     cadre: "tp",
+    enBref: "Un domaine Active Directory complet pour une mairie de 450 postes : comptes, droits, lecteurs réseau et logiciels gérés depuis un seul serveur.",
+    equipe: "Seul",
+    role: "Installation et configuration complètes",
+    domaine: "systemes",
+    chiffres: [
+      { val: "8", lib: "étapes du cahier des charges réalisées" },
+      { val: "4", lib: "unités d'organisation et groupes" },
+      { val: "28", lib: "pages de documentation" }
+    ],
+    etapes: [
+      { titre: "Serveur et domaine", texte: "srvad sous Windows Server 2025, promu contrôleur du domaine ville-abymes.fr." },
+      { titre: "DNS et DHCP", texte: "Zones directe et inversée, étendue DHCP sur 192.168.30.0/24 avec un bail de 8 jours." },
+      { titre: "Organigramme", texte: "Quatre unités d'organisation (Direction, Tech_logistique, Compta_finance, Informatique) avec leurs groupes de sécurité." },
+      { titre: "Stratégies de groupe", texte: "Un lecteur réseau par service (W: à Z:), fond d'écran, et installation de Notepad++ et Firefox en MSI." },
+      { titre: "Profils et postes", texte: "Profils itinérants limités à 5 Go, intégration d'un poste virtuel et d'un poste physique au domaine." }
+    ],
+    ameliorations: "Ajouter un second contrôleur de domaine pour que l'authentification continue de fonctionner si srvad tombe en panne.",
+    schema: {
+      zones: [ { label: "Réseau mairie 192.168.30.0/24", x: 20, y: 20, w: 640, h: 340 } ],
+      noeuds: [
+        { id: "ad", x: 200, y: 190, type: "WS 2025", nom: "srvad", sous: "AD DS · DNS · DHCP · GPO", actif: true },
+        { id: "p0", x: 520, y: 100, type: "POSTE", nom: "poste0", sous: "Windows 10 (VM)" },
+        { id: "p1", x: 520, y: 280, type: "POSTE", nom: "poste1", sous: "poste physique" },
+        { id: "nat", x: 790, y: 190, type: "NAT", nom: "Internet", sous: "redirecteur DNS" }
+      ],
+      liens: [ ["ad","p0","GPO · DHCP"], ["ad","p1",""], ["ad","nat","carte NAT"] ]
+    },
+    captures: [],
     tags: ["Windows Server 2025", "Active Directory", "DNS", "DHCP", "GPO", "Profils itinérants"],
 
     contexte: "Cas d'entreprise : la mairie des Abymes, environ 450 postes. Le responsable demande une infrastructure centralisée autour d'un serveur unique. Réalisation sur une maquette VMware : un serveur et deux postes clients, dont un poste physique.",
@@ -381,6 +499,34 @@ const REALISATIONS = [
     periode: "2025-2026",
     statut: "termine",
     cadre: "tp",
+    enBref: "Un outil de ticketing pour que les incidents signalés au service informatique du CHU soient suivis jusqu'à leur clôture.",
+    equipe: "Seul",
+    role: "Installation et configuration complètes",
+    domaine: "support",
+    chiffres: [
+      { val: "4", lib: "comptes avec des profils différents" },
+      { val: "1", lib: "serveur Debian sans interface" },
+      { val: "2", lib: "cartes réseau configurées" }
+    ],
+    etapes: [
+      { titre: "Serveur", texte: "srvglpi sous Debian 12 sans interface graphique, une carte pour Internet et une en adresse fixe pour le réseau interne." },
+      { titre: "Socle web", texte: "Installation d'Apache, de MariaDB et de PHP, nécessaires à GLPI." },
+      { titre: "GLPI 10.0.17", texte: "Installation, création de la base de données et configuration de l'application." },
+      { titre: "Comptes et profils", texte: "Un administrateur-technicien et trois utilisateurs du service." },
+      { titre: "Test depuis un client", texte: "Accès à l'application depuis le navigateur d'un poste Windows 10." }
+    ],
+    ameliorations: "Relier GLPI à un annuaire Active Directory pour que les agents se connectent avec leur compte habituel.",
+    schema: {
+      zones: [ { label: "Réseau interne du CHU", x: 20, y: 20, w: 600, h: 340 } ],
+      noeuds: [
+        { id: "cli", x: 150, y: 190, type: "CLIENT", nom: "Poste Windows 10", sous: "navigateur web" },
+        { id: "glpi", x: 460, y: 190, type: "DEBIAN 12", nom: "srvglpi", sous: "GLPI 10.0.17", actif: true },
+        { id: "bdd", x: 460, y: 320, type: "MARIADB", nom: "Base GLPI", sous: "tickets, comptes" },
+        { id: "net", x: 780, y: 190, type: "NAT", nom: "Internet", sous: "mises à jour" }
+      ],
+      liens: [ ["cli","glpi","HTTP"], ["glpi","bdd",""], ["glpi","net","carte NAT"] ]
+    },
+    captures: [],
     tags: ["GLPI 10", "Debian 12", "Helpdesk", "Gestion des incidents"],
 
     contexte: "Cas d'entreprise : le service micro-informatique du CHU de Pointe-à-Pitre veut un outil pour enregistrer, classer et suivre les incidents signalés par le personnel jusqu'à leur clôture.",
@@ -403,6 +549,34 @@ const REALISATIONS = [
     periode: "Septembre 2026",
     statut: "termine",
     cadre: "tp",
+    enBref: "Deux serveurs web en cluster : si le premier tombe, le second reprend le site à la même adresse en quelques secondes.",
+    equipe: "Seul",
+    role: "Installation, configuration et recette",
+    domaine: "dispo",
+    chiffres: [
+      { val: "16/16", lib: "tests de recette conformes" },
+      { val: "5 s", lib: "pour déclarer un nœud mort" },
+      { val: "27", lib: "captures commentées dans la doc" }
+    ],
+    etapes: [
+      { titre: "Clonage du serveur web", texte: "Deux clones complets du serveur existant, SRVWEB1 (192.168.30.14) et SRVWEB2 (192.168.30.15), avec des adresses MAC régénérées." },
+      { titre: "Remise en état d'Apache", texte: "Retour du site sur le port 80 et une page différente par serveur pour voir lequel répond." },
+      { titre: "Configuration de Heartbeat", texte: "Les fichiers ha.cf (battement toutes les 2 secondes, nœud mort après 5), authkeys et haresources." },
+      { titre: "Adresse IP virtuelle", texte: "Les clients utilisent 192.168.30.4, portée par le serveur actif et déplacée en cas de panne." },
+      { titre: "Recette", texte: "Panne simulée de SRVWEB1, bascule vers SRVWEB2, puis retour automatique quand SRVWEB1 revient." }
+    ],
+    ameliorations: "Surveiller aussi le service Apache lui-même : Heartbeat ne détecte que la panne d'un serveur entier. C'est ce que corrige le TP suivant avec HAProxy.",
+    schema: {
+      zones: [ { label: "Cluster actif / passif · 192.168.30.0/24", x: 300, y: 20, w: 580, h: 340 } ],
+      noeuds: [
+        { id: "cli", x: 130, y: 190, type: "CLIENT", nom: "Clients", sous: "navigateur" },
+        { id: "vip", x: 430, y: 190, type: "IP VIRTUELLE", nom: "192.168.30.4", sous: "portée par le nœud actif", actif: true },
+        { id: "w1", x: 740, y: 90, type: "ACTIF", nom: "SRVWEB1", sous: "192.168.30.14" },
+        { id: "w2", x: 740, y: 290, type: "PASSIF", nom: "SRVWEB2", sous: "192.168.30.15" }
+      ],
+      liens: [ ["cli","vip","HTTP"], ["vip","w1",""], ["vip","w2","bascule", true], ["w1","w2","battement 2 s", true] ]
+    },
+    captures: [],
     tags: ["Debian 13", "Apache2", "Heartbeat", "Cluster actif/passif", "IP virtuelle"],
 
     contexte: "Les Jardins de Saint-Éloi, entreprise de vente de fleurs et de produits locaux, hébergent leur site sur un serveur Apache2 sous Debian, monté en 1re année avec un DNS Bind9. Ce serveur unique est un point unique de défaillance.",
@@ -432,6 +606,34 @@ const REALISATIONS = [
     periode: "Octobre 2026",
     statut: "termine",
     cadre: "tp",
+    enBref: "Un répartiteur de charge qui fait travailler les deux serveurs web en même temps et écarte celui qui tombe en panne.",
+    equipe: "Seul",
+    role: "Installation, configuration et recette",
+    domaine: "dispo",
+    chiffres: [
+      { val: "17/18", lib: "tests de recette conformes" },
+      { val: "3", lib: "réseaux sur le répartiteur" },
+      { val: "37", lib: "captures commentées dans la doc" }
+    ],
+    etapes: [
+      { titre: "Le répartiteur", texte: "SRVHAPROXY créé à partir d'une Debian 13 vierge, avec trois cartes : clients (192.168.30.4), réseau privé des serveurs (10.0.0.1) et NAT." },
+      { titre: "Réseau privé des serveurs", texte: "SRVWEB1 et SRVWEB2 déplacés sur 10.0.0.2 et 10.0.0.3, Heartbeat désactivé : ils ne sont joignables que par le répartiteur." },
+      { titre: "Configuration de HAProxy", texte: "Un frontend sur le port 80, un backend en roundrobin avec vérification de l'état des serveurs." },
+      { titre: "Page de statistiques", texte: "Une page protégée par un compte qui affiche l'état et les compteurs de chaque serveur." },
+      { titre: "Recette", texte: "Alternance des requêtes, panne d'Apache sur SRVWEB1, puis réintégration automatique après réparation." }
+    ],
+    ameliorations: "Doubler le répartiteur avec Keepalived : aujourd'hui, c'est lui qui devient le point unique de défaillance.",
+    schema: {
+      zones: [ { label: "Réseau clients 192.168.30.0/24", x: 20, y: 20, w: 360, h: 340 }, { label: "Réseau privé HA 10.0.0.0/24", x: 520, y: 20, w: 360, h: 340 } ],
+      noeuds: [
+        { id: "cli", x: 140, y: 190, type: "CLIENT", nom: "Clients", sous: "navigateur" },
+        { id: "ha", x: 450, y: 190, type: "HAPROXY", nom: "SRVHAPROXY", sous: ".30.4 · 10.0.0.1", actif: true },
+        { id: "w1", x: 750, y: 100, type: "APACHE", nom: "SRVWEB1", sous: "10.0.0.2" },
+        { id: "w2", x: 750, y: 280, type: "APACHE", nom: "SRVWEB2", sous: "10.0.0.3" }
+      ],
+      liens: [ ["cli","ha","port 80"], ["ha","w1","roundrobin"], ["ha","w2",""] ]
+    },
+    captures: [],
     tags: ["HAProxy", "Debian 13", "Apache2", "Cluster actif/actif", "Roundrobin"],
 
     contexte: "Suite du TP Heartbeat : le cluster actif/passif fonctionne, mais SRVWEB2 ne sert qu'en cas de panne et reste inutilisé le reste du temps.",
@@ -462,6 +664,35 @@ const REALISATIONS = [
     periode: "Avril 2026",
     statut: "termine",
     cadre: "projet",
+    enBref: "Le réseau de l'huilerie étendu à un second bâtiment, avec des données strictement séparées entre la Comptabilité et la Direction.",
+    equipe: "En binôme",
+    role: "Partie bâtiment Administratif : AD, DNS, DHCP, droits et GPO",
+    domaine: "reseau",
+    chiffres: [
+      { val: "2", lib: "sites reliés par deux routeurs" },
+      { val: "3", lib: "dossiers partagés aux droits distincts" },
+      { val: "2", lib: "groupes de sécurité par service" }
+    ],
+    etapes: [
+      { titre: "Répartition du travail", texte: "Prototype monté sur deux ordinateurs portables : je me suis occupé du bâtiment Administratif, mon binôme du bâtiment Production." },
+      { titre: "Services du domaine", texte: "Sur MIRPRIM (192.168.2.2) : domaine mirbeau.com avec AD DS, DNS et DHCP, et l'agent relais DHCP pour l'autre sous-réseau." },
+      { titre: "Comptes et groupes", texte: "Unité d'organisation ADMINISTRATIF, utilisateurs de chaque service, groupes G_COMPTA et G_DIRECTION." },
+      { titre: "Partage et droits NTFS", texte: "Partage DONNEES en lecteur Z: avec COMPTABILITE, DIRECTION et COMMUN ; héritage désactivé sur les dossiers sensibles." },
+      { titre: "Stratégies de groupe", texte: "Panneau de configuration bloqué et fond d'écran propre à chaque service grâce au filtrage de sécurité." }
+    ],
+    ameliorations: "Mettre en place une sauvegarde du partage DONNEES et un second contrôleur de domaine sur le site Production.",
+    schema: {
+      zones: [ { label: "Administratif · 192.168.2.0/24", x: 20, y: 20, w: 400, h: 340 }, { label: "Production · 192.168.3.0/24", x: 480, y: 20, w: 400, h: 340 } ],
+      noeuds: [
+        { id: "dc", x: 130, y: 110, type: "AD · DNS · DHCP", nom: "MIRPRIM", sous: "192.168.2.2", actif: true },
+        { id: "pa", x: 130, y: 280, type: "POSTE", nom: "Compta · Direction", sous: "lecteur Z:" },
+        { id: "r1", x: 340, y: 190, type: "ROUTEUR", nom: "R1", sous: "site Administratif" },
+        { id: "r2", x: 560, y: 190, type: "ROUTEUR", nom: "R2", sous: "relais DHCP" },
+        { id: "pp", x: 780, y: 190, type: "POSTE", nom: "Postes Production", sous: "adresse par relais" }
+      ],
+      liens: [ ["dc","r1",""], ["pa","r1",""], ["r1","r2","interconnexion"], ["r2","pp",""] ]
+    },
+    captures: [],
     tags: ["Windows Server", "Active Directory", "DHCP", "DNS", "GPO", "NTFS"],
 
     contexte: "L'huilerie Mirbeau s'agrandit avec un nouveau bâtiment. Son réseau doit relier deux sites : le bâtiment Administratif (192.168.2.0/24), qui regroupe la Comptabilité et la Direction, et le bâtiment Production (192.168.3.0/24), interconnectés par deux routeurs. Nous avons monté le prototype en binôme sur deux ordinateurs portables : je me suis occupé de la partie Administratif, mon binôme de la partie Production.",
@@ -492,7 +723,36 @@ const REALISATIONS = [
     periode: "Novembre 2026",
     statut: "en-cours",
     cadre: "projet",
-    tags: ["Serveur proxy", "DMZ", "Routeur/pare-feu", "Filtrage web", "Authentification"],
+    enBref: "Une DMZ pour les services exposés et un proxy qui filtre, authentifie et journalise la navigation des salariés.",
+    equipe: "En binôme",
+    role: "Ma partie : la DMZ et l'accès à Internet",
+    domaine: "securite",
+    chiffres: [
+      { val: "3", lib: "zones : réseau privé, DMZ, Internet" },
+      { val: "3 mois", lib: "d'historique de navigation à conserver" },
+      { val: "25", lib: "salariés concernés" }
+    ],
+    etapes: [
+      { titre: "Analyse du cahier des charges", texte: "Besoins de Caribbean Project : DMZ, routeur/pare-feu, filtrage des sites non professionnels, authentification et historique de navigation." },
+      { titre: "Répartition en binôme", texte: "Mon binôme s'occupe du réseau local (contrôleur de domaine, DHCP, poste client et proxy) ; je prends la partie DMZ et accès Internet." },
+      { titre: "Routeur/pare-feu côté Internet", texte: "Un pfSense pour la sortie Internet, la liaison avec le routeur du réseau local et la DMZ." },
+      { titre: "Serveur en DMZ", texte: "Un serveur Linux qui regroupe les services exposés, web et FTP, pour limiter le nombre de machines." },
+      { titre: "Tests et présentation", texte: "Vérification du filtrage et de l'authentification, puis présentation de la solution. En cours." }
+    ],
+    ameliorations: "",
+    schema: {
+      zones: [ { label: "Réseau privé (binôme)", x: 20, y: 20, w: 280, h: 340 }, { label: "DMZ (ma partie)", x: 600, y: 210, w: 280, h: 150 } ],
+      noeuds: [
+        { id: "lan", x: 160, y: 110, type: "AD · DNS · DHCP", nom: "Serveur LAN", sous: "binôme" },
+        { id: "prx", x: 160, y: 280, type: "PROXY", nom: "Proxy filtrant", sous: "authentification" },
+        { id: "fw", x: 450, y: 190, type: "PFSENSE", nom: "Routeur/pare-feu", sous: "privé · DMZ · Internet", actif: true },
+        { id: "dmz", x: 740, y: 290, type: "DEBIAN", nom: "Serveur DMZ", sous: "Web + FTP" },
+        { id: "net", x: 740, y: 90, type: "WAN", nom: "Internet", sous: "" }
+      ],
+      liens: [ ["lan","fw",""], ["prx","fw","navigation filtrée"], ["fw","dmz",""], ["fw","net",""] ]
+    },
+    captures: [],
+    tags: ["Serveur proxy", "DMZ", "pfSense", "Filtrage web", "Authentification"],
 
     contexte: "Caribbean Project est une start-up parisienne de 25 salariés spécialisée dans le commerce international. Elle veut étendre son système d'information : ses services n'ont pas encore de réseau commun, et ses commerciaux, qui se déplacent dans toute la France, doivent accéder à distance et de façon sécurisée aux applications de l'entreprise.",
     probleme: "L'entreprise veut une DMZ pour ses services exposés (web, messagerie, fichiers, applications métiers), un routeur/pare-feu au cœur du réseau, et un contrôle de la navigation des salariés : bloquer les sites non professionnels (streaming, réservation de voyages), authentifier chaque utilisateur par identifiant et mot de passe, et conserver l'historique des sites visités pendant au moins trois mois, le tout de façon transparente pour les salariés.",
@@ -518,15 +778,23 @@ const REALISATIONS = [
 const PARCOURS = [
   {
     periode: "2026-2027",
+    sigle: "BTS",
     type: "formation",
     titre: "BTS SIO option SISR, 2e année",
     lieu: "Lycée Baimbridge, Les Abymes",
     detail: "Solutions d'infrastructure, systèmes et réseaux : cybersécurité, haute disponibilité et répartition de charge des serveurs."
   },
-  // Ton stage de 2e année : ajoute un bloc ici une fois le stage confirmé,
-  // sur le modèle de celui de la mairie juste en dessous.
+  {
+    periode: "Octobre 2026 à janvier 2027",
+    sigle: "MAE",
+    type: "stage",
+    titre: "Stagiaire technicien systèmes et réseaux (2e année)",
+    lieu: "Service informatique de la mairie de Morne-à-l'Eau",
+    detail: "Installation des outils d'administration RSAT (AD DS, DHCP) sur un serveur de rebond pour administrer avec des droits limités ; configuration du Wi-Fi des clients légers ; diagnostic du serveur de conversion VERT et passage en HTTPS ; analyse des fermetures de session lentes ; remplacement des pare-feu pfSense virtuels hébergés chez OVH sans couper la production."
+  },
   {
     periode: "Mai à juin 2026",
+    sigle: "MAE",
     type: "stage",
     titre: "Stagiaire technicien informatique (6 semaines)",
     lieu: "Service informatique de la mairie de Morne-à-l'Eau",
@@ -534,6 +802,7 @@ const PARCOURS = [
   },
   {
     periode: "2025-2026",
+    sigle: "BTS",
     type: "formation",
     titre: "BTS SIO option SISR, 1re année",
     lieu: "Lycée Baimbridge, Les Abymes",
@@ -541,6 +810,7 @@ const PARCOURS = [
   },
   {
     periode: "2022-2025",
+    sigle: "BAC",
     type: "formation",
     titre: "Bac Pro Systèmes numériques, option RISC",
     lieu: "Lycée professionnel Louis Delgrès, Le Moule",
@@ -548,6 +818,7 @@ const PARCOURS = [
   },
   {
     periode: "Pendant le Bac Pro",
+    sigle: "CGSS",
     type: "stage",
     titre: "Stagiaire technicien informatique",
     lieu: "CGSS Guadeloupe, Les Abymes",
@@ -615,43 +886,96 @@ const CERTIFICATIONS = [
 
 
 /* ==========================================================================
-   9. VEILLE TECHNOLOGIQUE
+   9. VEILLE TECHNOLOGIQUE — un suivi daté, période par période
    --------------------------------------------------------------------------
-   Sois précis sur les sources : « le CERT-FR » vaut beaucoup plus que
-   « des vidéos YouTube ». Le champ "retiens" est celui que le jury lit.
+   Pour ajouter une période : copie un bloc { } dans "periodes", à la fin.
+   Mets toujours la vraie date, la source et le lien de l'article.
    ========================================================================== */
 
-const VEILLE = [
-  {
-    sujet: "Cybersécurité et vulnérabilités",
-    sources: [
-      "Alertes et bulletins du CERT-FR (cert.ssi.gouv.fr)",
-      "Cybermalveillance.gouv.fr"
-    ],
-    retiens: "TODO: en deux phrases, une faille ou une alerte récente et ce qu'elle change pour un administrateur."
-  },
-  {
-    sujet: "Administration sécurisée et accès distant",
-    sources: [
-      "Guide ANSSI « Recommandations relatives à l'administration sécurisée des SI »",
-      "Notes de version d'Apache Guacamole"
-    ],
-    retiens: "TODO: pourquoi un bastion d'administration est recommandé, en lien avec ce que tu as fait en stage."
-  },
-  {
-    sujet: "Windows Server 2025",
-    sources: [
-      "Blog Windows Server de Microsoft",
-      "Documentation Microsoft Learn"
-    ],
-    retiens: "TODO: une nouveauté de Windows Server 2025 que tu as remarquée en TP."
-  },
-  {
-    sujet: "Intelligence artificielle",
-    sources: [
-      "Estherium (@estherium__ sur TikTok), pour les astuces et l'actualité de l'IA",
-      "Guide ANSSI « Recommandations de sécurité pour un système d'IA générative »"
-    ],
-    retiens: "TODO: une info vue chez Estherium, vérifiée sur une source officielle, et ce qu'elle change pour un administrateur."
-  }
-];
+const VEILLE = {
+  sujet: "La cybersécurité des collectivités territoriales",
+  accroche: "Mairies, régions, lycées : les collectivités sont devenues des cibles prioritaires. Je suis le sujet depuis octobre 2025, parce que c'est exactement le terrain de mes stages au service informatique de la mairie de Morne-à-l'Eau.",
+  problematique: "Comment une collectivité aux moyens limités peut-elle protéger un système d'information dont dépendent tous les services aux habitants ?",
+  periodes: [
+    {
+      mois: "Octobre 2025",
+      date: "14 octobre 2025",
+      source: "Microsoft",
+      titre: "Fin du support de Windows 10",
+      resume: "Depuis le 14 octobre 2025, Windows 10 ne reçoit plus de mises à jour de sécurité. Les PC continuent de fonctionner, mais chaque nouvelle faille reste ouverte sur les postes qui n'ont pas migré.",
+      impact: "Pour un service informatique, c'est un chantier de parc : recenser les postes encore sous Windows 10, vérifier leur compatibilité avec Windows 11, et remplacer ou isoler ceux qui ne le sont pas.",
+      lien: "https://support.microsoft.com/fr-fr/windows/deployment/updates-lifecycle/windows-10-support-has-ended-on-october-14-2025"
+    },
+    {
+      mois: "Octobre 2025",
+      date: "10 octobre 2025",
+      source: "Région Hauts-de-France",
+      titre: "80 % des lycées publics des Hauts-de-France touchés par un rançongiciel",
+      resume: "Le rançongiciel Qilin paralyse le système d'information de près de 80 % des lycées publics de la région. L'accès au réseau et à Internet est suspendu, et les attaquants revendiquent le vol d'environ un téraoctet de données.",
+      impact: "Un système d'information partagé par des centaines d'établissements tombe d'un seul coup : cloisonner les réseaux et disposer de sauvegardes hors ligne limite la propagation et accélère la reprise.",
+      lien: "https://www.hautsdefrance.fr/incident-de-cybersecurite-dans-plusieurs-lycees-de-la-region-hauts-de-france/"
+    },
+    {
+      mois: "Mars 2026",
+      date: "17 mars 2026",
+      source: "ANSSI",
+      titre: "L'ANSSI publie le Référentiel Cyber France (ReCyF)",
+      resume: "En attendant la loi qui transpose la directive européenne NIS 2, l'ANSSI met à disposition le ReCyF, un document de travail qui liste les mesures recommandées pour atteindre les objectifs de sécurité de NIS 2.",
+      impact: "Les collectivités ont désormais une liste concrète de mesures à viser : sauvegardes, gestion des accès à privilèges, journalisation, mises à jour. C'est un bon fil conducteur pour un petit service informatique.",
+      lien: "https://cyber.gouv.fr/reglementation/cybersecurite-systemes-dinformation/directives-nis-nis2-et-dispositif-saiv/directive-nis-2/"
+    },
+    {
+      mois: "Mai 2026",
+      date: "22 mai 2026",
+      source: "Cyberattaque.org",
+      titre: "La mairie d'Eyguières paralysée par un rançongiciel",
+      resume: "Cette commune d'environ 7 000 habitants voit l'ensemble de son système informatique mis hors service par le rançongiciel Qilin, ce qui perturbe fortement les services administratifs.",
+      impact: "Une commune de taille comparable à Morne-à-l'Eau : le risque n'est pas réservé aux grandes villes. Une sauvegarde testée et un plan de reprise font la différence entre quelques jours et plusieurs semaines d'arrêt.",
+      lien: "https://www.cyberattaque.org/la-mairie-deyguieres-paralysee-par-un-ransomware/"
+    },
+    {
+      mois: "Juillet 2026",
+      date: "8 juillet 2026",
+      source: "Pilote NIS2",
+      titre: "La France renvoyée devant la Cour de justice de l'UE pour le retard de NIS 2",
+      resume: "La Commission européenne saisit la Cour de justice de l'Union européenne contre la France, l'Espagne, l'Irlande et les Pays-Bas pour défaut de transposition de NIS 2, dont l'échéance était le 17 octobre 2024.",
+      impact: "Le cadre légal tarde, mais la menace, elle, n'attend pas : les bonnes pratiques du ReCyF peuvent être appliquées dès maintenant, sans attendre l'obligation.",
+      lien: "https://www.pilote-nis2.fr/guides/loi-resilience-nis2-france"
+    },
+    {
+      mois: "Septembre 2026",
+      date: "4 septembre 2026",
+      source: "Cyberattaque.org",
+      titre: "Fuite de données à l'Association des maires de France",
+      resume: "L'AMF confirme une fuite de données. L'attaquant affirme avoir exploité une injection SQL sur le site de l'association pour en extraire plusieurs tables de la base de données.",
+      impact: "Une faille applicative classique suffit : maintenir à jour les applications web, filtrer les entrées et ne pas exposer directement les bases de données sont des règles de base, valables aussi pour un serveur comme GLPI.",
+      lien: "https://www.cyberattaque.org/association-des-maires-de-france-114-000-lignes-en-fuite-apres-une-cyberattaque/"
+    },
+    {
+      mois: "Octobre 2026",
+      date: "26 octobre 2026",
+      source: "CERT-FR",
+      titre: "Alerte CERT-FR : failles critiques de PHP exploitées",
+      resume: "Le CERT-FR constate des tentatives d'exploitation des vulnérabilités CVE-2026-109618 et CVE-2026-109619, qui ciblent des déploiements spécifiques de PHP. L'éditeur a publié des correctifs.",
+      impact: "PHP fait tourner beaucoup d'outils internes, dont GLPI. Suivre les alertes du CERT-FR permet d'appliquer les correctifs avant que les failles ne soient exploitées à grande échelle.",
+      lien: "https://cert.cyber.gouv.fr/alerte/CERTFR-2026-ALE-014/"
+    },
+    {
+      mois: "Novembre 2026",
+      date: "17 novembre 2026",
+      source: "Pilote NIS2",
+      titre: "La loi Résilience adoptée en première lecture à l'Assemblée nationale",
+      resume: "Le projet de loi qui transpose NIS 2 est adopté par 464 voix contre 64. La version française fait entrer explicitement les collectivités territoriales dans le champ : régions, départements, grandes communes et intercommunalités.",
+      impact: "Les collectivités concernées auront des obligations de sécurité et de déclaration d'incident. Les mesures que je découvre en TP et en stage, comme le bastion d'administration ou la sauvegarde du parc, en font partie.",
+      lien: "https://www.pilote-nis2.fr/guides/loi-resilience-nis2-france"
+    }
+  ],
+  conclusion: "Sur un an, le constat est net : les attaques visent des collectivités de toutes tailles, souvent par des portes d'entrée classiques comme un poste non mis à jour, une application web vulnérable ou un accès distant mal protégé. Dans le même temps, le cadre se met en place avec le ReCyF puis la loi Résilience. Pour un administrateur, les priorités restent les mêmes : mettre à jour, cloisonner, contrôler les accès à privilèges et tester les sauvegardes.",
+  sources: [
+    "Alertes et bulletins du CERT-FR (cert.cyber.gouv.fr)",
+    "ANSSI (cyber.gouv.fr) et Cybermalveillance.gouv.fr",
+    "Sites spécialisés : Cyberattaque.org, IT-Connect",
+    "Presse régionale et communiqués officiels des collectivités",
+    "Estherium (@estherium__ sur TikTok), pour l'actualité de l'IA"
+  ]
+};
