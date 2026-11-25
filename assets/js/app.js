@@ -16,7 +16,7 @@
     if (t === "light") document.documentElement.setAttribute("data-theme", "light");
     else document.documentElement.removeAttribute("data-theme");
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", t === "light" ? "#f7f8fa" : "#070a11");
+    if (meta) meta.setAttribute("content", t === "light" ? "#f4f6f9" : "#182029");
   }
   appliquerTheme(themeLu());
 
@@ -84,7 +84,7 @@
   }
   function entete(num, label, titre, chapo) {
     return '<header class="sec-tete reveal">' +
-      '<p class="eyebrow"><span>' + num + "</span> · " + esc(label) + "</p>" +
+      '<p class="panneau-lib">' + esc(label) + "</p>" +
       "<h2>" + titre + "</h2>" + (chapo ? '<p class="sec-chapo">' + chapo + "</p>" : "") + "</header>";
   }
   function lienAncre(cle) { return (page === "accueil" ? "" : "index.html") + "#" + cle; }
@@ -98,11 +98,9 @@
     return '<a class="evitement" href="#contenu">Aller au contenu</a>' +
       '<header class="nav-wrap"><nav class="nav" aria-label="Navigation principale">' +
       '<a class="logo" href="' + lienAncre("home") + '" aria-label="Accueil — ' + esc(nomComplet()) + '">' +
-      '<span class="logo-badge">' + initiales() + "</span>" +
-      '<span class="logo-txt">' + esc(ID.prenom[0]) + "." + esc(ID.nom.toUpperCase()) + "</span></a>" +
+      '<span class="logo-led"></span><span class="logo-txt">' + esc(nomComplet()) + '</span><span class="logo-role">BTS SIO SISR</span></a>' +
       '<ul id="menu" class="menu">' + liens + "</ul>" +
       '<div class="nav-actions">' +
-      (ID.cvFichier ? '<a class="btn-cv" href="' + esc(ID.cvFichier) + '" target="_blank" rel="noopener">Mon CV ' + ICO.ext + "</a>" : "") +
       '<button class="theme-btn" type="button" aria-label="Changer de thème">' + ICO.soleil + ICO.lune + "</button>" +
       '<button class="burger" type="button" aria-expanded="false" aria-controls="menu"><span class="sr">Menu</span><span></span></button>' +
       "</div></nav></header>";
@@ -111,8 +109,7 @@
   function pied() {
     var mail = email();
     return '<footer class="pied"><div class="cadre pied-grille">' +
-      '<div><a class="logo" href="' + lienAncre("home") + '"><span class="logo-badge">' + initiales() + '</span><span class="logo-txt">' +
-      esc(ID.prenom[0]) + "." + esc(ID.nom.toUpperCase()) + "</span></a>" +
+      '<div><a class="logo" href="' + lienAncre("home") + '"><span class="logo-led"></span><span class="logo-txt">' + esc(nomComplet()) + "</span></a>" +
       '<p class="muet">' + esc(ID.posteVise) + ".<br>" + esc(ID.statut) + ", " + esc(ID.etablissement) + ".</p></div>" +
       '<div><p class="pied-titre">Liens rapides</p><ul class="pied-liens">' +
       PAGES.map(function (p) { return '<li><a href="' + lienAncre(p.cle) + '">' + esc(p.menu) + "</a></li>"; }).join("") +
@@ -143,23 +140,30 @@
       return '<li class="stat glass reveal"><span class="stat-val" data-compte="' + esc(v) + '">' + esc(v) + "</span>" +
         '<span class="stat-lib">' + esc(c.libelle) + "</span>" + (c.desc ? '<span class="stat-desc">' + esc(c.desc) + "</span>" : "") + "</li>";
     }).join("");
-    return '<section id="home" class="hero">' +
-      '<canvas class="globe" aria-hidden="true"></canvas>' +
-      '<div class="cadre hero-grille"><div class="hero-texte">' +
-      '<p class="statut-pill reveal"><span class="led"></span>En formation · disponible pour un stage ou une alternance</p>' +
-      '<h1 class="reveal">' + esc(ID.prenom) + ' <em>' + esc(ID.nom) + "</em></h1>" +
-      '<p class="hero-sous reveal">BTS SIO SISR · 2e année · Admin systèmes &amp; réseaux</p>' +
+    return '<section id="home" class="hero"><div class="cadre">' +
+      '<p class="hero-surtitre reveal">' + esc(ID.statut) + " · " + esc(ID.etablissement) + "</p>" +
+      '<h1 class="reveal">' + esc(nomComplet()) + "</h1>" +
+      '<p class="hero-poste reveal">' + esc(ID.posteVise) + "</p>" +
       '<p class="hero-intro reveal">' + txt(ID.presentation || ID.accroche) + "</p>" +
       '<div class="boutons reveal">' +
-      '<a class="btn btn-plein" href="#about">Découvrir mon profil ' + ICO.fleche + "</a>" +
-      '<a class="btn" href="#projets">Projets</a>' +
-      '<a class="btn" href="#veille">Veille</a>' +
-      (ID.cvFichier ? '<a class="btn" href="' + esc(ID.cvFichier) + '" target="_blank" rel="noopener">' + ICO.dl + " CV</a>" : "") +
+      '<a class="btn btn-plein" href="#projets">Voir mes réalisations</a>' +
+      (ID.cvFichier ? '<a class="btn" href="' + esc(ID.cvFichier) + '" target="_blank" rel="noopener">' + ICO.dl + " Télécharger mon CV" + (ID.cvPoids ? " (" + esc(ID.cvPoids) + ")" : "") + "</a>" : "") +
       '<a class="btn" href="#contact">' + ICO.mail + " Me contacter</a></div>" +
-      "</div></div>" +
-      '<div class="cadre"><ul class="stats">' + stats + "</ul></div>" +
-      '<div class="marquee" aria-hidden="true"><div class="marquee-piste">' + marqueeItems() + marqueeItems() + "</div></div>" +
-      "</section>";
+      '<ul class="stats">' + stats + "</ul></div></section>";
+  }
+
+  function consoleHero() {
+    var rs = reals();
+    var lignes = rs.map(function (r, i) {
+      var ok = r.statut !== "en-cours";
+      return '<tr><td>Gi0/' + (i + 1) + '</td><td><a href="realisation.html?id=' + encodeURIComponent(r.id) + '">' + esc(r.court || r.titre) + "</a></td>" +
+        '<td class="' + (ok ? "st-ok" : "st-cours") + '">' + (ok ? "connected" : "en cours") + "</td><td>" + esc(cadreNom(r).toLowerCase()) + "</td></tr>";
+    }).join("");
+    return '<div class="console reveal" aria-label="Liste des projets">' +
+      '<div class="console-barre"><span></span><span></span><span></span><p>noa@core — ssh</p></div>' +
+      '<div class="console-corps"><p class="console-cmd"><span class="prompt">noa@core#</span> <span class="tape">show interfaces status</span></p>' +
+      '<table><thead><tr><th>Port</th><th>Nom</th><th>Statut</th><th>Type</th></tr></thead><tbody>' + lignes + "</tbody></table>" +
+      '<p class="console-cmd"><span class="prompt">noa@core#</span> <span class="curseur"></span></p></div></div>';
   }
 
   function marqueeItems() {
@@ -221,14 +225,14 @@
 
     return '<section class="section topo-sec"><div class="cadre">' +
       '<div class="glass topo-panneau reveal">' +
-      '<div class="topo-tete"><div><p class="eyebrow"><span>00</span> · Topologie</p>' +
-      "<h2>Le plan du site, <em>en schéma réseau</em></h2></div>" +
+      '<div class="topo-tete"><div><p class="panneau-lib">Découvrir le site</p>' +
+      "<h2>Le plan du site en schéma réseau</h2></div>" +
       '<div class="topo-console" aria-live="polite"><span class="prompt">noa@core:~$</span> <span id="topo-cmd">show cdp neighbors</span></div></div>' +
       '<svg class="topo" viewBox="0 0 1000 500" role="img" aria-label="Plan du site sous forme de schéma réseau : chaque équipement mène à une section">' +
       zones + cables + noeuds + "</svg>" +
       '<ul class="topo-repli">' + repli + "</ul>" +
       '<div class="topo-legende"><span class="lg lg-vert">Réalisations</span><span class="lg lg-ambre">Compétences</span>' +
-      '<span class="lg lg-violet">Profil</span><span class="muet">Survolez un équipement pour suivre ses liaisons, cliquez pour y aller.</span></div>' +
+      '<span class="lg lg-violet">Profil</span><span class="muet">Cliquez sur un équipement pour ouvrir la section.</span></div>' +
       "</div></div></section>";
   }
 
@@ -251,7 +255,7 @@
         }).join("") + "</ul></details>";
     }).join("");
     return '<section id="about" class="section"><div class="cadre">' +
-      entete("01", "À propos", "Qui je <em>suis</em>") +
+      entete("", "Profil", "À propos") +
       '<div class="about-grille"><div class="glass about-recit reveal">' + recit +
       '<div class="boutons">' + (ID.cvFichier ? '<a class="btn btn-plein" href="' + esc(ID.cvFichier) + '" target="_blank" rel="noopener">' + ICO.dl + " Télécharger mon CV" + (ID.cvPoids ? " (" + esc(ID.cvPoids) + ")" : "") + "</a>" : "") +
       '<a class="btn" href="#parcours">Mon parcours</a></div></div>' +
@@ -288,7 +292,7 @@
         (txt(cat.intro) && items.length ? '<p class="muet">' + txt(cat.intro) + "</p>" : "") + "</div>" + corps + "</div>";
     }).join("");
     return '<section id="certifications" class="section"><div class="cadre">' +
-      entete("02", "Certifications", "Ce que j'ai <em>validé</em>", "Les certifications obtenues, et celles que je prépare en dehors des cours.") +
+      entete("", "Certifications", "Certifications", "Les certifications obtenues, et celles que je prépare en dehors des cours.") +
       html + "</div></section>";
   }
 
@@ -307,7 +311,7 @@
         "</div></div></li>";
     }).join("");
     return '<section id="parcours" class="section"><div class="cadre">' +
-      entete("03", "Parcours", "Mon <em>parcours</em>", "Formations et expériences, du plus récent au plus ancien.") +
+      entete("", "Parcours", "Mon parcours", "Formations et expériences, du plus récent au plus ancien.") +
       filtres("parcours", [["tout", "Tout voir"], ["formation", "Formation"], ["stage", "Expérience"]]) +
       '<ol class="frise" data-groupe="parcours">' + html + "</ol></div></section>";
   }
@@ -326,15 +330,15 @@
     function n(c) { return rs.filter(function (r) { return r.cadre === c; }).length; }
     var cartes = rs.map(function (r) {
       return '<li class="reveal" data-type="' + esc(r.cadre) + '"><a class="projet glass" href="realisation.html?id=' + encodeURIComponent(r.id) + '">' +
-        '<span class="projet-tete"><span class="projet-num">' + numero(r) + "</span>" + etat(r) + "</span>" +
-        '<span class="projet-cadre">' + esc(cadreNom(r)) + " · " + esc(r.periode) + "</span>" +
+        '<span class="projet-tete"><span class="projet-cadre-badge">' + esc(cadreNom(r)) + "</span>" + etat(r) + "</span>" +
+        '<span class="projet-cadre">' + esc(r.periode) + "</span>" +
         '<span class="projet-titre">' + txt(r.titre) + "</span>" +
         '<span class="projet-desc">' + txt(r.enBref || r.sousTitre) + "</span>" +
         tags((r.tags || []).slice(0, 4)) +
-        '<span class="projet-lien">Explorer ' + ICO.fleche + "</span></a></li>";
+        '<span class="projet-lien">Lire la fiche ' + ICO.fleche + "</span></a></li>";
     }).join("");
     return '<section id="projets" class="section"><div class="cadre">' +
-      entete("04", "Projets", "Ce que j'ai <em>construit</em>", "Projets en équipe, missions de stage et TP marquants. Chaque fiche raconte le contexte, ce qui a été fait, et le bilan.") +
+      entete("", "Réalisations", "Mes réalisations", "Projets en équipe, missions de stage et TP marquants. Chaque fiche raconte le contexte, ce qui a été fait, et le bilan.") +
       filtres("projets", [["tout", "Tous", rs.length], ["projet", "Projets", n("projet")], ["stage", "Stage", n("stage")], ["tp", "TP", n("tp")]]) +
       '<ul class="projets" data-groupe="projets">' + cartes + "</ul></div></section>";
   }
@@ -344,7 +348,7 @@
     var V = VEILLE, P = V.periodes || [];
     var pas = P.map(function (p, i) {
       return '<li><button type="button" class="pas' + (i === P.length - 1 ? " actif" : "") + '" data-i="' + i + '" aria-pressed="' + (i === P.length - 1) + '">' +
-        '<span class="pas-n">' + (i + 1) + '</span><span class="pas-mois">' + esc(p.mois) + "</span></button></li>";
+        '<span class="pas-n">' + esc(p.date) + '</span><span class="pas-mois">' + esc(p.titre) + "</span></button></li>";
     }).join("");
     var fiches = P.map(function (p, i) {
       return '<article class="fiche-veille' + (i === P.length - 1 ? " actif" : "") + '" data-i="' + i + '"' + (i === P.length - 1 ? "" : " hidden") + ">" +
@@ -356,10 +360,10 @@
         '<button type="button" class="btn btn-ico" data-dir="1" aria-label="Période suivante">›</button></span></p></article>';
     }).join("");
     return '<section id="veille" class="section"><div class="cadre">' +
-      entete("05", "Veille technologique", esc(V.sujet).replace(/(collectivités[^<]*)$/, "<em>$1</em>"), esc(V.accroche)) +
+      entete("", "Veille technologique", esc(V.sujet), esc(V.accroche)) +
       '<div class="glass veille-prob reveal"><p class="fv-lib">Problématique</p><p>' + esc(V.problematique) + "</p></div>" +
-      '<div class="veille-suivi glass reveal"><div class="veille-barre"><span class="veille-prog"></span></div>' +
-      '<ol class="pas-liste">' + pas + "</ol>" + fiches + "</div>" +
+      '<div class="veille-suivi glass reveal"><div class="veille-journal"><p class="fv-lib">Journal de suivi · ' + P.length + ' entrées</p>' +
+      '<ol class="pas-liste">' + pas + "</ol></div><div class=\"veille-detail\">" + fiches + "</div></div>" +
       '<div class="veille-bas"><div class="glass veille-concl reveal"><p class="fv-lib">Bilan du suivi</p><p>' + esc(V.conclusion) + "</p></div>" +
       '<div class="glass veille-sources reveal"><p class="fv-lib">Mes sources</p><ul>' +
       (V.sources || []).map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ul></div></div>" +
@@ -382,7 +386,7 @@
       '<p class="boutons"><a class="btn" id="f-mailto" href="#">Ouvrir ma messagerie</a><button type="button" class="btn" id="f-copier-msg">Copier le message</button></p></div>' +
       "</form>" : "";
     return '<section id="contact" class="section"><div class="cadre">' +
-      entete("06", "Contact", "Travaillons <em>ensemble</em>", "Pour un stage, une alternance ou une question sur un projet.") +
+      entete("", "Contact", "Me contacter", "Pour un stage, une alternance ou une question sur un projet.") +
       '<div class="contact-grille"><div class="contact-col">' +
       '<div class="glass profil-carte reveal"><span class="avatar avatar-xl">' + initiales() + "</span><div>" +
       "<strong>" + esc(nomComplet()) + "</strong><span class=\"muet\">" + esc(ID.posteVise) + "</span>" +
@@ -433,7 +437,7 @@
     var rs = reals(), r = null;
     rs.forEach(function (x) { if (x.id === id) r = x; });
     if (!r) {
-      return '<section class="section"><div class="cadre">' + entete("404", "Projet", "Projet <em>introuvable</em>",
+      return '<section class="section"><div class="cadre">' + entete("", "Projet", "Projet introuvable",
         "Aucun projet ne porte l'identifiant « " + esc(id || "") + " ».") +
         '<a class="btn btn-plein" href="index.html#projets">← Tous les projets</a></div></section>';
     }
@@ -448,7 +452,7 @@
     function sec(titre, contenu, idAncre) {
       if (!contenu) return "";
       n++;
-      return '<section class="p-sec reveal"' + (idAncre ? ' id="' + idAncre + '"' : "") + '><p class="eyebrow"><span>' + deux(n) + "</span> · " + esc(titre) + "</p>" + contenu + "</section>";
+      return '<section class="p-sec reveal"' + (idAncre ? ' id="' + idAncre + '"' : "") + '><h2 class="p-titre">' + esc(titre) + "</h2>" + contenu + "</section>";
     }
     var metas = [["Période", r.periode], ["Cadre", r.sousTitre || cadreNom(r)], ["Équipe", r.equipe], ["Mon rôle", r.role]]
       .filter(function (m) { return m[1]; })
@@ -478,7 +482,7 @@
 
     return '<section class="p-hero"><div class="cadre">' +
       '<a class="retour" href="index.html#projets">← Tous les projets</a>' +
-      '<p class="eyebrow reveal"><span>' + numero(r) + "</span> · " + esc(r.sousTitre || cadreNom(r)) + "</p>" +
+      '<p class="panneau-lib reveal">' + esc(r.sousTitre || cadreNom(r)) + "</p>" +
       '<h1 class="reveal">' + txt(r.titre) + "</h1>" +
       '<p class="hero-intro reveal">' + txt(r.enBref || r.probleme) + "</p>" +
       '<div class="boutons reveal"><a class="btn btn-plein" href="#contexte">Découvrir le projet ' + ICO.fleche + "</a>" + etat(r) + "</div>" +
@@ -486,8 +490,7 @@
       (r.schema ? '<figure class="glass p-schema reveal"><figcaption><span class="led"></span>Schéma de l\'infrastructure</figcaption>' + schemaSVG(r.schema) + "</figure>" : "") +
       (chiffres ? '<ul class="stats stats-3">' + chiffres + "</ul>" : "") +
       "</div></section>" +
-      '<div class="marquee marquee-petit" aria-hidden="true"><div class="marquee-piste">' +
-      (r.outils || []).concat(r.outils || []).map(function (t) { return "<span>" + esc(t) + "</span>"; }).join("") + "</div></div>" +
+
       '<div class="cadre p-corps">' + corps +
       '<nav class="p-nav" aria-label="Autres projets">' +
       '<a class="glass" href="realisation.html?id=' + encodeURIComponent(prec.id) + '"><span class="muet">← Précédent</span><strong>' + txt(prec.titre) + "</strong></a>" +
@@ -503,7 +506,7 @@
      MENTIONS ET 404
      ====================================================================== */
   function mentions() {
-    return '<section class="section p-hero"><div class="cadre etroit">' + entete("§", "Informations", "Mentions <em>légales</em>") +
+    return '<section class="section p-hero"><div class="cadre etroit">' + entete("", "Informations", "Mentions légales") +
       '<div class="glass bloc prose">' +
       "<p><strong>Éditeur :</strong> " + esc(nomComplet()) + ", étudiant en " + esc(ID.statut) + ".</p>" +
       "<p><strong>Hébergement :</strong> GitHub Pages, GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p>" +
@@ -513,7 +516,7 @@
       "</div></div></section>";
   }
   function erreur404() {
-    return '<section class="section p-hero"><div class="cadre etroit">' + entete("404", "Erreur", "Page <em>introuvable</em>",
+    return '<section class="section p-hero"><div class="cadre etroit">' + entete("", "Erreur 404", "Page introuvable",
       "% Destination unreachable : cette page n'existe pas ou a été déplacée.") +
       '<a class="btn btn-plein" href="index.html">← Retour à l\'accueil</a></div></section>';
   }
@@ -627,7 +630,7 @@
       courant = (i + fichesV.length) % fichesV.length;
       fichesV.forEach(function (f, k) { f.hidden = k !== courant; f.classList.toggle("actif", k === courant); });
       pasV.forEach(function (p, k) { p.classList.toggle("actif", k === courant); p.classList.toggle("passe", k < courant); p.setAttribute("aria-pressed", k === courant); });
-      prog.style.width = ((courant + 1) / fichesV.length * 100) + "%";
+
     }
     suivi.addEventListener("click", function (e) {
       var p = e.target.closest(".pas"); if (p) return montrer(+p.getAttribute("data-i"));
